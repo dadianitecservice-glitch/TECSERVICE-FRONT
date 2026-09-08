@@ -765,9 +765,9 @@ ol {
 .section-header h2 {
   color: var(--text-heading);
   font-family: 'Noto Sans Georgian', 'Sylfaen', Arial, sans-serif;
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 700;
-  line-height: 42px;
+  line-height: 40px;
   text-transform: uppercase;
 }
 
@@ -1478,8 +1478,8 @@ ol {
 }
 
 .shop-section .section-header h2 {
-  font-size: 32px;
-  line-height: 42px;
+  font-size: 30px;
+  line-height: 40px;
 }
 
 .shop-section .section-header__copy > p:not(.section-eyebrow),
@@ -1769,9 +1769,9 @@ ol {
 .reviews-header h2 {
   color: #0e1e32;
   font-family: 'Noto Sans Georgian', 'Sylfaen', Arial, sans-serif;
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 700;
-  line-height: 42px;
+  line-height: 40px;
   text-transform: uppercase;
 }
 
@@ -2076,9 +2076,9 @@ ol {
 .about-copy h2 {
   color: #102a43;
   font-family: 'Noto Sans Georgian', 'Sylfaen', Arial, sans-serif;
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 700;
-  line-height: 42px;
+  line-height: 40px;
   text-transform: uppercase;
 }
 
