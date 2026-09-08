@@ -5,10 +5,11 @@ import { SectionHeader } from '../components/SectionHeader'
 import { blogPosts } from '../data/blogPosts'
 
 const getPostsPerPage = () => {
-  if (typeof window === 'undefined') return 3
+  if (typeof window === 'undefined') return 4
   if (window.innerWidth <= 760) return 1
-  if (window.innerWidth <= 1100) return 2
-  return 3
+  if (window.innerWidth <= 1023) return 2
+  if (window.innerWidth <= 1199) return 3
+  return 4
 }
 
 export function BlogSection() {
