@@ -590,14 +590,15 @@ ol {
 .device-selector {
   width: 100%;
   height: 72px;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 8px;
 }
 
 .device-option {
+  width: 100%;
   min-width: 0;
   height: 72px;
-  flex: 1 1 102px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -612,7 +613,7 @@ ol {
 }
 
 .device-option--wide {
-  flex: 0 0 152px;
+  width: 100%;
 }
 
 .device-option img {
@@ -629,9 +630,9 @@ ol {
 }
 
 .device-option--wide span {
-  width: 110px;
-  font-size: 10px;
-  line-height: 14px;
+  width: 100%;
+  font-size: 10.5px;
+  line-height: 15px;
 }
 
 .device-option:hover,
@@ -2131,46 +2132,24 @@ ol {
   line-height: 20px;
 }
 
-.about-map {
+.about-workspace-visual {
   position: relative;
   width: 100%;
   height: 312px;
+  margin: 0;
   overflow: hidden;
   border: 1px solid #d8e5ef;
   border-radius: 14px;
-  background: url('/assets/map/tecservice-map.jpg') center / cover no-repeat;
+  background: #e8f1f8;
   box-shadow: 0 4px 14px -4px rgba(0, 0, 0, 0.04);
 }
 
-.about-map iframe,
-.about-map__fallback {
-  position: absolute;
-  inset: 0;
+.about-workspace-visual img {
+  display: block;
   width: 100%;
   height: 100%;
-  border: 0;
-}
-
-.about-map__fallback {
-  z-index: 0;
   object-fit: cover;
-}
-
-.about-map iframe {
-  z-index: 1;
-}
-
-.about-map > a {
-  position: absolute;
-  z-index: 2;
-  right: 24px;
-  bottom: 18px;
-  left: 24px;
-  color: #0b63b6;
-  font-size: 11px;
-  font-weight: 600;
-  line-height: 16px;
-  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.95);
+  object-position: center;
 }
 
 .site-footer {
@@ -2562,7 +2541,7 @@ ol {
   .ai-card { width: 100%; }
   .services-section, .ticket-section, .shop-section, .reviews-section, .blog-section { padding-inline: 32px; }
   .about-section { grid-template-columns: minmax(0, 1.25fr) minmax(420px, 1fr); gap: 36px; padding-inline: 32px; }
-  .about-copy, .about-map { width: 100%; }
+  .about-copy, .about-workspace-visual { width: 100%; }
   .site-footer { padding-inline: 32px; }
   .site-footer__brand { width: 300px; }
 }
@@ -2686,7 +2665,7 @@ ol {
   .ai-card > h2 { font-size: 20px; line-height: 28px; }
   .device-selector { height: auto; display: grid; grid-template-columns: repeat(2, 1fr); }
   .device-option, .device-option--wide { width: 100%; flex-basis: auto; }
-  .device-option--wide { grid-column: span 2; }
+  .device-option--wide { grid-column: auto; }
   .services-section, .ticket-section, .shop-section, .reviews-section, .blog-section, .about-section { padding-inline: 16px; }
   .section-header { min-height: auto; flex-direction: column; align-items: flex-start; gap: 20px; }
   .section-header h2, .shop-section .section-header h2 { font-size: 28px; line-height: 38px; }
@@ -2743,7 +2722,7 @@ ol {
   .about-copy { gap: 16px; }
   .about-facts { height: auto; flex-direction: column; align-items: flex-start; }
   .about-facts i { display: none; }
-  .about-map { height: 280px; }
+  .about-workspace-visual { height: 280px; }
   .site-footer { padding: 40px 16px 24px; }
   .site-footer__main { flex-direction: column; }
   .site-footer__brand, .site-footer__navigation, .site-footer__social { width: 100%; }

@@ -23,16 +23,17 @@ export function AboutSection() {
         </div>
         <a className="about-link" href="/about">ჩვენს შესახებ დეტალურად →</a>
       </div>
-      <div className="about-map" id="contact">
-        <iframe
-          title="TECSERVICE-ის მდებარეობა Google Maps-ზე"
-          src="https://www.google.com/maps?q=TecService%20-%20%E1%83%A2%E1%83%94%E1%83%A5%E1%83%A1%E1%83%94%E1%83%A0%E1%83%95%E1%83%98%E1%83%A1%E1%83%98&ll=41.7188516%2C44.8036156&z=17&output=embed"
+      <figure
+        className="about-workspace-visual"
+        id="contact"
+        data-asset-label="TECSERVICE Repair Workspace Photo — Replace Later"
+      >
+        <img
+          src="/assets/blog/drone-repair.jpg"
+          alt="ელექტრონიკის პროფესიონალური შეკეთების სამუშაო სივრცე"
           loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
         />
-        <img className="about-map__fallback" src="/assets/map/tecservice-map.jpg" alt="TECSERVICE-ის მდებარეობა რუკაზე" />
-        <a href="https://maps.app.goo.gl/6hAmMDGmQBPR8gLQ7" target="_blank" rel="noreferrer">Google Maps-ზე გახსნა ↗</a>
-      </div>
+      </figure>
     </section>
   )
 }
