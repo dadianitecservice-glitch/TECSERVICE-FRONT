@@ -74,11 +74,11 @@ export function TicketLookup() {
                 <span>რეგისტრაცია არ არის საჭირო</span>
               </div>
               <div className="ticket-tabs" role="tablist" aria-label="ძებნის მეთოდი">
-                <button role="tab" aria-selected={mode === 'code'} className={mode === 'code' ? 'is-active' : ''} onClick={() => selectMode('code')} type="button">სერვისის კოდით</button>
+                <button role="tab" aria-selected={mode === 'code'} className={mode === 'code' ? 'is-active' : ''} onClick={() => selectMode('code')} type="button">ტიკეტის კოდით</button>
                 <button role="tab" aria-selected={mode === 'phone'} className={mode === 'phone' ? 'is-active' : ''} onClick={() => selectMode('phone')} type="button">ტელეფონის ნომრით</button>
               </div>
               <form className="ticket-form" onSubmit={submitLookup}>
-                <label htmlFor="ticket-query">{mode === 'code' ? 'სერვისის კოდი' : 'ტელეფონის ნომერი'}</label>
+                <label htmlFor="ticket-query">{mode === 'code' ? 'ტიკეტის კოდი' : 'ტელეფონის ნომერი'}</label>
                 <div className="ticket-form__row">
                   <input
                     id="ticket-query"

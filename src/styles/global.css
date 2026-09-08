@@ -1,21 +1,3 @@
-@font-face {
-  font-family: 'Noto Sans Georgian';
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url('/assets/fonts/noto-sans-georgian-georgian.woff2') format('woff2');
-  unicode-range: U+0589, U+10A0-10FF, U+1C90-1CBA, U+1CBD-1CBF, U+205A, U+20BE, U+2D00-2D2F, U+2E31;
-}
-
-@font-face {
-  font-family: 'Noto Sans Georgian';
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url('/assets/fonts/noto-sans-georgian-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
 :root {
   font-family: 'Noto Sans Georgian', 'Sylfaen', Arial, sans-serif;
   color: #101827;
@@ -798,7 +780,7 @@ ol {
 }
 
 .services-section {
-  min-height: 844px;
+  min-height: 780px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -808,16 +790,16 @@ ol {
 
 .services-grid {
   width: 100%;
-  height: 704px;
+  height: 640px;
   display: grid;
   grid-template-columns: repeat(8, minmax(0, 1fr));
-  grid-template-rows: repeat(2, 344px);
+  grid-template-rows: repeat(2, 312px);
   gap: 16px 20px;
 }
 
 .service-card {
   grid-column: span 2;
-  height: 344px;
+  height: 312px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1656,17 +1638,46 @@ ol {
 }
 
 .compare-button {
+  position: relative;
   width: 40px;
   height: 40px;
   display: grid;
   place-items: center;
+  border: 1px solid transparent;
   border-radius: 4px;
   background: #f2f2f2;
   cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease;
 }
 
 .compare-button.is-active {
-  background: #e1e5e8;
+  border-color: #0b63b6;
+  background: #e6f2fb;
+}
+
+.compare-button::after {
+  position: absolute;
+  z-index: 4;
+  bottom: calc(100% + 7px);
+  left: 50%;
+  padding: 5px 8px;
+  border-radius: 5px;
+  background: #14263a;
+  color: #fff;
+  content: attr(data-tooltip);
+  font-size: 10px;
+  line-height: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 3px);
+  transition: opacity 140ms ease, transform 140ms ease;
+  white-space: nowrap;
+}
+
+.compare-button:hover::after,
+.compare-button:focus-visible::after {
+  opacity: 1;
+  transform: translate(-50%, 0);
 }
 
 .compare-button img {
@@ -1697,6 +1708,11 @@ ol {
 .add-cart-button:focus-visible {
   background: #dceffc;
   outline: none;
+}
+
+.add-cart-button.is-confirmed {
+  border-color: #0b63b6;
+  background: #dceffc;
 }
 
 .add-cart-button img {
@@ -1781,6 +1797,12 @@ ol {
   letter-spacing: 0.5px;
 }
 
+.reviews-google-summary > img {
+  width: 17px;
+  height: 17px;
+  margin-right: 2px;
+}
+
 .reviews-google-summary > strong {
   font-size: 13px;
   font-weight: 700;
@@ -1860,6 +1882,21 @@ ol {
 .review-card__source time {
   margin-left: auto;
   white-space: nowrap;
+}
+
+.reviews-all-link {
+  align-self: flex-end;
+  color: #0b64b1;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.reviews-all-link:hover,
+.reviews-all-link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  outline: none;
 }
 
 .blog-section {

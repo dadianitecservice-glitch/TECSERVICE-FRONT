@@ -32,6 +32,7 @@ export function ReviewsSection() {
         <h2 id="reviews-heading">რას ამბობენ ჩვენზე</h2>
         <div className="reviews-header__actions">
           <a className="reviews-google-summary" href={googleReviewsUrl} target="_blank" rel="noreferrer">
+            <img src="/assets/icons/google-g.svg" alt="Google" />
             <span>★★★★★</span>
             <strong>{reviewSummary.rating.toFixed(1)}</strong>
             <small>· {reviewSummary.publicReviewCount} Google შეფასება ↗</small>
@@ -56,6 +57,9 @@ export function ReviewsSection() {
           </article>
         ))}
       </div>
+      <a className="reviews-all-link" href={googleReviewsUrl} target="_blank" rel="noreferrer">
+        ყველა შეფასების ნახვა →
+      </a>
     </section>
   )
 }

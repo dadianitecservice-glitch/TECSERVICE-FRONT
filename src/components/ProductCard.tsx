@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { Product } from '../data/products'
 
 type ProductCardProps = {
@@ -9,9 +9,25 @@ type ProductCardProps = {
 
 export function ProductCard({ product, quantity, onAdd }: ProductCardProps) {
   const [compared, setCompared] = useState(false)
+  const [justAdded, setJustAdded] = useState(false)
+  const addedTimer = useRef<number | null>(null)
   const discount = product.oldPrice
     ? Math.round((1 - product.price / product.oldPrice) * 100)
     : undefined
+
+  useEffect(() => () => {
+    if (addedTimer.current !== null) window.clearTimeout(addedTimer.current)
+  }, [])
+
+  const handleAdd = () => {
+    onAdd(product)
+    setJustAdded(true)
+    if (addedTimer.current !== null) window.clearTimeout(addedTimer.current)
+    addedTimer.current = window.setTimeout(() => {
+      setJustAdded(false)
+      addedTimer.current = null
+    }, 1200)
+  }
 
   return (
     <article className={`product-card${quantity ? ' is-added' : ''}`}>
@@ -31,13 +47,15 @@ export function ProductCard({ product, quantity, onAdd }: ProductCardProps) {
             type="button"
             aria-pressed={compared}
             aria-label={`${product.name} შედარებაში ${compared ? 'ამოშლა' : 'დამატება'}`}
+            data-tooltip={compared ? 'შედარებიდან ამოღება' : 'შედარება'}
+            title={compared ? 'შედარებიდან ამოღება' : 'შედარება'}
             onClick={() => setCompared((value) => !value)}
           >
             <img src="/assets/icons/compare.svg" alt="" />
           </button>
-          <button className="add-cart-button" type="button" onClick={() => onAdd(product)}>
+          <button className={`add-cart-button${justAdded ? ' is-confirmed' : ''}`} type="button" onClick={handleAdd}>
             <img src="/assets/icons/cart-product.svg" alt="" />
-            დამატება
+            <span aria-live="polite">{justAdded ? 'დამატებულია' : 'დამატება'}</span>
           </button>
         </div>
       </div>

@@ -13,7 +13,7 @@ export const services: Service[] = [
     slug: "laptop-repair",
     title: "ლეპტოპები",
     description:
-      "პროგრამული და ჰარდვეარული შეკეთება, დედაპლატის, ეკრანის, კლავიატურის, კვების, გაგრილების და სხვა დაზიანებების დიაგნოსტიკა და სერვისი.",
+      "ლეპტოპების პროგრამული და ტექნიკური დიაგნოსტიკა. ეკრანის, კლავიატურის, კვებისა და გაგრილების სისტემების შეკეთება.",
     icon: "/assets/icons/service-laptop.svg",
     href: "/services/laptop-repair",
   },
@@ -22,7 +22,7 @@ export const services: Service[] = [
     slug: "computer-repair",
     title: "კომპიუტერები",
     description:
-      "დესკტოპ კომპიუტერების დიაგნოსტიკა, კომპონენტების შეკეთება და შეცვლა, სისტემის განახლება, გაგრილება და პროგრამული მომსახურება.",
+      "დესკტოპ კომპიუტერების დიაგნოსტიკა და კომპონენტების შეცვლა. სისტემის განახლება, გაგრილება და პროგრამული მომსახურება.",
     icon: "/assets/icons/service-computer.svg",
     href: "/services/computer-repair",
   },
@@ -31,7 +31,7 @@ export const services: Service[] = [
     slug: "data-recovery",
     title: "ინფორმაციის აღდგენა",
     description:
-      "HDD, SSD, RAID, USB, SD/microSD და მეხსიერების სხვა მატარებლებიდან ინფორმაციის პროფესიონალური აღდგენა, მათ შორის რთული დაზიანებების შემთხვევებში.",
+      "HDD, SSD, RAID და სხვა მეხსიერებიდან მონაცემების აღდგენა. ვმუშაობთ რთულ ფიზიკურ და პროგრამულ დაზიანებებზეც.",
     icon: "/assets/icons/service-recovery.svg",
     href: "/services/data-recovery",
   },
@@ -40,7 +40,7 @@ export const services: Service[] = [
     slug: "console-repair",
     title: "კონსოლები",
     description:
-      "PlayStation, Xbox, Nintendo და სხვა კონსოლების დიაგნოსტიკა და შეკეთება — HDMI, კვება, გაგრილება, დედაპლატა, კონტროლერები და სხვა დაზიანებები.",
+      "PlayStation, Xbox და Nintendo კონსოლების დიაგნოსტიკა. HDMI-ის, კვების, გაგრილებისა და კონტროლერების შეკეთება.",
     icon: "/assets/icons/service-console.svg",
     href: "/services/console-repair",
   },
@@ -49,7 +49,7 @@ export const services: Service[] = [
     slug: "drone-repair",
     title: "დრონები",
     description:
-      "დრონების გიმბალის, კამერის, მოტორების, ESC-ის, პლატების, GPS-ის, სენსორების და პროგრამული სისტემების დიაგნოსტიკა და შეკეთება.",
+      "დრონების კამერის, გიმბალისა და მოტორების დიაგნოსტიკა. მართვის პლატების, GPS-ისა და სენსორების შეკეთება.",
     icon: "/assets/icons/service-drone.svg",
     href: "/services/drone-repair",
   },
@@ -58,7 +58,7 @@ export const services: Service[] = [
     slug: "mobile-tablet-repair",
     title: "მობილურები / პლანშეტები",
     description:
-      "ეკრანის, ბატარეის, დამტენის კონექტორის, კამერის, დინამიკის, კორპუსის და სხვა დაზიანებების შეკეთება და პროგრამული მომსახურება.",
+      "ეკრანის, ბატარეისა და დამტენის კონექტორის შეკეთება. კამერის, დინამიკისა და პროგრამული სისტემის მომსახურება.",
     icon: "/assets/icons/service-mobile.svg",
     href: "/services/mobile-tablet-repair",
   },
@@ -67,9 +67,8 @@ export const services: Service[] = [
     slug: "other-electronics",
     title: "სხვა ელექტრონიკა",
     description:
-      "პროექტორების, CCTV კამერების, UPS სისტემების და სხვა ელექტრონული მოწყობილობების დიაგნოსტიკა და შეკეთება.",
+      "პროექტორების, CCTV კამერებისა და UPS სისტემების დიაგნოსტიკა. სხვა ელექტრონული მოწყობილობების კომპონენტური შეკეთება.",
     icon: "/assets/icons/service-other.svg",
     href: "/services/other-electronics",
   },
 ];
-

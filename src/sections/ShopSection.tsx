@@ -10,14 +10,15 @@ type ShopSectionProps = {
 }
 
 const productsPerPage = 12
+const productsPerMove = 6
 
 export function ShopSection({ cart, onAddToCart }: ShopSectionProps) {
   const [page, setPage] = useState(0)
-  const pageCount = Math.ceil(products.length / productsPerPage)
+  const pageCount = Math.max(1, Math.ceil(products.length / productsPerMove))
   const visibleProducts = useMemo(
     () => Array.from(
       { length: Math.min(productsPerPage, products.length) },
-      (_, offset) => products[(page * productsPerPage + offset) % products.length],
+      (_, offset) => products[(page * productsPerMove + offset) % products.length],
     ),
     [page],
   )
