@@ -765,9 +765,9 @@ ol {
 .section-header h2 {
   color: var(--text-heading);
   font-family: 'Noto Sans Georgian', 'Sylfaen', Arial, sans-serif;
-  font-size: 36px;
+  font-size: 32px;
   font-weight: 700;
-  line-height: 46px;
+  line-height: 42px;
   text-transform: uppercase;
 }
 
@@ -1478,8 +1478,8 @@ ol {
 }
 
 .shop-section .section-header h2 {
-  font-size: 36px;
-  line-height: 46px;
+  font-size: 32px;
+  line-height: 42px;
 }
 
 .shop-section .section-header__copy > p:not(.section-eyebrow),
@@ -1769,9 +1769,9 @@ ol {
 .reviews-header h2 {
   color: #0e1e32;
   font-family: 'Noto Sans Georgian', 'Sylfaen', Arial, sans-serif;
-  font-size: 36px;
+  font-size: 32px;
   font-weight: 700;
-  line-height: 46px;
+  line-height: 42px;
   text-transform: uppercase;
 }
 
@@ -2076,9 +2076,9 @@ ol {
 .about-copy h2 {
   color: #102a43;
   font-family: 'Noto Sans Georgian', 'Sylfaen', Arial, sans-serif;
-  font-size: 36px;
+  font-size: 32px;
   font-weight: 700;
-  line-height: 46px;
+  line-height: 42px;
   text-transform: uppercase;
 }
 
@@ -2689,7 +2689,7 @@ ol {
   .device-option--wide { grid-column: span 2; }
   .services-section, .ticket-section, .shop-section, .reviews-section, .blog-section, .about-section { padding-inline: 16px; }
   .section-header { min-height: auto; flex-direction: column; align-items: flex-start; gap: 20px; }
-  .section-header h2 { font-size: 30px; line-height: 40px; }
+  .section-header h2, .shop-section .section-header h2 { font-size: 28px; line-height: 38px; }
   .section-header__copy > p:not(.section-eyebrow) { font-size: 14px; line-height: 23px; }
   .services-section { padding-top: 32px; padding-bottom: 40px; }
   .services-grid { grid-template-columns: 1fr; }
@@ -2729,7 +2729,7 @@ ol {
   .compare-button { width: 38px; flex: 0 0 38px; }
   .add-cart-button { min-width: 0; flex: 1; font-size: 11px; }
   .reviews-header { align-items: flex-start; background: transparent; flex-direction: column; gap: 8px; }
-  .reviews-header h2, .about-copy h2 { font-size: 30px; line-height: 40px; }
+  .reviews-header h2, .about-copy h2 { font-size: 28px; line-height: 38px; }
   .reviews-header__actions { width: 100%; align-items: flex-end; justify-content: space-between; gap: 8px; }
   .reviews-google-summary { min-width: 0; max-width: 230px; flex-wrap: wrap; gap: 3px 5px; }
   .reviews-google-summary > small { width: 100%; }
