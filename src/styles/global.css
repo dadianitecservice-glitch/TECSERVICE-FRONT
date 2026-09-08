@@ -400,9 +400,12 @@ ol {
   flex-direction: column;
   width: 600px;
   color: var(--text-primary);
+  font-family: 'Noto Sans Georgian', 'Sylfaen', Arial, sans-serif;
   font-size: 36px;
-  line-height: 48px;
+  font-weight: 700;
+  line-height: 46px;
   letter-spacing: -0.54px;
+  text-transform: uppercase;
 }
 
 .hero__title span {
@@ -761,9 +764,10 @@ ol {
 
 .section-header h2 {
   color: var(--text-heading);
-  font-size: 40px;
+  font-family: 'Noto Sans Georgian', 'Sylfaen', Arial, sans-serif;
+  font-size: 36px;
   font-weight: 700;
-  line-height: 50px;
+  line-height: 46px;
   text-transform: uppercase;
 }
 
@@ -1764,9 +1768,11 @@ ol {
 
 .reviews-header h2 {
   color: #0e1e32;
-  font-size: 30px;
-  font-weight: 600;
-  line-height: 41px;
+  font-family: 'Noto Sans Georgian', 'Sylfaen', Arial, sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 46px;
+  text-transform: uppercase;
 }
 
 .reviews-header__actions {
@@ -2069,8 +2075,11 @@ ol {
 
 .about-copy h2 {
   color: #102a43;
-  font-size: 34px;
-  line-height: 43px;
+  font-family: 'Noto Sans Georgian', 'Sylfaen', Arial, sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 46px;
+  text-transform: uppercase;
 }
 
 .about-intro > p {
@@ -2548,7 +2557,7 @@ ol {
   .site-header__primary-nav { width: 650px; }
   .hero { height: 580px; min-height: 580px; grid-template-columns: minmax(0, 0.95fr) minmax(560px, 1.05fr); gap: 28px; padding-inline: 32px; }
   .hero__content, .ai-card-wrap { width: 100%; }
-  .hero__title { width: 100%; font-size: 32px; line-height: 44px; }
+  .hero__title { width: 100%; }
   .hero__description, .hero__support { width: 100%; }
   .ai-card { width: 100%; }
   .services-section, .ticket-section, .shop-section, .reviews-section, .blog-section { padding-inline: 32px; }
@@ -2627,7 +2636,7 @@ ol {
   .site-header__cabinet-action { margin-left: 18px; }
   .hero { height: auto; min-height: 0; grid-template-columns: 1fr; padding: 42px 32px; }
   .hero__content { height: auto; padding: 0; }
-  .hero__title { font-size: 36px; line-height: 48px; }
+  .hero__title { font-size: 36px; line-height: 46px; }
   .ai-card-wrap { height: auto; }
   .services-section { min-height: auto; }
   .services-grid { height: auto; grid-template-columns: repeat(2, 1fr); grid-template-rows: none; }
@@ -2667,7 +2676,7 @@ ol {
   .site-header__cabinet-action { width: 100%; margin: 12px 0 0; }
   .hero { padding: 36px 16px 44px; gap: 28px; }
   .hero__circuit { left: -160px; }
-  .hero__title { font-size: clamp(27px, 8vw, 34px); line-height: 1.32; letter-spacing: -0.3px; }
+  .hero__title { font-size: 30px; line-height: 40px; letter-spacing: -0.3px; }
   .hero__title span { white-space: normal; }
   .hero__description { height: auto; font-size: 14px; line-height: 24px; }
   .hero__actions { width: 100%; flex-direction: column; align-items: stretch; }
@@ -2720,7 +2729,7 @@ ol {
   .compare-button { width: 38px; flex: 0 0 38px; }
   .add-cart-button { min-width: 0; flex: 1; font-size: 11px; }
   .reviews-header { align-items: flex-start; background: transparent; flex-direction: column; gap: 8px; }
-  .reviews-header h2 { font-size: 26px; line-height: 36px; }
+  .reviews-header h2, .about-copy h2 { font-size: 30px; line-height: 40px; }
   .reviews-header__actions { width: 100%; align-items: flex-end; justify-content: space-between; gap: 8px; }
   .reviews-google-summary { min-width: 0; max-width: 230px; flex-wrap: wrap; gap: 3px 5px; }
   .reviews-google-summary > small { width: 100%; }
