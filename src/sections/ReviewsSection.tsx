@@ -108,9 +108,12 @@ export function ReviewsSection() {
       <div className="reviews-grid" key={start} aria-live={paused || focusWithin || selectedReview ? 'polite' : 'off'}>
         {visible.map((review) => (
           <article className="review-card" key={review.id}>
-            <div className="review-card__rating" aria-label={`${review.rating} ვარსკვლავი 5-დან`}>
-              <span aria-hidden="true">{'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}</span>
-              <strong>{review.rating.toFixed(1)}</strong>
+            <div className="review-card__meta">
+              <div className="review-card__rating" aria-label={`${review.rating} ვარსკვლავი 5-დან`}>
+                <span aria-hidden="true">{'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}</span>
+                <strong>{review.rating.toFixed(1)}</strong>
+              </div>
+              <time>{review.date}</time>
             </div>
             <div className="review-card__text">
               <p>{review.text}</p>
@@ -133,7 +136,6 @@ export function ReviewsSection() {
             <small className="review-card__source">
               <img src="/assets/icons/check-blue.svg" alt="" />
               <span>{review.sourceLabel}</span>
-              <time>{review.date}</time>
             </small>
           </article>
         ))}
