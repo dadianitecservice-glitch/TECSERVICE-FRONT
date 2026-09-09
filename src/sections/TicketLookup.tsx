@@ -2,7 +2,9 @@ import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { SectionHeader } from '../components/SectionHeader'
 import { TicketResult } from '../components/TicketResult'
 import { OtpVerification } from '../components/OtpVerification'
-import { findTicketByCode, tickets } from '../data/tickets'
+import { DEMO_OTP, findTicketByCode, tickets } from '../data/tickets'
+import { toGeorgianMtavruli } from '../utils/text'
+import { normalizeGeorgianMobile } from '../utils/validation'
 
 type SearchMode = 'code' | 'phone'
 type SearchState = 'default' | 'loading' | 'found' | 'not-found' | 'otp' | 'error'
@@ -13,6 +15,7 @@ export function TicketLookup() {
   const [state, setState] = useState<SearchState>('default')
   const [errorMessage, setErrorMessage] = useState('')
   const pendingLookup = useRef<number | null>(null)
+  const queryInputRef = useRef<HTMLInputElement>(null)
 
   const cancelPendingLookup = () => {
     if (pendingLookup.current !== null) {
@@ -35,10 +38,22 @@ export function TicketLookup() {
     event.preventDefault()
     cancelPendingLookup()
     if (!value.trim()) {
-      setErrorMessage('შეავსეთ ველი სწორად.')
+      setErrorMessage(mode === 'phone' ? 'შეიყვანეთ ტელეფონის ნომერი.' : 'შეიყვანეთ სერვისის კოდი.')
       setState('error')
+      queryInputRef.current?.focus()
       return
     }
+    if (mode === 'phone') {
+      const normalizedPhone = normalizeGeorgianMobile(value)
+      if (!normalizedPhone) {
+        setErrorMessage('შეიყვანეთ სწორი მობილურის ნომერი: +995 5XX XX XX XX.')
+        setState('error')
+        queryInputRef.current?.focus()
+        return
+      }
+      setValue(normalizedPhone)
+    }
+    setErrorMessage('')
     setState('loading')
     pendingLookup.current = window.setTimeout(() => {
       pendingLookup.current = null
@@ -51,37 +66,47 @@ export function TicketLookup() {
   }
 
   const confirmOtp = (code: string) => {
-    if (code === '123456') {
+    if (code === DEMO_OTP) {
       setErrorMessage('')
       setState('found')
     } else {
-      setErrorMessage('კოდი არასწორია. დემო კოდია 123456.')
-      setState('error')
+      setErrorMessage(code.length === 6 ? 'კოდი არასწორია. სცადეთ ხელახლა.' : 'შეიყვანეთ ექვსივე ციფრი.')
     }
   }
 
   return (
     <section className="ticket-section" id="ticket" aria-labelledby="ticket-heading">
-      <SectionHeader headingId="ticket-heading" title="სერვისის სტატუსი" description="შეამოწმეთ შეკეთების მიმდინარე სტატუსი რეგისტრაციის გარეშე." />
+      <SectionHeader headingId="ticket-heading" title={toGeorgianMtavruli('სერვისის სტატუსი')} description="შეამოწმეთ შეკეთების მიმდინარე სტატუსი რეგისტრაციის გარეშე." />
       <div className="ticket-layout">
         <div className="ticket-search-panel">
           {state === 'otp' ? (
-            <OtpVerification phone={value} onConfirm={confirmOtp} onBack={() => setState('default')} />
+            <OtpVerification
+              phone={value}
+              errorMessage={errorMessage}
+              onCodeChange={() => setErrorMessage('')}
+              onConfirm={confirmOtp}
+              onBack={() => { setErrorMessage(''); setState('default') }}
+            />
           ) : (
             <>
               <div className="ticket-search-panel__intro">
-                <h3 className="display-title">მოძებნეთ სერვისი</h3>
+                <h3 className="display-title">{toGeorgianMtavruli('მოძებნეთ სერვისი')}</h3>
                 <span>რეგისტრაცია არ არის საჭირო</span>
               </div>
               <div className="ticket-tabs" role="tablist" aria-label="ძებნის მეთოდი">
-                <button role="tab" aria-selected={mode === 'code'} className={mode === 'code' ? 'is-active' : ''} onClick={() => selectMode('code')} type="button">ტიკეტის კოდით</button>
-                <button role="tab" aria-selected={mode === 'phone'} className={mode === 'phone' ? 'is-active' : ''} onClick={() => selectMode('phone')} type="button">ტელეფონის ნომრით</button>
+                <button role="tab" aria-selected={mode === 'code'} className={mode === 'code' ? 'is-active' : ''} onClick={() => selectMode('code')} type="button">{toGeorgianMtavruli('სერვისის კოდით')}</button>
+                <button role="tab" aria-selected={mode === 'phone'} className={mode === 'phone' ? 'is-active' : ''} onClick={() => selectMode('phone')} type="button">{toGeorgianMtavruli('ტელეფონის ნომრით')}</button>
               </div>
               <form className="ticket-form" onSubmit={submitLookup}>
-                <label htmlFor="ticket-query">{mode === 'code' ? 'ტიკეტის კოდი' : 'ტელეფონის ნომერი'}</label>
+                <label htmlFor="ticket-query">{toGeorgianMtavruli(mode === 'code' ? 'სერვისის კოდი' : 'ტელეფონის ნომერი')}</label>
                 <div className="ticket-form__row">
                   <input
+                    ref={queryInputRef}
                     id="ticket-query"
+                    type={mode === 'phone' ? 'tel' : 'text'}
+                    autoComplete={mode === 'phone' ? 'tel' : 'off'}
+                    aria-invalid={state === 'error'}
+                    aria-describedby={`ticket-query-help${state === 'error' ? ' ticket-query-error' : ''}`}
                     value={value}
                     onChange={(event) => {
                       cancelPendingLookup()
@@ -89,35 +114,35 @@ export function TicketLookup() {
                       setErrorMessage('')
                       setState('default')
                     }}
-                    placeholder={mode === 'code' ? 'მაგ: TS-2026-001245' : 'მაგ: +995 591 47 40 40'}
+                    placeholder={mode === 'code' ? '#1000' : '+995 5XX XX XX XX'}
                     inputMode={mode === 'phone' ? 'tel' : 'text'}
                   />
                   <button className="ticket-search-button" type="submit" disabled={state === 'loading'}>
                     <img src="/assets/icons/search-white.svg" alt="" />
-                    {state === 'loading' ? 'იძებნება...' : 'ძიება'}
+                    {toGeorgianMtavruli(state === 'loading' ? 'იძებნება...' : 'ძიება')}
                   </button>
                 </div>
-                <p>{mode === 'code' ? 'კოდი მითითებულია სერვისის მიღების დოკუმენტზე.' : 'ნომერზე გამოიგზავნება ერთჯერადი SMS-კოდი.'}</p>
+                <p id="ticket-query-help">{mode === 'code' ? 'კოდი მითითებულია სერვისის მიღების დოკუმენტზე.' : 'დემო რეჟიმი — რეალური SMS არ იგზავნება.'}</p>
               </form>
               <div className="ticket-verification-note">
                 <img src="/assets/icons/shield.svg" alt="" />
                 <span>ტელეფონით ძებნისას შესაძლოა საჭირო იყოს ერთჯერადი SMS-კოდი.</span>
               </div>
               {state === 'not-found' ? <div className="ticket-message ticket-message--info" role="status">სერვისი ვერ მოიძებნა. გადაამოწმეთ კოდი და სცადეთ ხელახლა.</div> : null}
-              {state === 'error' ? <div className="ticket-message ticket-message--error" role="alert">{errorMessage}</div> : null}
+              {state === 'error' ? <div id="ticket-query-error" className="ticket-message ticket-message--error" role="alert">{errorMessage}</div> : null}
             </>
           )}
         </div>
 
         <aside className="cabinet-promo">
           <span className="cabinet-promo__icon"><img src="/assets/icons/user-blue.svg" alt="" /></span>
-          <h3 className="display-title">ხშირად სარგებლობთ ჩვენი სერვისებით?</h3>
+          <h3 className="display-title">{toGeorgianMtavruli('ხშირად სარგებლობთ ჩვენი სერვისებით?')}</h3>
           <p>კაბინეტში მარტივად ნახავთ აქტიურ სერვისებს, მომსახურების ისტორიას, შეტყობინებებსა და შეთავაზებებს.</p>
           <button type="button">
             <img src="/assets/icons/user-header.svg" alt="" />
-            <span>კაბინეტში შესვლა</span>
+            <span>{toGeorgianMtavruli('კაბინეტში შესვლა')}</span>
           </button>
-          <a href="/cabinet#register">დარეგისტრირდი →</a>
+          <a href="/cabinet#register">{toGeorgianMtavruli('დარეგისტრირდი')} →</a>
         </aside>
       </div>
       {state === 'found' ? <TicketResult ticket={tickets[0]} /> : null}

@@ -1,9 +1,10 @@
+import { toGeorgianMtavruli } from '../utils/text'
+
 const footerNavigation = [
   { label: 'სერვისები', href: '#services' },
   { label: 'კაბინეტი', href: '#ticket' },
   { label: 'ბლოგი', href: '#blog' },
-  { label: 'SHOP', href: 'https://shop.tecservice.ge', external: true },
-  { label: 'ჩვენს შესახებ', href: '#about' },
+  { label: 'მაღაზია', href: 'https://shop.tecservice.ge', external: true },
   { label: 'კონტაქტი', href: '#contact' },
 ] as const
 
@@ -16,10 +17,10 @@ const serviceNavigation = [
 ] as const
 
 const socialLinks = [
-  { label: 'Facebook', href: 'https://www.facebook.com/', icon: '/assets/icons/facebook.svg' },
-  { label: 'Instagram', href: 'https://www.instagram.com/', icon: '/assets/icons/instagram.svg' },
-  { label: 'TikTok', href: 'https://www.tiktok.com/', icon: '/assets/icons/tiktok.svg' },
-  { label: 'YouTube', href: 'https://www.youtube.com/', icon: '/assets/icons/youtube.svg' },
+  { label: 'Facebook', href: 'https://www.facebook.com/tecservice.ge/', icon: '/assets/icons/facebook.svg' },
+  { label: 'Instagram', href: 'https://www.instagram.com/tecservice__/', icon: '/assets/icons/instagram.svg' },
+  { label: 'TikTok', href: 'https://www.tiktok.com/@tec__service', icon: '/assets/icons/tiktok.svg' },
+  { label: 'YouTube', href: 'https://www.youtube.com/@techservicege', icon: '/assets/icons/youtube.svg' },
 ] as const
 
 export function Footer() {
@@ -35,7 +36,7 @@ export function Footer() {
 
         <nav className="site-footer__navigation" aria-label="ქვედა ნავიგაცია">
           <div className="site-footer__column">
-            <h2>ნავიგაცია</h2>
+            <h2>{toGeorgianMtavruli('ნავიგაცია')}</h2>
             <ul>
               {footerNavigation.map((link) => (
                 <li key={link.label}>
@@ -52,7 +53,7 @@ export function Footer() {
           </div>
 
           <div className="site-footer__column site-footer__column--services">
-            <h2>სერვისები</h2>
+            <h2>{toGeorgianMtavruli('სერვისები')}</h2>
             <ul>
               {serviceNavigation.map((service) => (
                 <li key={service}>
@@ -64,7 +65,7 @@ export function Footer() {
         </nav>
 
         <div className="site-footer__social">
-          <h2>გამოგვყევით</h2>
+          <h2>{toGeorgianMtavruli('გამოგვყევით')}</h2>
           <p>სიახლეები და პრაქტიკული რჩევები</p>
           <ul className="site-footer__social-list">
             {socialLinks.map((social) => (

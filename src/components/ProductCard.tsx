@@ -1,38 +1,22 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import type { Product } from '../data/products'
+import { toGeorgianMtavruli } from '../utils/text'
 
 type ProductCardProps = {
   product: Product
-  quantity: number
-  onAdd: (product: Product) => void
 }
 
-export function ProductCard({ product, quantity, onAdd }: ProductCardProps) {
+export function ProductCard({ product }: ProductCardProps) {
   const [compared, setCompared] = useState(false)
-  const [justAdded, setJustAdded] = useState(false)
-  const addedTimer = useRef<number | null>(null)
   const discount = product.oldPrice
     ? Math.round((1 - product.price / product.oldPrice) * 100)
     : undefined
-
-  useEffect(() => () => {
-    if (addedTimer.current !== null) window.clearTimeout(addedTimer.current)
-  }, [])
-
-  const handleAdd = () => {
-    onAdd(product)
-    setJustAdded(true)
-    if (addedTimer.current !== null) window.clearTimeout(addedTimer.current)
-    addedTimer.current = window.setTimeout(() => {
-      setJustAdded(false)
-      addedTimer.current = null
-    }, 1200)
-  }
+  const shopUrl = `https://shop.tecservice.ge/product/${product.slug}/`
 
   return (
-    <article className={`product-card${quantity ? ' is-added' : ''}`}>
+    <article className="product-card">
       <div className="product-card__image">
-        <img src={product.image} alt={product.name} />
+        <img src={product.image} alt={product.imageAlt} />
         {discount ? <span className="sale-badge">−{discount}%</span> : null}
       </div>
       <div className="product-card__copy">
@@ -47,16 +31,24 @@ export function ProductCard({ product, quantity, onAdd }: ProductCardProps) {
             type="button"
             aria-pressed={compared}
             aria-label={`${product.name} შედარებაში ${compared ? 'ამოშლა' : 'დამატება'}`}
-            data-tooltip={compared ? 'შედარებიდან ამოღება' : 'შედარება'}
-            title={compared ? 'შედარებიდან ამოღება' : 'შედარება'}
+            data-tooltip={toGeorgianMtavruli(compared ? 'შედარებიდან ამოღება' : 'შედარება')}
+            title={toGeorgianMtavruli(compared ? 'შედარებიდან ამოღება' : 'შედარება')}
             onClick={() => setCompared((value) => !value)}
           >
             <img src="/assets/icons/compare.svg" alt="" />
           </button>
-          <button className={`add-cart-button${justAdded ? ' is-confirmed' : ''}`} type="button" onClick={handleAdd}>
+          <a
+            className="add-cart-button"
+            href={shopUrl}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={`${product.name} მაღაზიაში ნახვა`}
+          >
             <img src="/assets/icons/cart-product.svg" alt="" />
-            <span aria-live="polite">{justAdded ? 'დამატებულია' : 'დამატება'}</span>
-          </button>
+            <span className="add-cart-button__label">
+              <span>{toGeorgianMtavruli('ყიდვა')}</span>
+            </span>
+          </a>
         </div>
       </div>
     </article>

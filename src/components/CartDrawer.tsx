@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import type { Product } from '../data/products'
+import { toGeorgianMtavruli } from '../utils/text'
 
 type CartLine = { product: Product; quantity: number }
 
@@ -61,8 +62,8 @@ export function CartDrawer({ open, lines, onClose, onQuantityChange, onRemove }:
       <aside ref={drawerRef} className="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-title">
         <header className="cart-drawer__header">
           <div>
-            <span>თქვენი შეკვეთა</span>
-            <h2 className="display-title" id="cart-title">კალათა</h2>
+            <span>{toGeorgianMtavruli('თქვენი შეკვეთა')}</span>
+            <h2 className="display-title" id="cart-title">{toGeorgianMtavruli('კალათა')}</h2>
           </div>
           <button ref={closeButtonRef} type="button" className="cart-close" onClick={onClose} aria-label="დახურვა">×</button>
         </header>
@@ -70,7 +71,7 @@ export function CartDrawer({ open, lines, onClose, onQuantityChange, onRemove }:
           {lines.length === 0 ? (
             <div className="empty-cart">
               <img src="/assets/icons/cart-header.svg" alt="" />
-              <h3>კალათა ცარიელია</h3>
+              <h3>{toGeorgianMtavruli('კალათა ცარიელია')}</h3>
               <p>პროდუქტის დამატების შემდეგ ის აქ გამოჩნდება.</p>
             </div>
           ) : (
@@ -87,7 +88,7 @@ export function CartDrawer({ open, lines, onClose, onQuantityChange, onRemove }:
                         <span>{line.quantity}</span>
                         <button type="button" onClick={() => onQuantityChange(line.product.id, line.quantity + 1)} aria-label="გაზრდა">+</button>
                       </div>
-                      <button className="remove-line" type="button" onClick={() => onRemove(line.product.id)}>წაშლა</button>
+                      <button className="remove-line" type="button" onClick={() => onRemove(line.product.id)}>{toGeorgianMtavruli('წაშლა')}</button>
                     </div>
                   </div>
                 </li>
@@ -98,7 +99,7 @@ export function CartDrawer({ open, lines, onClose, onQuantityChange, onRemove }:
         {lines.length ? (
           <footer className="cart-drawer__footer">
             <div><span>ჯამი</span><strong>{subtotal.toLocaleString('ka-GE')} ₾</strong></div>
-            <button type="button">შეკვეთის გაგრძელება</button>
+            <button type="button">{toGeorgianMtavruli('შეკვეთის გაგრძელება')}</button>
             <small>დემო რეჟიმი — ონლაინ გადახდა ჯერ არ არის ჩართული.</small>
           </footer>
         ) : null}

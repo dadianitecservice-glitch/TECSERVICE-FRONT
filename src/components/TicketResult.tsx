@@ -1,10 +1,11 @@
 import type { Ticket } from '../data/tickets'
+import { toGeorgianMtavruli } from '../utils/text'
 
 export function TicketResult({ ticket }: { ticket: Ticket }) {
   return (
     <article className="ticket-result" aria-live="polite">
       <header className="ticket-result__header">
-        <h3>სერვისი #{ticket.code}</h3>
+        <h3>{toGeorgianMtavruli('სერვისი')} #{ticket.code}</h3>
         <span className="ticket-status-pill">
           <img src="/assets/icons/status-dot.svg" alt="" />
           {ticket.statusLabel}
@@ -35,7 +36,7 @@ export function TicketResult({ ticket }: { ticket: Ticket }) {
             ))}
           </ol>
           <div className="status-summary">
-            <strong>{ticket.statusLabel}</strong>
+            <strong>{toGeorgianMtavruli(ticket.statusLabel)}</strong>
             <span>{ticket.update}</span>
             <small>{ticket.updateNote}</small>
           </div>

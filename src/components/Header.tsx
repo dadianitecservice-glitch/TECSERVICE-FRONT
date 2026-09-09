@@ -1,25 +1,34 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { services } from '../data/services'
+import { toGeorgianMtavruli } from '../utils/text'
 
 type HeaderProps = {
-  cartCount: number
-  onCartOpen: () => void
+  isAuthenticated?: boolean
+  userFirstName?: string
 }
 
 const primaryLinks = [
-  { label: 'ᲩᲕᲔᲜᲡ ᲨᲔᲡᲐᲮᲔᲑ', href: '#about' },
-  { label: 'ᲑᲚᲝᲒᲘ', href: '#blog' },
-  { label: 'ᲙᲝᲜᲢᲐᲥᲢᲘ', href: '#contact' },
+  { label: 'ბლოგი', href: '#blog' },
+  { label: 'ჩვენს შესახებ', href: '#contact' },
+  { label: 'კონტაქტი', href: '#contact' },
 ] as const
 
-export function Header({ cartCount, onCartOpen }: HeaderProps) {
+export function Header({ isAuthenticated = false, userFirstName }: HeaderProps) {
   const [isMenuOpen, setMenuOpen] = useState(false)
+  const [isServicesOpen, setServicesOpen] = useState(false)
   const [isScrolled, setScrolled] = useState(false)
-  const displayedCartCount = cartCount > 99 ? '99+' : cartCount
+  const servicesMenuRef = useRef<HTMLDivElement>(null)
+  const accountLabel = isAuthenticated
+    ? userFirstName?.trim() || 'კაბინეტი'
+    : 'შესვლა'
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 4)
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setMenuOpen(false)
+      if (event.key === 'Escape') {
+        setMenuOpen(false)
+        setServicesOpen(false)
+      }
     }
 
     handleScroll()
@@ -32,12 +41,19 @@ export function Header({ cartCount, onCartOpen }: HeaderProps) {
     }
   }, [])
 
-  const closeMenu = () => setMenuOpen(false)
-  const openCart = () => {
-    closeMenu()
-    onCartOpen()
-  }
+  useEffect(() => {
+    const closeServicesOutside = (event: PointerEvent) => {
+      if (!servicesMenuRef.current?.contains(event.target as Node)) setServicesOpen(false)
+    }
 
+    document.addEventListener('pointerdown', closeServicesOutside)
+    return () => document.removeEventListener('pointerdown', closeServicesOutside)
+  }, [])
+
+  const closeMenu = () => {
+    setMenuOpen(false)
+    setServicesOpen(false)
+  }
   return (
     <header
       className={`site-header${isScrolled ? ' site-header--scrolled' : ''}`}
@@ -45,7 +61,13 @@ export function Header({ cartCount, onCartOpen }: HeaderProps) {
     >
       <div className="site-header__utility" aria-label="საკონტაქტო ინფორმაცია">
         <div className="site-header__utility-grid site-container">
-          <a className="site-header__utility-cell site-header__utility-cell--left" href="tel:+995591474040">
+          <a
+            className="site-header__utility-cell site-header__utility-cell--left"
+            href="https://wa.me/995591474040"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="WhatsApp-ში დაგვიკავშირდით ნომერზე +995 591 47 40 40"
+          >
             <img className="site-header__utility-icon" src="/assets/icons/phone.svg" alt="" />
             <span>+995 591 47 40 40</span>
           </a>
@@ -58,12 +80,17 @@ export function Header({ cartCount, onCartOpen }: HeaderProps) {
             aria-label="TECSERVICE-ის მდებარეობის გახსნა Google Maps-ზე"
           >
             <img className="site-header__utility-icon" src="/assets/icons/pin.svg" alt="" />
-            <span>თბილისი, ცოტნე დადიანის 7ბ</span>
+            <span>თბილისი, ცოტნე დადიანის 7ბ/2</span>
           </a>
 
           <div className="site-header__utility-cell site-header__utility-cell--right">
             <img className="site-header__utility-icon" src="/assets/icons/clock.svg" alt="" />
             <span>ორშ–შაბ · 10:00–19:00</span>
+            <div className="site-header__language-switcher" aria-label="ენის არჩევა">
+              <span className="site-header__language-option site-header__language-option--active" aria-current="true">KA</span>
+              <span className="site-header__language-divider" aria-hidden="true">/</span>
+              <span className="site-header__language-option" aria-disabled="true">EN</span>
+            </div>
           </div>
         </div>
       </div>
@@ -77,7 +104,7 @@ export function Header({ cartCount, onCartOpen }: HeaderProps) {
           <button
             className={`site-header__menu-toggle${isMenuOpen ? ' site-header__menu-toggle--open' : ''}`}
             type="button"
-            aria-label={isMenuOpen ? 'მენიუს დახურვა' : 'მენიუს გახსნა'}
+            aria-label={toGeorgianMtavruli(isMenuOpen ? 'მენიუს დახურვა' : 'მენიუს გახსნა')}
             aria-expanded={isMenuOpen}
             aria-controls="site-primary-navigation"
             onClick={() => setMenuOpen((current) => !current)}
@@ -92,47 +119,56 @@ export function Header({ cartCount, onCartOpen }: HeaderProps) {
             id="site-primary-navigation"
           >
             <nav className="site-header__primary-nav" aria-label="მთავარი ნავიგაცია">
-              <a className="site-header__nav-link site-header__nav-link--services" href="#services" onClick={closeMenu}>
-                <span>ᲡᲔᲠᲕᲘᲡᲔᲑᲘ</span>
-                <img src="/assets/icons/chevron-down.svg" alt="" />
+              <a
+                className="site-header__nav-link site-header__shop-link"
+                href="https://shop.tecservice.ge"
+                target="_blank"
+                rel="noreferrer"
+                onClick={closeMenu}
+              >
+                <img className="site-header__shop-icon" src="/assets/icons/shopping-bag-blue.svg" alt="" />
+                <span>{toGeorgianMtavruli('მაღაზია')}</span>
               </a>
 
+              <div
+                ref={servicesMenuRef}
+                className={`site-header__services-menu${isServicesOpen ? ' site-header__services-menu--open' : ''}`}
+              >
+                <button
+                  className="site-header__nav-link site-header__nav-link--services"
+                  type="button"
+                  aria-expanded={isServicesOpen}
+                  aria-controls="site-services-dropdown"
+                  onClick={() => setServicesOpen((current) => !current)}
+                >
+                  <span>{toGeorgianMtavruli('სერვისები')}</span>
+                  <img src="/assets/icons/chevron-down.svg" alt="" />
+                </button>
+
+                <div className="site-header__services-dropdown" id="site-services-dropdown">
+                  <div className="site-header__services-grid">
+                    {services.map((service) => (
+                      <a className="site-header__service-link" href={service.href} key={service.id} onClick={closeMenu}>
+                        <span className="site-header__service-icon">
+                          <img src={service.icon} alt="" />
+                        </span>
+                        <span>{toGeorgianMtavruli(service.title)}</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
               {primaryLinks.map((link) => (
-                <a className="site-header__nav-link" href={link.href} key={link.href} onClick={closeMenu}>
-                  {link.label}
+                <a className="site-header__nav-link" href={link.href} key={link.label} onClick={closeMenu}>
+                  {toGeorgianMtavruli(link.label)}
                 </a>
               ))}
-
-              <div className="site-header__ecommerce-group">
-                <a
-                  className="site-header__nav-link site-header__shop-link"
-                  href="https://shop.tecservice.ge"
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={closeMenu}
-                >
-                  SHOP
-                </a>
-
-                <button
-                  className="site-header__cart-button"
-                  type="button"
-                  aria-label={cartCount > 0 ? `კალათა, ${cartCount} ნივთი` : 'კალათა ცარიელია'}
-                  onClick={openCart}
-                >
-                  <img src="/assets/icons/cart-header.svg" alt="" />
-                  {cartCount > 0 && (
-                    <span className="site-header__cart-badge" aria-hidden="true">
-                      {displayedCartCount}
-                    </span>
-                  )}
-                </button>
-              </div>
             </nav>
 
             <a className="site-header__cabinet-action" href="#ticket" onClick={closeMenu}>
               <img src="/assets/icons/user-blue.svg" alt="" />
-              <span>ᲙᲐᲑᲘᲜᲔᲢᲘ</span>
+              <span>{toGeorgianMtavruli(accountLabel)}</span>
             </a>
           </div>
         </div>

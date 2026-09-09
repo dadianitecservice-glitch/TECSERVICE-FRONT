@@ -2,17 +2,13 @@ import { useMemo, useState } from 'react'
 import { CarouselControls } from '../components/CarouselControls'
 import { ProductCard } from '../components/ProductCard'
 import { SectionHeader } from '../components/SectionHeader'
-import { products, type Product } from '../data/products'
-
-type ShopSectionProps = {
-  cart: Array<{ product: Product; quantity: number }>
-  onAddToCart: (product: Product) => void
-}
+import { products } from '../data/products'
+import { toGeorgianMtavruli } from '../utils/text'
 
 const productsPerPage = 12
 const productsPerMove = 6
 
-export function ShopSection({ cart, onAddToCart }: ShopSectionProps) {
+export function ShopSection() {
   const [page, setPage] = useState(0)
   const pageCount = Math.max(1, Math.ceil(products.length / productsPerMove))
   const visibleProducts = useMemo(
@@ -29,11 +25,11 @@ export function ShopSection({ cart, onAddToCart }: ShopSectionProps) {
     <section className="shop-section" id="shop" aria-labelledby="shop-title">
       <SectionHeader
         headingId="shop-title"
-        title="მაღაზია"
+        title={toGeorgianMtavruli('მაღაზია')}
         description="შეარჩიეთ კომპონენტები, აქსესუარები და ტექნიკის პროდუქტები ონლაინ."
         actions={(
           <div className="shop-header-actions">
-            <a href="https://shop.tecservice.ge" target="_blank" rel="noreferrer">გადასვლა მაღაზიაში →</a>
+            <a href="https://shop.tecservice.ge" target="_blank" rel="noreferrer">{toGeorgianMtavruli('გადასვლა მაღაზიაში')} →</a>
             <CarouselControls label="მაღაზიის პროდუქტები" onPrevious={() => move(-1)} onNext={() => move(1)} />
           </div>
         )}
@@ -43,8 +39,6 @@ export function ShopSection({ cart, onAddToCart }: ShopSectionProps) {
           <ProductCard
             product={product}
             key={product.id}
-            quantity={cart.find((line) => line.product.id === product.id)?.quantity ?? 0}
-            onAdd={onAddToCart}
           />
         ))}
       </div>

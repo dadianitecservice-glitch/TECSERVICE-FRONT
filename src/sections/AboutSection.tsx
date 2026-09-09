@@ -1,39 +1,58 @@
-export function AboutSection() {
+import { toGeorgianMtavruli } from '../utils/text'
+
+export function ContactSection() {
   return (
-    <section className="about-section" id="about" aria-labelledby="about-heading">
-      <div className="about-copy">
-        <div className="about-intro">
-          <div>
-            <p className="about-eyebrow">TECSERVICE · 2002 წლიდან</p>
-            <h2 className="display-title" id="about-heading">ჩვენს შესახებ</h2>
+    <section className="contact-section" id="contact" aria-labelledby="contact-heading">
+      <div className="contact-copy">
+        <h2 className="display-title" id="contact-heading">{toGeorgianMtavruli('დაგვიკავშირდით')}</h2>
+        <p className="contact-description">დაგვიკავშირდით, მოგვწერეთ ან გვესტუმრეთ სერვის ცენტრში.</p>
+
+        <div className="contact-details">
+          <div className="contact-detail">
+            <span className="contact-detail__icon"><img src="/assets/icons/phone.svg" alt="" /></span>
+            <span className="contact-detail__copy">
+              <small>{toGeorgianMtavruli('ტელეფონი')}</small>
+              <a href="https://wa.me/995591474040" target="_blank" rel="noreferrer">+995 591 47 40 40</a>
+            </span>
           </div>
-          <p>
-            ტექსერვისი მომხმარებლებს ემსახურება ელექტრონული ტექნიკის დიაგნოსტიკისა და შეკეთების მიმართულებით.
-            ვმუშაობთ როგორც ყოველდღიურ, ისე რთულ კომპონენტურ და ლაბორატორიულ შემთხვევებზე — კომპიუტერებიდან და
-            კონსოლებიდან ინფორმაციის აღდგენამდე და სპეციალიზებულ ელექტრონიკამდე.
-          </p>
+
+          <div className="contact-detail">
+            <span className="contact-detail__icon"><img src="/assets/icons/pin.svg" alt="" /></span>
+            <span className="contact-detail__copy">
+              <small>{toGeorgianMtavruli('მისამართი')}</small>
+              <a href="https://maps.app.goo.gl/6hAmMDGmQBPR8gLQ7" target="_blank" rel="noreferrer">{toGeorgianMtavruli('თბილისი, ცოტნე დადიანის 7ბ/2')}</a>
+            </span>
+          </div>
+
+          <div className="contact-detail">
+            <span className="contact-detail__icon"><img src="/assets/icons/clock.svg" alt="" /></span>
+            <span className="contact-detail__copy">
+              <small>{toGeorgianMtavruli('სამუშაო საათები')}</small>
+              <span>ორშ–შაბ · 10:00–19:00</span>
+            </span>
+          </div>
         </div>
-        <strong className="about-statement">ტექსერვისი — თქვენი ტექნიკის საიმედო სერვისი</strong>
-        <div className="about-facts">
-          <span><img src="/assets/icons/about-calendar.svg" alt="" />2002 წლიდან</span>
-          <i />
-          <span><img src="/assets/icons/about-wrench.svg" alt="" />კომპონენტური შეკეთება</span>
-          <i />
-          <span><img src="/assets/icons/about-drive.svg" alt="" />პროფესიონალური მონაცემთა აღდგენა</span>
-        </div>
-        <a className="about-link" href="/about">ჩვენს შესახებ დეტალურად →</a>
       </div>
-      <figure
-        className="about-workspace-visual"
-        id="contact"
-        data-asset-label="TECSERVICE Repair Workspace Photo — Replace Later"
-      >
-        <img
-          src="/assets/blog/drone-repair.jpg"
-          alt="ელექტრონიკის პროფესიონალური შეკეთების სამუშაო სივრცე"
+
+      <div className="contact-map">
+        <iframe
+          src="https://www.google.com/maps?q=41.7188516,44.8036156&z=17&output=embed"
+          title="TECSERVICE-ის მდებარეობა Google Maps-ზე"
           loading="lazy"
+          allowFullScreen
+          referrerPolicy="no-referrer-when-downgrade"
         />
-      </figure>
+        <a
+          className="contact-map__label"
+          href="https://maps.app.goo.gl/6hAmMDGmQBPR8gLQ7"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="TECSERVICE-ის მდებარეობის გახსნა Google Maps-ზე"
+        >
+          <strong>TECSERVICE</strong>
+          <small>{toGeorgianMtavruli('თბილისი, ცოტნე დადიანის 7ბ/2')}</small>
+        </a>
+      </div>
     </section>
   )
 }

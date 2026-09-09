@@ -3,6 +3,7 @@ import { BlogCard } from '../components/BlogCard'
 import { CarouselControls } from '../components/CarouselControls'
 import { SectionHeader } from '../components/SectionHeader'
 import { blogPosts } from '../data/blogPosts'
+import { toGeorgianMtavruli } from '../utils/text'
 
 const getPostsPerPage = () => {
   if (typeof window === 'undefined') return 4
@@ -57,11 +58,11 @@ export function BlogSection() {
     >
       <SectionHeader
         headingId="blog-title"
-        title="ბლოგი"
+        title={toGeorgianMtavruli('ბლოგი')}
         description="პრაქტიკული რჩევები ტექნიკის მოვლის, დიაგნოსტიკისა და შეკეთების შესახებ."
         actions={(
           <div className="blog-header-actions">
-            <a href="/blog">ყველა სტატია →</a>
+            <a href="/blog">{toGeorgianMtavruli('ყველა სტატია')} →</a>
             <CarouselControls label="ბლოგის სტატიები" onPrevious={() => move(-1)} onNext={() => move(1)} />
           </div>
         )}
