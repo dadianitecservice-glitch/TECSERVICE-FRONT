@@ -5,12 +5,12 @@ export function BlogCard({ post }: { post: BlogPost }) {
   return (
     <article className="blog-card">
       <a href={post.href} className="blog-card__image" aria-label={toGeorgianMtavruli(post.title)}>
-        <img src={post.image} alt={post.imageAlt} />
+        <img src={post.image} alt={post.imageAlt} width={post.imageWidth} height={post.imageHeight} loading="lazy" decoding="async" />
       </a>
       <div className="blog-card__body">
         <div className="blog-card__meta">
           <span>{post.category}</span>
-          <time>{post.date}</time>
+          <time dateTime={post.dateTime}>{post.date}</time>
         </div>
         <h3 className="display-title"><a href={post.href}>{toGeorgianMtavruli(post.title)}</a></h3>
         <p>{post.excerpt}</p>

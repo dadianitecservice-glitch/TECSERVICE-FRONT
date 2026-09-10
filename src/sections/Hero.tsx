@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { toGeorgianMtavruli } from '../utils/text'
+import { assessDevice, type Assessment } from '../utils/assessment'
 
 const devices = [
   { id: 'computers', label: 'კომპიუტერები', icon: '/assets/icons/device-computer.svg' },
@@ -10,13 +11,15 @@ const devices = [
 ]
 
 export function Hero() {
+  const label = toGeorgianMtavruli
   const [selectedDevice, setSelectedDevice] = useState('computers')
   const [problem, setProblem] = useState('')
   const [attachmentName, setAttachmentName] = useState('')
-  const [feedback, setFeedback] = useState<'required' | 'unavailable' | null>(null)
+  const [feedback, setFeedback] = useState<'required' | null>(null)
+  const [assessment, setAssessment] = useState<Assessment | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const problemInputRef = useRef<HTMLTextAreaElement>(null)
-  const currentStep = problem.trim() ? 2 : 1
+  const currentStep = assessment ? 3 : problem.trim() ? 2 : 1
 
   const runAssessment = () => {
     if (!problem.trim()) {
@@ -24,11 +27,12 @@ export function Hero() {
       problemInputRef.current?.focus()
       return
     }
-    setFeedback('unavailable')
+    setFeedback(null)
+    setAssessment(assessDevice(selectedDevice, problem))
   }
 
   return (
-    <section className="hero" aria-labelledby="hero-title">
+    <section className={`hero${assessment ? ' hero--assessed' : ''}`} aria-labelledby="hero-title">
       <div className="hero__circuit" aria-hidden="true">
         <img src="/assets/icons/circuit-lines.svg" alt="" />
         <img src="/assets/icons/circuit-dots.svg" alt="" />
@@ -37,7 +41,7 @@ export function Hero() {
         <h1 id="hero-title" className="display-title hero__title">
           <span>{toGeorgianMtavruli('ტექნიკის')}</span>{' '}
           <span className="text-blue">{toGeorgianMtavruli('პროფესიონალური')}</span>{' '}
-          <span>{toGeorgianMtavruli('შეკეთება და დიაგნოსტიკა')}</span>
+          <span>{toGeorgianMtavruli('შეკეთება და')}<br className="hero__reference-break" />{' '}{toGeorgianMtavruli('დიაგნოსტიკა')}</span>
         </h1>
         <p className="hero__description">
           ლეპტოპების, კომპიუტერების, კონსოლების, ინფორმაციის აღდგენის, დრონებისა და სხვა
@@ -59,7 +63,7 @@ export function Hero() {
             onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
           >
             <img src="/assets/icons/contact-red.svg" alt="" />
-            {toGeorgianMtavruli('დაგვიკავშირდით')}
+            {label('დაგვიკავშირდით')}
           </button>
         </div>
         <div className="hero__trust" aria-label="სერვისის უპირატესობები">
@@ -85,7 +89,7 @@ export function Hero() {
           </div>
 
           <fieldset className="device-fieldset">
-            <legend>{toGeorgianMtavruli('აირჩიეთ მოწყობილობა')}</legend>
+            <legend>აირჩიეთ მოწყობილობა</legend>
             <div className="device-selector">
               {devices.map((device) => (
                 <button
@@ -93,25 +97,26 @@ export function Hero() {
                   type="button"
                   key={device.id}
                   aria-pressed={selectedDevice === device.id}
-                  onClick={() => { setSelectedDevice(device.id); setFeedback(null) }}
+                  onClick={() => { setSelectedDevice(device.id); setFeedback(null); setAssessment(null) }}
                 >
                   <img src={device.icon} alt="" />
-                  <span>{toGeorgianMtavruli(device.label)}</span>
+                  <span>{label(device.label)}</span>
                 </button>
               ))}
             </div>
           </fieldset>
 
           <div className="problem-field">
-            <label htmlFor="problem-description">{toGeorgianMtavruli('აღწერეთ პრობლემა')}</label>
+            <label htmlFor="problem-description">აღწერეთ პრობლემა</label>
             <span className="textarea-shell">
               <textarea
                 ref={problemInputRef}
                 id="problem-description"
                 value={problem}
                 aria-invalid={feedback === 'required'}
-                aria-describedby="ai-feedback"
-                onChange={(event) => { setProblem(event.target.value); setFeedback(null) }}
+                aria-describedby={feedback === 'required' ? 'ai-feedback ai-mode-note' : 'ai-mode-note'}
+                maxLength={2000}
+                onChange={(event) => { setProblem(event.target.value); setFeedback(null); setAssessment(null) }}
                 placeholder="მაგ: არ ირთვება, ხურდება, ეკრანი არ მუშაობს, აქვს უცნაური ხმა..."
               />
               <button
@@ -134,16 +139,21 @@ export function Hero() {
 
           <button className="ai-submit" type="submit">
             <img src="/assets/icons/sparkles.svg" alt="" />
-            {toGeorgianMtavruli('AI პირველადი შეფასება')}
+            {label('AI პირველადი შეფასება')}
           </button>
-          <p id="ai-feedback" className="ai-disclaimer" role={feedback === 'required' ? 'alert' : 'status'}>
-            {feedback === 'required' ? <>შეფასების დასაწყებად აღწერეთ პრობლემა.<br />ცარიელი აღწერით შეფასება ვერ დაიწყება.</> : feedback === 'unavailable' ? <>
-              AI შეფასება ჯერ არ არის ჩართული.<br />შეფასება არ შექმნილა და თქვენი აღწერა არ გაგზავნილა.
-            </> : <>
-              AI მოგცემთ სავარაუდო მიზეზს და რეკომენდაციას.<br />
-              საბოლოო დიაგნოზი და ფასი დგინდება ტექნიკის შემოწმების შემდეგ.
-            </>}
+          <p id="ai-mode-note" className="ai-disclaimer ai-development-note">
+            <strong>ასისტენტი განვითარების ეტაპზეა</strong>
+            <span>სრულფასოვანი AI ჯერ არ არის ჩართული. დროებით მიიღებთ ზოგად, ავტომატურ რჩევებს.</span>
           </p>
+          {feedback === 'required' && <p id="ai-feedback" className="ai-disclaimer" role="alert">შეფასების დასაწყებად აღწერეთ პრობლემა.</p>}
+          {attachmentName && <p className="ai-disclaimer">არჩეულია: {attachmentName}. ამ რეჟიმში ფაილი არ იგზავნება და არ გაანალიზდება.</p>}
+          {assessment && <section className="ai-result" aria-label="პირველადი შეფასების შედეგი" role="status">
+            <h3>{assessment.title}</h3>
+            <p>{assessment.explanation}</p>
+            <ul>{assessment.steps.map((step) => <li key={step}>{step}</li>)}</ul>
+            <p>ეს არ არის საბოლოო დიაგნოზი ან ფასის შეთავაზება.</p>
+            <a href="#contact">დაუკავშირდით სერვისს →</a>
+          </section>}
         </form>
       </div>
     </section>

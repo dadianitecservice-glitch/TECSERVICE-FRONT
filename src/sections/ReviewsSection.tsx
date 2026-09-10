@@ -2,11 +2,19 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { CarouselControls } from '../components/CarouselControls'
 import { googleReviewsUrl, reviewSummary, reviews, type Review } from '../data/reviews'
 import { toGeorgianMtavruli } from '../utils/text'
+import { useViewportWidth } from '../hooks/useViewportWidth'
+import { useResponsiveHome } from '../hooks/useResponsiveHome'
+import { useSwipeCarousel } from '../hooks/useSwipeCarousel'
 
 const featuredReviews = reviews
   .filter((review) => review.rating >= 4 && review.text.trim().length >= 35 && review.text.length <= 420)
 
 export function ReviewsSection() {
+  const responsive = useResponsiveHome()
+  const reviewPool = featuredReviews
+  const swipe = useSwipeCarousel(responsive, reviewPool.length)
+  const width = useViewportWidth()
+  const visibleCount = width <= 600 ? 1 : width <= 1199 ? 2 : 3
   const [start, setStart] = useState(0)
   const [paused, setPaused] = useState(false)
   const [focusWithin, setFocusWithin] = useState(false)
@@ -16,10 +24,10 @@ export function ReviewsSection() {
   const openerRef = useRef<HTMLButtonElement | null>(null)
 
   useEffect(() => {
-    if (paused || focusWithin || selectedReview || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    if (responsive || paused || focusWithin || selectedReview || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const timer = window.setInterval(() => setStart((value) => (value + 1) % featuredReviews.length), 6000)
     return () => window.clearInterval(timer)
-  }, [paused, focusWithin, selectedReview])
+  }, [responsive, paused, focusWithin, selectedReview])
 
   useEffect(() => {
     if (!selectedReview || !dialogRef.current) return
@@ -72,14 +80,14 @@ export function ReviewsSection() {
 
   const visible = useMemo(
     () => Array.from(
-      { length: Math.min(3, featuredReviews.length) },
-      (_, index) => featuredReviews[(start + index) % featuredReviews.length],
+      { length: Math.min(visibleCount, reviewPool.length) },
+      (_, index) => reviewPool[(start + index) % reviewPool.length],
     ),
-    [start],
+    [start, visibleCount, reviewPool],
   )
 
   const move = (direction: number) => {
-    setStart((value) => (value + direction + featuredReviews.length) % featuredReviews.length)
+    setStart((value) => (value + direction + reviewPool.length) % reviewPool.length)
   }
 
   return (
@@ -102,11 +110,11 @@ export function ReviewsSection() {
             <strong>{reviewSummary.rating.toFixed(1)}</strong>
             <small>· {reviewSummary.publicReviewCount} Google {toGeorgianMtavruli('შეფასება')}</small>
           </a>
-          <CarouselControls label="Google შეფასებები" onPrevious={() => move(-1)} onNext={() => move(1)} />
+          <CarouselControls label="Google შეფასებები" onPrevious={() => responsive ? swipe.move(-1) : move(-1)} onNext={() => responsive ? swipe.move(1) : move(1)} />
         </div>
       </div>
-      <div className="reviews-grid" key={start} aria-live={paused || focusWithin || selectedReview ? 'polite' : 'off'}>
-        {visible.map((review) => (
+      <div className="reviews-grid" ref={swipe.ref} onScroll={swipe.onScroll} key={responsive ? 'swipe' : start} aria-live={paused || focusWithin || selectedReview ? 'polite' : 'off'}>
+        {(responsive ? reviewPool : visible).map((review) => (
           <article className="review-card" key={review.id}>
             <div className="review-card__meta">
               <div className="review-card__rating" aria-label={`${review.rating} ვარსკვლავი 5-დან`}>

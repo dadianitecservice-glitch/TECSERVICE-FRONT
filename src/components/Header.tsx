@@ -54,6 +54,10 @@ export function Header({ isAuthenticated = false, userFirstName }: HeaderProps) 
     setMenuOpen(false)
     setServicesOpen(false)
   }
+  const shopLink = <a className="site-header__nav-link site-header__shop-link" href="https://shop.tecservice.ge" target="_blank" rel="noreferrer" onClick={closeMenu}>
+    <img className="site-header__shop-icon" src="/assets/icons/shopping-bag-blue.svg" alt="" />
+    <span>{toGeorgianMtavruli('მაღაზია')}</span>
+  </a>
   return (
     <header
       className={`site-header${isScrolled ? ' site-header--scrolled' : ''}`}
@@ -85,7 +89,7 @@ export function Header({ isAuthenticated = false, userFirstName }: HeaderProps) 
 
           <div className="site-header__utility-cell site-header__utility-cell--right">
             <img className="site-header__utility-icon" src="/assets/icons/clock.svg" alt="" />
-            <span>ორშ–შაბ · 10:00–19:00</span>
+            <span title="ორშ–პარ · 10:00–19:00; შაბ · 11:00–17:00">ორშ–პარ · 10:00–19:00</span>
             <div className="site-header__language-switcher" aria-label="ენის არჩევა">
               <span className="site-header__language-option site-header__language-option--active" aria-current="true">KA</span>
               <span className="site-header__language-divider" aria-hidden="true">/</span>
@@ -119,16 +123,7 @@ export function Header({ isAuthenticated = false, userFirstName }: HeaderProps) 
             id="site-primary-navigation"
           >
             <nav className="site-header__primary-nav" aria-label="მთავარი ნავიგაცია">
-              <a
-                className="site-header__nav-link site-header__shop-link"
-                href="https://shop.tecservice.ge"
-                target="_blank"
-                rel="noreferrer"
-                onClick={closeMenu}
-              >
-                <img className="site-header__shop-icon" src="/assets/icons/shopping-bag-blue.svg" alt="" />
-                <span>{toGeorgianMtavruli('მაღაზია')}</span>
-              </a>
+              {shopLink}
 
               <div
                 ref={servicesMenuRef}
@@ -170,6 +165,10 @@ export function Header({ isAuthenticated = false, userFirstName }: HeaderProps) 
               <img src="/assets/icons/user-blue.svg" alt="" />
               <span>{toGeorgianMtavruli(accountLabel)}</span>
             </a>
+            <div className="site-header__mobile-utility">
+              <a href="https://maps.app.goo.gl/6hAmMDGmQBPR8gLQ7" target="_blank" rel="noreferrer">თბილისი, ცოტნე დადიანის 7ბ/2 ↗</a>
+              <span>ორშ–პარ · 10:00–19:00<br />შაბ · 11:00–17:00</span>
+            </div>
           </div>
         </div>
       </div>

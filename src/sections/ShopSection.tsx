@@ -4,11 +4,14 @@ import { ProductCard } from '../components/ProductCard'
 import { SectionHeader } from '../components/SectionHeader'
 import { products } from '../data/products'
 import { toGeorgianMtavruli } from '../utils/text'
-
-const productsPerPage = 12
-const productsPerMove = 6
+import { useResponsiveHome } from '../hooks/useResponsiveHome'
+import { useSwipeCarousel } from '../hooks/useSwipeCarousel'
 
 export function ShopSection() {
+  const responsive = useResponsiveHome()
+  const swipe = useSwipeCarousel(responsive, products.length)
+  const productsPerPage = 12
+  const productsPerMove = 6
   const [page, setPage] = useState(0)
   const pageCount = Math.max(1, Math.ceil(products.length / productsPerMove))
   const visibleProducts = useMemo(
@@ -16,7 +19,7 @@ export function ShopSection() {
       { length: Math.min(productsPerPage, products.length) },
       (_, offset) => products[(page * productsPerMove + offset) % products.length],
     ),
-    [page],
+    [page, productsPerPage, productsPerMove],
   )
 
   const move = (direction: number) => setPage((current) => (current + direction + pageCount) % pageCount)
@@ -30,12 +33,12 @@ export function ShopSection() {
         actions={(
           <div className="shop-header-actions">
             <a href="https://shop.tecservice.ge" target="_blank" rel="noreferrer">{toGeorgianMtavruli('გადასვლა მაღაზიაში')} →</a>
-            <CarouselControls label="მაღაზიის პროდუქტები" onPrevious={() => move(-1)} onNext={() => move(1)} />
+            <CarouselControls label="მაღაზიის პროდუქტები" onPrevious={() => responsive ? swipe.move(-1) : move(-1)} onNext={() => responsive ? swipe.move(1) : move(1)} />
           </div>
         )}
       />
-      <div className="products-grid" key={page}>
-        {visibleProducts.map((product) => (
+      <div className="products-grid" ref={swipe.ref} onScroll={swipe.onScroll} key={responsive ? 'swipe' : page}>
+        {(responsive ? products : visibleProducts).map((product) => (
           <ProductCard
             product={product}
             key={product.id}
@@ -43,8 +46,8 @@ export function ShopSection() {
         ))}
       </div>
       <div className="carousel-pagination" aria-label="პროდუქტების გვერდები">
-        {Array.from({ length: pageCount }, (_, index) => (
-          <button key={index} className={index === page ? 'is-active' : ''} type="button" onClick={() => setPage(index)} aria-label={`${index + 1} გვერდი`} aria-current={index === page ? 'page' : undefined} />
+        {Array.from({ length: responsive ? swipe.pageCount : pageCount }, (_, index) => (
+          <button key={index} className={index === (responsive ? swipe.page : page) ? 'is-active' : ''} type="button" onClick={() => responsive ? swipe.goTo(index) : setPage(index)} aria-label={`${index + 1} გვერდი`} aria-current={index === (responsive ? swipe.page : page) ? 'page' : undefined} />
         ))}
       </div>
     </section>

@@ -1,0 +1,305 @@
+/* Figma page 173:9 only. 1024px -> 617:58 / 768px -> 617:795 / 390px -> 617:1532.
+   Replaces the discarded 541:* implementation. Desktop stays intact. */
+:root { --page-gutter: 64px; --desktop-gutter: max(var(--page-gutter), calc((100% - var(--container)) / 2)); }
+.site-container { width: min(var(--container), calc(100% - 2 * var(--page-gutter))); }
+.site-header__utility-grid { padding: 0; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.site-header__utility-cell--left { justify-self: start; }
+.site-header__utility-cell--center { justify-self: center; }
+.site-header__utility-cell--right { justify-self: end; }
+.hero__reference-break, .site-header__mobile-utility, .ticket-tabs__phone-short { display: none; }
+.hero__content, .ai-card-wrap, .ticket-layout > *, .contact-section > * { min-width: 0; }
+.hero--assessed { height: auto; padding-block: 28px; align-items: start; }
+.hero--assessed .ai-card-wrap, .hero--assessed .ai-card { height: auto; }
+.ai-card:has(.ai-result), .ai-card:has(.ai-disclaimer + .ai-disclaimer) { height: auto; overflow: visible; }
+.ai-submit { flex-shrink: 0; }
+.ai-result { width: 100%; padding: 16px; border: 1px solid #d6e5f2; border-radius: 12px; background: #f7fbff; font-size: 13px; line-height: 1.7; }
+.ai-result h3 { font-size: 15px; }
+.ai-result ul { list-style: disc; padding-left: 18px; margin-block: 10px; }
+.ai-result a { display: inline-block; color: var(--brand-blue); margin-top: 10px; }
+.ai-development-note { padding: 8px 10px; border: 1px solid #e0ebf4; border-radius: 8px; background: #f5f9fd; color: #526071; font-size: 11.5px; line-height: 17px; }
+.ai-development-note strong { display: block; margin-bottom: 2px; color: #315b7c; font-weight: 600; }
+
+/* Website-only adjustment: keep the menu position and inset sign-in by 40px. */
+@media (min-width: 1200px) {
+  .site-header__primary-nav { margin-inline-start: auto; }
+  .site-header__cabinet-action { margin-inline-start: auto; transform: translateX(-40px); }
+}
+
+@media (min-width: 1200px) and (max-width: 1399px) {
+  :root { --page-gutter: 40px; }
+  .site-header__brand { width: 205px; flex-basis: 205px; }
+  .site-header__navigation-shell { margin-left: 24px; gap: 24px; }
+  .site-header__primary-nav { width: auto; flex: 1; gap: 8px; }
+  .site-header__nav-link { padding-inline: 6px; font-size: 14px; }
+  .hero { gap: 28px; }
+  .hero__title, .hero__description, .hero__support, .ai-card { width: 100%; }
+  .hero__title { font-size: 32px; line-height: 42px; }
+  .hero__title span { white-space: normal; }
+  .hero__description { height: auto; }
+  .hero__trust { flex-wrap: wrap; white-space: normal; gap: 8px 12px; }
+  .service-card { padding: 18px; }
+  .service-card h3 { font-size: 18px; }
+  .ticket-layout { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+  .products-grid { grid-template-columns: repeat(6, minmax(0, 160px)); column-gap: 24px; }
+  .blog-section { padding-inline: var(--desktop-gutter); }
+  .site-footer__brand { width: 280px; }
+  .site-footer__brand p { width: 100%; }
+  .site-footer__navigation { width: 460px; gap: 32px; }
+}
+
+@media (max-width: 1199px) {
+  :root { --page-gutter: 32px; }
+  html { scroll-padding-top: 112px; scrollbar-gutter: auto; scrollbar-width: none; }
+  html::-webkit-scrollbar { display: none; }
+  .site-header { height: 104px; box-shadow: 0 2px 8px #1018270f; }
+  .site-header__utility { height: 34px; }
+  .site-header__main, .site-header__main-inner { height: 70px; }
+  .site-header__brand { width: 200px; height: 44px; flex: 0 0 200px; }
+  .site-header__brand img { width: 100%; height: 100%; }
+  .site-header__menu-toggle { margin-left: auto; width: 42px; height: 42px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; border: 1px solid #b8d6edb8; border-radius: 10px; background: #fff; cursor: pointer; }
+  .site-header__menu-toggle span { width: 18px; height: 2px; background: #0864b5; transition: transform 160ms ease, opacity 160ms ease; }
+  .site-header__menu-toggle--open span:first-child { transform: translateY(6px) rotate(45deg); }
+  .site-header__menu-toggle--open span:nth-child(2) { opacity: 0; }
+  .site-header__menu-toggle--open span:last-child { transform: translateY(-6px) rotate(-45deg); }
+  .site-header__navigation-shell { position: absolute; top: 100%; left: var(--page-gutter); right: var(--page-gutter); display: flex; flex-direction: column; align-items: stretch; gap: 12px; margin: 0; padding: 18px; max-height: calc(100dvh - 116px); overflow-y: auto; border: 1px solid #dce7f0; border-radius: 14px; background: #fff; box-shadow: 0 8px 24px #10243a12; opacity: 0; transform: translateY(-6px); visibility: hidden; transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease; }
+  .site-header__navigation-shell--open { opacity: 1; transform: none; visibility: visible; }
+  .site-header__primary-nav { width: 100%; height: auto; flex-direction: column; align-items: stretch; gap: 4px; }
+  .site-header__nav-link { width: 100%; min-height: 44px; justify-content: flex-start; font-size: 15px; }
+  .site-header__services-menu { width: 100%; height: auto; }
+  .site-header__services-grid { grid-template-columns: 1fr; }
+  .site-header__services-dropdown { position: static; width: 100%; display: none; padding: 8px; box-shadow: none; opacity: 1; transform: none; visibility: visible; }
+  .site-header__services-menu--open .site-header__services-dropdown { display: block; }
+  .site-header__cabinet-action { width: 100%; min-height: 44px; margin: 0; transform: none; }
+  .site-header__mobile-utility { display: flex; flex-direction: column; gap: 12px; font-size: 12px; color: #52697d; }
+  .site-header__mobile-utility a { padding-block: 8px; }
+  .hero { height: auto; min-height: 1100px; grid-template-columns: 1fr; grid-template-rows: auto auto; gap: 28px; padding-block: 32px 40px; overflow: visible; }
+  .hero__circuit { display: none; }
+  .hero__content { width: 100%; height: auto; min-height: 460px; padding: 12px 0 20px; justify-content: center; }
+  .hero__title, .hero__description, .hero__support { width: 100%; }
+  .hero__title { font-size: 36px; line-height: 46px; }
+  .hero__title span { white-space: normal; }
+  .hero__description { height: auto; min-height: 56px; }
+  .hero__trust { flex-wrap: wrap; white-space: normal; gap: 8px 14px; }
+  .ai-card-wrap { height: auto; min-height: 540px; align-items: start; }
+  .ai-card { width: min(720px, 100%); min-height: 540px; height: auto; padding: 24px 24px 20px; overflow: visible; }
+  .ai-card > * { flex-shrink: 0; }
+  .ai-steps, .device-fieldset, .problem-field { max-width: 624px; }
+  .device-option span { font-weight: 600; }
+  .device-option--wide span { max-width: 100%; }
+  .device-fieldset legend { font-weight: 400; }
+  .ai-disclaimer { margin-top: auto; }
+  .section-header, .section-header__copy, .section-header__actions { min-width: 0; }
+  .section-header { flex-shrink: 0; }
+  .services-section { min-height: 482px; padding-block: 32px; gap: 20px; }
+  .services-section .section-header { min-height: 86px; }
+  .services-grid, .products-grid, .reviews-grid, .blog-grid { display: flex; width: 100%; min-width: 0; justify-content: flex-start; overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scrollbar-width: none; animation: none; }
+  .services-grid::-webkit-scrollbar, .products-grid::-webkit-scrollbar, .reviews-grid::-webkit-scrollbar, .blog-grid::-webkit-scrollbar { display: none; }
+  .services-grid > *, .products-grid > *, .reviews-grid > *, .blog-grid > * { scroll-snap-align: start; flex-shrink: 0; }
+  .services-grid:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 3px; }
+  .services-grid { height: auto; gap: 16px; }
+  .service-card, .service-card:nth-child(n) { width: 280px; height: 312px; flex: 0 0 280px; padding: 18px; grid-column: auto; }
+  .service-card__top { gap: 8px; min-width: 0; }
+  .service-card h3 { font-size: 20px; line-height: 28px; overflow-wrap: break-word; }
+  .service-card p { display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
+  .service-card:hover { transform: none; }
+  .ticket-section { min-height: 818px; padding-block: 34px 14px; }
+  .ticket-layout { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .ticket-search-panel { height: auto; min-height: 330px; }
+  .ticket-search-panel > * { flex-shrink: 0; }
+  .ticket-tabs button { font-weight: 600; }
+  .ticket-form__row { width: 100%; max-width: 814px; grid-template-columns: minmax(0, 580px) 220px; }
+  .cabinet-promo { height: auto; min-height: 316px; }
+  .cabinet-promo > * { flex-shrink: 0; }
+  .cabinet-promo h3, .cabinet-promo > p { max-width: 420px; }
+  .cabinet-promo > button { width: min(358px, 100%); }
+  .cabinet-promo > a { margin-top: 2px; min-height: 34px; display: inline-flex; align-items: center; }
+  .cabinet-promo > button img { filter: none; }
+  .ticket-result__body { grid-template-columns: 1fr; }
+  .shop-section { height: auto; min-height: 476px; padding-block: 28px 38px; }
+  .shop-section .section-header { height: auto; min-height: 78px; }
+  .shop-section .section-header__copy { max-width: min(62%, 582px); }
+  .products-grid { height: 304px; min-height: 304px; gap: 16px; }
+  .product-card { width: 170px; flex: 0 0 170px; }
+  .product-card__image, .product-card__copy { width: 100%; }
+  .product-card__image { padding: 0; background: transparent; }
+  .product-card__actions { width: 100%; }
+  .add-cart-button { width: auto; flex: 1; min-width: 0; }
+  .carousel-pagination { flex-shrink: 0; height: 12px; min-height: 12px; }
+  .carousel-pagination button { position: relative; }
+  .carousel-pagination button::before { content: ''; position: absolute; inset: -8px -3px; }
+  .carousel-arrow { position: relative; flex-shrink: 0; }
+  .carousel-arrow::before { content: ''; position: absolute; inset: -2px; }
+  .reviews-section { height: auto; min-height: 377px; padding-block: 24px 26px; gap: 18px; }
+  .reviews-header { min-height: 41px; align-items: center; }
+  .reviews-header h2 { font-size: 30px; }
+  .reviews-header__actions { gap: 14px; }
+  .reviews-grid { height: 230px; gap: 16px; }
+  .review-card { width: 400px; height: 230px; flex: 0 0 400px; padding: 20px; }
+  .review-card__source span { font-size: 10px; white-space: normal; }
+  .review-card__text > p { -webkit-line-clamp: 2; }
+  .review-card__text:has(.review-card__more) > p { padding-right: 0; }
+  .review-card__more { bottom: 0; }
+  .blog-section { height: auto; min-height: 510px; padding: 12px var(--desktop-gutter); }
+  .blog-section .section-header { min-height: 82px; }
+  .blog-grid { height: 376px; min-height: 376px; gap: 16px; }
+  .blog-card { width: 300px; flex: 0 0 300px; }
+  .blog-card__body { min-height: 0; }
+  .blog-card h3, .blog-card__body > p { flex-shrink: 0; }
+  .contact-section { min-height: 704px; grid-template-columns: 1fr; align-items: start; gap: 24px; padding-block: 32px; }
+  .contact-copy { min-height: 256px; }
+  .contact-details { max-width: 100%; }
+  .contact-map { height: 360px; }
+  .contact-map__label { left: 12px; bottom: 16px; min-width: 0; max-width: calc(100% - 24px); }
+  .site-footer { height: auto; min-height: 483px; padding-block: 28px 24px; }
+  .site-footer__main { height: auto; min-height: 360px; display: grid; grid-template-columns: 300px minmax(0, 1fr); grid-template-rows: 200px 120px; gap: 28px 36px; }
+  .site-footer__brand { width: 100%; }
+  .site-footer__brand p { width: 100%; }
+  .site-footer__logo img { filter: none; }
+  .site-footer__navigation { width: min(500px, 100%); gap: 32px; }
+  .site-footer__column, .site-footer__column--services { flex: 1; min-width: 0; width: auto; }
+  .site-footer__social { width: 100%; }
+  .site-footer__divider { margin: 10px 0; }
+  .site-footer__bottom { min-height: 50px; height: auto; }
+}
+
+@media (max-width: 900px) {
+  :root { --page-gutter: 24px; }
+  .site-header__utility-cell--right > .site-header__utility-icon, .site-header__utility-cell--right > span { display: none; }
+  .site-header__brand { width: 180px; flex-basis: 180px; }
+  .hero { min-height: 1110px; }
+  .hero__content { min-height: 470px; }
+  .ai-card { width: min(680px, 100%); }
+  .services-section { min-height: 470px; }
+  .service-card, .service-card:nth-child(n) { height: 300px; }
+  .ticket-section { min-height: 828px; }
+  .ticket-search-panel { min-height: 340px; }
+  .shop-section { min-height: 516px; }
+  .shop-section .section-header { min-height: 118px; flex-direction: column; align-items: stretch; justify-content: space-between; gap: 12px; }
+  .shop-section .section-header__copy { max-width: 100%; }
+  .shop-header-actions, .blog-header-actions { width: 100%; justify-content: space-between; }
+  .reviews-section { min-height: 420px; gap: 16px; padding-bottom: 30px; }
+  .reviews-header { min-height: 84px; flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 4px; }
+  .reviews-header__actions { justify-content: space-between; }
+  .review-card { width: 360px; flex-basis: 360px; }
+  .blog-section { min-height: 546px; }
+  .blog-section .section-header { min-height: 118px; flex-direction: column; align-items: stretch; justify-content: space-between; gap: 8px; }
+  .contact-section { min-height: 656px; }
+  .contact-map { height: 320px; }
+  .site-footer { min-height: 647px; }
+  .site-footer__main { min-height: 500px; grid-template-columns: 1fr; grid-template-rows: 180px 200px auto; gap: 30px; }
+  .site-footer__navigation { width: 100%; gap: 72px; }
+  .site-footer__social { height: auto; }
+  .site-footer__bottom { min-height: 74px; flex-direction: column; justify-content: center; align-items: flex-start; gap: 12px; }
+}
+
+@media (max-width: 600px) {
+  :root { --page-gutter: 16px; }
+  html { scroll-padding-top: 104px; }
+  .site-header { height: 96px; }
+  .site-header__utility { height: 32px; }
+  .site-header__utility-grid { grid-template-columns: minmax(0, 1fr) auto; }
+  .site-header__utility-cell--center { display: none; }
+  .site-header__main, .site-header__main-inner { height: 64px; }
+  .site-header__brand { width: 164px; height: 40px; flex: 0 0 164px; }
+  .site-header__language-switcher { display: flex; }
+  .hero { min-height: 1348px; gap: 28px; padding-block: 36px 44px; }
+  .hero__content { min-height: 540px; padding: 0; }
+  .hero__title { font-size: 30px; line-height: 40px; letter-spacing: -.54px; }
+  .hero__reference-break { display: block; }
+  .hero__description { font-size: 14px; line-height: 24px; min-height: 0; }
+  .hero__support { font-size: 14px; line-height: 22px; }
+  .hero__actions { width: 100%; flex-direction: column; align-items: stretch; gap: 12px; }
+  .hero__actions .button { width: 100%; height: 48px; }
+  .hero__trust { width: 100%; gap: 8px 14px; }
+  .ai-card-wrap { min-height: 700px; }
+  .ai-card { width: 100%; min-height: 700px; padding: 16px; gap: 14px; }
+  .ai-card > h2 { font-size: 20px; line-height: 28px; min-height: 60px; }
+  .ai-card__subtitle { font-size: 13px; line-height: 20px; }
+  .ai-steps { gap: 6px; }
+  .ai-step { font-size: 11.5px; white-space: nowrap; }
+  .device-selector { height: auto; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 64px; gap: 8px; }
+  .device-option, .device-option--wide { width: 100%; height: 64px; }
+  .device-fieldset legend { font-size: 13px; }
+  .problem-field > label { font-size: 16px; }
+  .attachment-button { top: 4px; right: 4px; width: 40px; height: 40px; display: grid; place-items: center; }
+  .ai-disclaimer { font-size: 11px; line-height: 17px; }
+  .ai-submit { white-space: nowrap; font-size: 14px; }
+  .section-header h2, .shop-section .section-header h2, .reviews-header h2, .contact-copy h2 { font-size: 28px; line-height: 38px; }
+  .section-header__copy > p:not(.section-eyebrow) { font-size: 16px; line-height: 26px; }
+  .services-section { min-height: 346px; gap: 16px; }
+  .services-section .section-header { min-height: 90px; }
+  .services-grid { gap: 12px; }
+  .service-card, .service-card:nth-child(n) { width: min(300px, 100%); flex-basis: min(300px, 100%); height: 176px; padding: 16px; }
+  .service-card p { display: none; }
+  .service-card h3 { font-size: 20px; line-height: 28px; }
+  .service-card__link { font-size: 15px; line-height: 22px; }
+  .ticket-section { min-height: 920px; padding-bottom: 2px; }
+  .ticket-section .section-header { min-height: 98px; }
+  .ticket-search-panel { min-height: 430px; padding: 23px 18px; }
+  .ticket-search-panel__intro { min-height: 52px; height: auto; flex-direction: column; align-items: flex-start; justify-content: space-between; }
+  .ticket-tabs button { font-size: 12px; white-space: nowrap; }
+  .ticket-tabs__phone-full { display: none; }
+  .ticket-tabs__phone-short { display: inline; }
+  .ticket-form__row { grid-template-columns: 1fr; gap: 10px; }
+  .ticket-form > p { min-height: 38px; }
+  .ticket-verification-note { min-height: 58px; height: auto; padding-block: 8px; }
+  .ticket-verification-note img { flex-shrink: 0; }
+  .cabinet-promo { min-height: 324px; padding: 23px 18px; }
+  .cabinet-promo > button { min-height: 42px; }
+  .otp-panel { display: flex; flex-direction: column; align-items: stretch; }
+  .otp-inputs { width: 100%; gap: 6px; }
+  .otp-inputs input { width: calc((100% - 30px) / 6); min-width: 0; min-height: 44px; }
+  .otp-confirm { width: 100%; }
+  .otp-panel__links { flex-wrap: wrap; gap: 12px; }
+  .ticket-result { padding: 20px 16px; }
+  .ticket-result__header { height: auto; flex-wrap: wrap; gap: 12px; }
+  .ticket-status-pill { min-width: 0; }
+  .ticket-result__body > * { min-width: 0; }
+  .ticket-metadata > div:not(.ticket-privacy) { height: auto; min-height: 26px; flex-wrap: wrap; gap: 6px 12px; }
+  .ticket-metadata dd { overflow-wrap: anywhere; }
+  .ticket-privacy { height: auto; min-height: 48px; }
+  .milestones { height: auto; grid-template-columns: 1fr; gap: 12px; }
+  .milestones li { display: flex; flex-direction: row; align-items: center; gap: 12px; text-align: left; font-size: 12px; }
+  .milestone-marker { flex-shrink: 0; }
+  .milestones li i, .milestones li::before, .milestones li::after { display: none; }
+  .shop-section { min-height: 500px; padding-bottom: 8px; }
+  .shop-section .section-header { min-height: 132px; }
+  .shop-section .section-header__copy > p:not(.section-eyebrow), .blog-section .section-header__copy > p:not(.section-eyebrow) { font-size: 15px; line-height: 24px; }
+  .products-grid { gap: 12px; }
+  .product-card { width: 190px; flex-basis: 190px; }
+  .shop-header-actions, .blog-header-actions { gap: 8px; }
+  .shop-header-actions > a { font-size: 13px; }
+  .reviews-section { min-height: 436px; }
+  .reviews-header { min-height: 100px; }
+  .reviews-header__actions { gap: 8px; }
+  .reviews-google-summary { gap: 6px; min-width: 0; }
+  .reviews-google-summary > img { width: 15px; height: 15px; margin: 0; }
+  .reviews-google-summary > strong { font-size: 12px; }
+  .reviews-google-summary > small { font-size: 10px; }
+  .review-card { width: min(330px, 100%); flex-basis: min(330px, 100%); }
+  .blog-section { min-height: 565px; padding-bottom: 12px; }
+  .blog-section .section-header { min-height: 137px; }
+  .blog-header-actions > a { text-align: center; width: 240px; max-width: calc(100% - 96px); }
+  .contact-section { min-height: 654px; gap: 20px; }
+  .contact-copy { min-height: 290px; }
+  .contact-map { height: 280px; }
+  .contact-map__label { padding: 10px 12px; }
+  .site-footer { min-height: 763px; padding-bottom: 24px; }
+  .site-footer__main { min-height: 600px; grid-template-rows: 150px 200px auto; gap: 30px; align-content: start; }
+  .site-footer__navigation { gap: 24px; }
+  .site-footer__column { flex-basis: 50%; }
+  .site-footer__bottom { min-height: 90px; }
+  .site-footer__legal { flex-direction: column; align-items: flex-start; gap: 12px; }
+}
+@media (max-width: 374px) {
+  .hero__title { font-size: 27px; line-height: 38px; }
+  .reviews-header h2 { font-size: 25px; }
+  .reviews-google-summary { gap: 3px; flex-wrap: wrap; }
+  .reviews-google-summary > small { font-size: 9px; }
+  .ai-submit { font-size: 12px; padding-inline: 8px; }
+  .ai-step { font-size: 10px; }
+  .shop-header-actions > a { white-space: normal; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .services-grid, .products-grid, .reviews-grid, .blog-grid { scroll-behavior: auto; }
+}

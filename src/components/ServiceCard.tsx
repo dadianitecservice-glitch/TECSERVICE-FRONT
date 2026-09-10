@@ -3,7 +3,7 @@ import { toGeorgianMtavruli } from '../utils/text'
 
 export function ServiceCard({ service }: { service: Service }) {
   return (
-    <a className="service-card" href={service.href}>
+    <a className="service-card" id={`service-${service.id}`} href={service.href}>
       <div className="service-card__top">
         <span className="service-card__icon">
           <img src={service.icon} alt="" />

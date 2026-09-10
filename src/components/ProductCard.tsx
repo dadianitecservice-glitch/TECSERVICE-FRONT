@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { Product } from '../data/products'
 import { toGeorgianMtavruli } from '../utils/text'
+import { formatPrice } from '../utils/formatPrice'
 
 type ProductCardProps = {
   product: Product
@@ -16,13 +17,13 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <article className="product-card">
       <div className="product-card__image">
-        <img src={product.image} alt={product.imageAlt} />
+        <img src={product.image} alt={product.imageAlt} width={product.imageWidth} height={product.imageHeight} loading="lazy" decoding="async" />
         {discount ? <span className="sale-badge">−{discount}%</span> : null}
       </div>
       <div className="product-card__copy">
         <div className={`product-card__price${product.oldPrice ? ' is-sale' : ''}`}>
-          <strong>{product.price.toLocaleString('ka-GE')} ₾</strong>
-          {product.oldPrice ? <del>{product.oldPrice.toLocaleString('ka-GE')} ₾</del> : null}
+          <strong>{formatPrice(product.price)} ₾</strong>
+          {product.oldPrice ? <del>{formatPrice(product.oldPrice)} ₾</del> : null}
         </div>
         <h3>{product.name}</h3>
         <div className="product-card__actions">

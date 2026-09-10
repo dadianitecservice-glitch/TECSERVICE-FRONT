@@ -24,6 +24,8 @@ const socialLinks = [
 ] as const
 
 export function Footer() {
+  const links = footerNavigation
+  const label = toGeorgianMtavruli
   return (
     <footer className="site-footer" data-figma-node="259:242">
       <div className="site-footer__main site-container">
@@ -36,9 +38,9 @@ export function Footer() {
 
         <nav className="site-footer__navigation" aria-label="ქვედა ნავიგაცია">
           <div className="site-footer__column">
-            <h2>{toGeorgianMtavruli('ნავიგაცია')}</h2>
+            <h2>{label('ნავიგაცია')}</h2>
             <ul>
-              {footerNavigation.map((link) => (
+              {links.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
@@ -53,7 +55,7 @@ export function Footer() {
           </div>
 
           <div className="site-footer__column site-footer__column--services">
-            <h2>{toGeorgianMtavruli('სერვისები')}</h2>
+            <h2>{label('სერვისები')}</h2>
             <ul>
               {serviceNavigation.map((service) => (
                 <li key={service}>
@@ -65,7 +67,7 @@ export function Footer() {
         </nav>
 
         <div className="site-footer__social">
-          <h2>{toGeorgianMtavruli('გამოგვყევით')}</h2>
+          <h2>{label('გამოგვყევით')}</h2>
           <p>სიახლეები და პრაქტიკული რჩევები</p>
           <ul className="site-footer__social-list">
             {socialLinks.map((social) => (

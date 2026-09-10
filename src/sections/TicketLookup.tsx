@@ -5,11 +5,14 @@ import { OtpVerification } from '../components/OtpVerification'
 import { DEMO_OTP, findTicketByCode, tickets } from '../data/tickets'
 import { toGeorgianMtavruli } from '../utils/text'
 import { normalizeGeorgianMobile } from '../utils/validation'
+import { useResponsiveHome } from '../hooks/useResponsiveHome'
 
 type SearchMode = 'code' | 'phone'
 type SearchState = 'default' | 'loading' | 'found' | 'not-found' | 'otp' | 'error'
 
 export function TicketLookup() {
+  const responsive = useResponsiveHome()
+  const label = toGeorgianMtavruli
   const [mode, setMode] = useState<SearchMode>('code')
   const [value, setValue] = useState('')
   const [state, setState] = useState<SearchState>('default')
@@ -90,15 +93,15 @@ export function TicketLookup() {
           ) : (
             <>
               <div className="ticket-search-panel__intro">
-                <h3 className="display-title">{toGeorgianMtavruli('მოძებნეთ სერვისი')}</h3>
+                <h3 className="display-title">{label('მოძებნეთ სერვისი')}</h3>
                 <span>რეგისტრაცია არ არის საჭირო</span>
               </div>
               <div className="ticket-tabs" role="tablist" aria-label="ძებნის მეთოდი">
-                <button role="tab" aria-selected={mode === 'code'} className={mode === 'code' ? 'is-active' : ''} onClick={() => selectMode('code')} type="button">{toGeorgianMtavruli('სერვისის კოდით')}</button>
-                <button role="tab" aria-selected={mode === 'phone'} className={mode === 'phone' ? 'is-active' : ''} onClick={() => selectMode('phone')} type="button">{toGeorgianMtavruli('ტელეფონის ნომრით')}</button>
+                <button role="tab" aria-selected={mode === 'code'} className={mode === 'code' ? 'is-active' : ''} onClick={() => selectMode('code')} type="button">{label('სერვისის კოდით')}</button>
+                <button role="tab" aria-selected={mode === 'phone'} className={mode === 'phone' ? 'is-active' : ''} onClick={() => selectMode('phone')} type="button"><span className="ticket-tabs__phone-full">{label('ტელეფონის ნომრით')}</span><span className="ticket-tabs__phone-short">{label('ტელეფონით')}</span></button>
               </div>
               <form className="ticket-form" onSubmit={submitLookup}>
-                <label htmlFor="ticket-query">{toGeorgianMtavruli(mode === 'code' ? 'სერვისის კოდი' : 'ტელეფონის ნომერი')}</label>
+                <label htmlFor="ticket-query">{mode === 'code' ? responsive ? 'სერვისის კოდი' : label('სერვისის კოდი') : responsive ? 'ტელეფონის ნომერი' : label('ტელეფონის ნომერი')}</label>
                 <div className="ticket-form__row">
                   <input
                     ref={queryInputRef}
@@ -119,7 +122,7 @@ export function TicketLookup() {
                   />
                   <button className="ticket-search-button" type="submit" disabled={state === 'loading'}>
                     <img src="/assets/icons/search-white.svg" alt="" />
-                    {toGeorgianMtavruli(state === 'loading' ? 'იძებნება...' : 'ძიება')}
+                    {label(state === 'loading' ? 'იძებნება...' : 'ძიება')}
                   </button>
                 </div>
                 <p id="ticket-query-help">{mode === 'code' ? 'კოდი მითითებულია სერვისის მიღების დოკუმენტზე.' : 'დემო რეჟიმი — რეალური SMS არ იგზავნება.'}</p>
@@ -136,13 +139,13 @@ export function TicketLookup() {
 
         <aside className="cabinet-promo">
           <span className="cabinet-promo__icon"><img src="/assets/icons/user-blue.svg" alt="" /></span>
-          <h3 className="display-title">{toGeorgianMtavruli('ხშირად სარგებლობთ ჩვენი სერვისებით?')}</h3>
+          <h3 className="display-title">{label('ხშირად სარგებლობთ ჩვენი სერვისებით?')}</h3>
           <p>კაბინეტში მარტივად ნახავთ აქტიურ სერვისებს, მომსახურების ისტორიას, შეტყობინებებსა და შეთავაზებებს.</p>
-          <button type="button">
+          <button type="button" onClick={() => { window.location.href = '/cabinet' }}>
             <img src="/assets/icons/user-header.svg" alt="" />
-            <span>{toGeorgianMtavruli('კაბინეტში შესვლა')}</span>
+            <span>{label('კაბინეტში შესვლა')}</span>
           </button>
-          <a href="/cabinet#register">{toGeorgianMtavruli('დარეგისტრირდი')} →</a>
+          <a href="/cabinet#register">{label('დარეგისტრირდი')} →</a>
         </aside>
       </div>
       {state === 'found' ? <TicketResult ticket={tickets[0]} /> : null}

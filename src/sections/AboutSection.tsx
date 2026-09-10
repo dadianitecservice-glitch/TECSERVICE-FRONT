@@ -28,7 +28,7 @@ export function ContactSection() {
             <span className="contact-detail__icon"><img src="/assets/icons/clock.svg" alt="" /></span>
             <span className="contact-detail__copy">
               <small>{toGeorgianMtavruli('სამუშაო საათები')}</small>
-              <span>ორშ–შაბ · 10:00–19:00</span>
+              <span>ორშ–პარ · 10:00–19:00; შაბ · 11:00–17:00</span>
             </span>
           </div>
         </div>

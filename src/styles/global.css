@@ -460,7 +460,8 @@ ol {
   position: relative;
   width: 100%;
   max-width: 100%;
-  height: 580px;
+  height: auto;
+  min-height: 580px;
   display: grid;
   grid-template-columns: minmax(0, 600fr) minmax(0, 664fr);
   gap: 48px;
@@ -624,7 +625,8 @@ ol {
 
 .ai-card-wrap {
   width: 100%;
-  height: 568px;
+  height: auto;
+  min-height: 568px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -632,7 +634,8 @@ ol {
 
 .ai-card {
   width: 640px;
-  height: 540px;
+  height: auto;
+  min-height: 540px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -2867,233 +2870,4 @@ ol {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
-}
-
-@media (max-width: 1399px) {
-  .site-container { width: calc(100% - 64px); }
-  .site-header__main-inner { padding-right: 0; }
-  .site-header__brand { width: 205px; flex-basis: 205px; }
-  .site-header__navigation-shell { grid-template-columns: minmax(0, 1fr) 205px; margin-left: 0; }
-  .site-header__primary-nav { width: 100%; }
-  .hero { height: 580px; min-height: 580px; grid-template-columns: minmax(0, 0.95fr) minmax(560px, 1.05fr); gap: 28px; padding-inline: 32px; }
-  .hero__content, .ai-card-wrap { width: 100%; }
-  .hero__title { width: 100%; }
-  .hero__description, .hero__support { width: 100%; }
-  .ai-card { width: 100%; }
-  .services-section, .ticket-section, .shop-section, .reviews-section, .blog-section { padding-inline: 32px; }
-  .contact-section { grid-template-columns: minmax(0, 0.85fr) minmax(420px, 1.15fr); gap: 36px; padding-inline: 32px; }
-  .contact-copy, .contact-map { width: 100%; }
-  .site-footer { padding-inline: 32px; }
-  .site-footer__brand { width: 300px; }
-}
-
-@media (min-width: 1280px) and (max-width: 1399px) {
-  .site-container { width: min(var(--container), calc(100% - 128px)); }
-  .hero,
-  .services-section,
-  .ticket-section,
-  .shop-section,
-  .reviews-section,
-  .blog-section,
-  .contact-section,
-  .site-footer { padding-inline: var(--desktop-gutter); }
-  .service-card { padding: 18px; }
-  .service-card__top { gap: 8px; }
-}
-
-@media (max-width: 1219px) {
-  .shop-section { min-height: auto; }
-  .products-grid {
-    min-height: 939px;
-    grid-template-columns: repeat(4, 160px);
-    grid-template-rows: none;
-    grid-auto-rows: 303px;
-  }
-}
-
-@media (max-width: 1199px) {
-  .blog-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-
-@media (max-width: 1100px) {
-  html { scroll-padding-top: 104px; }
-  .site-header { height: 104px; }
-  .site-header__utility { height: 34px; }
-  .site-header__main, .site-header__main-inner { height: 70px; }
-  .site-header__brand { width: 190px; height: 40px; flex-basis: 190px; }
-  .site-header__menu-toggle {
-    margin-left: auto;
-    width: 42px;
-    height: 42px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    border: 1px solid rgba(11, 100, 177, 0.24);
-    border-radius: 10px;
-    background: #fff;
-  }
-  .site-header__menu-toggle span { width: 19px; height: 2px; border-radius: 2px; background: #15243a; }
-  .site-header__navigation-shell {
-    position: absolute;
-    top: 103px;
-    right: 24px;
-    left: 24px;
-    display: flex;
-    gap: 0;
-    margin: 0;
-    padding: 18px;
-    border: 1px solid #dce7f0;
-    border-radius: 14px;
-    background: #edf5fb;
-    box-shadow: 0 12px 28px rgba(16, 36, 58, 0.14);
-    opacity: 0;
-    transform: translateY(-8px);
-    visibility: hidden;
-    transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
-  }
-  .site-header__navigation-shell--open { opacity: 1; transform: translateY(0); visibility: visible; }
-  .site-header__primary-nav { width: auto; height: auto; flex: 1; flex-wrap: wrap; justify-content: flex-start; gap: 4px 16px; }
-  .site-header__services-menu { width: auto; height: auto; }
-  .site-header__services-grid { grid-template-columns: 1fr; }
-  .site-header__services-dropdown {
-    position: static;
-    width: min(270px, 100%);
-    display: none;
-    margin-top: 2px;
-    padding: 8px;
-    border-radius: 12px;
-    box-shadow: none;
-    opacity: 1;
-    transform: none;
-    visibility: visible;
-  }
-  .site-header__services-menu--open .site-header__services-dropdown { display: block; }
-  .site-header__cabinet-action { margin-left: 18px; margin-right: 0; transform: none; }
-  .hero { height: auto; min-height: 0; grid-template-columns: 1fr; padding: 42px 32px; }
-  .hero__content { height: auto; padding: 0; }
-  .hero__title { font-size: 36px; line-height: 46px; }
-  .ai-card-wrap { height: auto; }
-  .services-section { min-height: auto; }
-  .services-grid { height: auto; grid-template-columns: repeat(2, 1fr); grid-template-rows: none; }
-  .service-card, .service-card:nth-child(n) { grid-column: auto; height: 340px; }
-  .ticket-section { height: auto; }
-  .ticket-layout { grid-template-columns: 1fr; }
-  .ticket-search-panel, .cabinet-promo { width: 100%; }
-  .ticket-result__body { grid-template-columns: 1fr; }
-  .products-grid { grid-template-columns: repeat(4, 160px); grid-template-rows: none; }
-  .reviews-section { height: auto; }
-  .reviews-grid { gap: 16px; }
-  .contact-section { height: auto; grid-template-columns: 1fr; padding-block: 40px; }
-  .site-footer { height: auto; }
-  .site-footer__main { height: auto; flex-wrap: wrap; gap: 36px; }
-}
-
-@media (max-width: 1023px) {
-  .blog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
-@media (max-width: 760px) {
-  html { scroll-padding-top: 96px; }
-  .site-container { width: calc(100% - 32px); }
-  .site-header { height: 96px; }
-  .site-header__utility { height: 32px; }
-  .site-header__utility-grid { grid-template-columns: 1fr auto; background: transparent; font-size: 11px; }
-  .site-header__utility-cell--center { display: none; }
-  .site-header__utility-cell--right { justify-content: flex-end; }
-  .site-header__main, .site-header__main-inner { height: 64px; }
-  .site-header__brand { width: 164px; height: 34px; flex-basis: 164px; }
-  .site-header__navigation-shell { top: 95px; flex-direction: column; align-items: stretch; }
-  .site-header__primary-nav { flex-direction: column; align-items: stretch; flex-wrap: nowrap; }
-  .site-header__services-menu { width: 100%; }
-  .site-header__services-grid { grid-template-columns: 1fr; }
-  .site-header__services-dropdown { width: 100%; }
-  .site-header__service-link { min-height: 46px; }
-  .site-header__nav-link { width: 100%; justify-content: space-between; }
-  .site-header__cabinet-action { width: 100%; margin: 12px 0 0; }
-  .hero { padding: 36px 16px 44px; gap: 28px; }
-  .hero__circuit { left: -160px; }
-  .hero__title { font-size: 30px; line-height: 40px; letter-spacing: -0.3px; }
-  .hero__title span { white-space: normal; }
-  .hero__description { height: auto; font-size: 14px; line-height: 24px; }
-  .hero__actions { width: 100%; flex-direction: column; align-items: stretch; }
-  .button--primary, .button--secondary { width: 100%; }
-  .hero__trust { flex-wrap: wrap; white-space: normal; }
-  .ai-card { height: auto; min-height: 604px; padding: 20px 16px; }
-  .ai-card > h2 { font-size: 20px; line-height: 28px; }
-  .device-selector { height: auto; display: grid; grid-template-columns: repeat(2, 1fr); }
-  .device-option, .device-option--wide { width: 100%; flex-basis: auto; }
-  .device-option--wide { grid-column: auto; }
-  .services-section, .ticket-section, .shop-section, .reviews-section, .blog-section, .contact-section { padding-inline: 16px; }
-  .section-header { min-height: auto; flex-direction: column; align-items: flex-start; gap: 20px; }
-  .section-header h2, .shop-section .section-header h2 { font-size: 28px; line-height: 38px; }
-  .section-header__copy > p:not(.section-eyebrow) { font-size: 14px; line-height: 23px; }
-  .services-section { padding-top: 32px; padding-bottom: 40px; }
-  .services-grid { grid-template-columns: 1fr; }
-  .service-card, .service-card:nth-child(n) { height: auto; min-height: 300px; padding: 24px; }
-  .ticket-section { padding-top: 40px; padding-bottom: 40px; }
-  .ticket-layout { min-height: 0; }
-  .ticket-search-panel { height: auto; min-height: 330px; padding: 22px 18px; }
-  .ticket-search-panel__intro { height: auto; align-items: flex-start; gap: 8px; }
-  .ticket-search-panel__intro span { text-align: right; }
-  .ticket-form__row { grid-template-columns: 1fr; gap: 10px; }
-  .ticket-verification-note { height: auto; min-height: 40px; }
-  .cabinet-promo { height: auto; min-height: 320px; padding: 22px 18px; }
-  .otp-panel { display: flex; flex-direction: column; align-items: flex-start; }
-  .otp-inputs { width: 100%; gap: 6px; }
-  .otp-inputs input { width: calc((100% - 30px) / 6); }
-  .otp-confirm { width: 100%; }
-  .ticket-result { padding: 20px 16px; }
-  .ticket-result__header { height: auto; align-items: flex-start; gap: 12px; }
-  .ticket-status-pill { min-width: 0; }
-  .ticket-result__body { grid-template-columns: 1fr; }
-  .milestones { grid-template-columns: repeat(4, 1fr); }
-  .milestones li { font-size: 10px; }
-  .shop-section { padding-top: 36px; }
-  .section-header__actions { width: 100%; }
-  .shop-header-actions, .blog-header-actions { width: 100%; justify-content: space-between; }
-  .shop-header-actions > a, .blog-header-actions > a { font-size: 12px; }
-  .products-grid {
-    min-height: 0;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: none;
-    grid-auto-rows: auto;
-    gap: 28px 10px;
-  }
-  .product-card__image { width: 145px; height: 145px; }
-  .product-card__copy { width: min(100%, 160px); }
-  .product-card__actions { gap: 6px; }
-  .compare-button { width: 38px; flex: 0 0 38px; }
-  .add-cart-button { min-width: 0; flex: 1; font-size: 11px; }
-  .reviews-header { align-items: flex-start; background: transparent; flex-direction: column; gap: 8px; }
-  .reviews-header h2, .contact-copy h2 { font-size: 28px; line-height: 38px; }
-  .reviews-header__actions { width: 100%; align-items: flex-end; justify-content: space-between; gap: 8px; }
-  .reviews-google-summary { min-width: 0; max-width: 230px; flex-wrap: wrap; gap: 3px 5px; }
-  .reviews-google-summary > small { width: 100%; }
-  .reviews-grid { grid-template-columns: 1fr; }
-  .review-card:nth-child(n+2) { display: none; }
-  .blog-section { height: auto; min-height: 0; padding-top: 36px; padding-bottom: 36px; }
-  .blog-section .section-header { flex-direction: column; }
-  .blog-grid { height: 376px; min-height: 376px; grid-template-columns: 1fr; }
-  .blog-header-actions > a { width: auto; }
-  .contact-section { padding-top: 40px; padding-bottom: 40px; }
-  .contact-details { max-width: none; }
-  .contact-map { height: 280px; }
-  .site-footer { padding: 40px 16px 24px; }
-  .site-footer__main { flex-direction: column; }
-  .site-footer__brand, .site-footer__navigation, .site-footer__social { width: 100%; }
-  .site-footer__brand p { width: 100%; }
-  .site-footer__navigation { height: auto; gap: 30px; }
-  .site-footer__column, .site-footer__column--services { flex: 1; width: auto; }
-  .site-footer__divider { margin-top: 30px; }
-  .site-footer__bottom { height: auto; flex-direction: column; align-items: flex-start; gap: 14px; }
-  .site-footer__legal { flex-direction: column; gap: 8px; }
-}
-
-@media (max-width: 430px) {
-  .products-grid { grid-template-columns: 1fr; }
-  .product-card { width: 220px; height: 318px; }
-  .product-card__image { width: 190px; height: 175px; }
-  .product-card__copy { width: 220px; }
 }
