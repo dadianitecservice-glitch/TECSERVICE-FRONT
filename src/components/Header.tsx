@@ -5,6 +5,8 @@ import { toGeorgianMtavruli } from '../utils/text'
 type HeaderProps = {
   isAuthenticated?: boolean
   userFirstName?: string
+  homePath?: '' | '/'
+  activeServicePath?: string
 }
 
 const primaryLinks = [
@@ -13,7 +15,7 @@ const primaryLinks = [
   { label: 'კონტაქტი', href: '#contact' },
 ] as const
 
-export function Header({ isAuthenticated = false, userFirstName }: HeaderProps) {
+export function Header({ isAuthenticated = false, userFirstName, homePath = '', activeServicePath }: HeaderProps) {
   const [isMenuOpen, setMenuOpen] = useState(false)
   const [isServicesOpen, setServicesOpen] = useState(false)
   const [isScrolled, setScrolled] = useState(false)
@@ -134,6 +136,7 @@ export function Header({ isAuthenticated = false, userFirstName }: HeaderProps) 
                   type="button"
                   aria-expanded={isServicesOpen}
                   aria-controls="site-services-dropdown"
+                  aria-current={activeServicePath ? 'true' : undefined}
                   onClick={() => setServicesOpen((current) => !current)}
                 >
                   <span>{toGeorgianMtavruli('სერვისები')}</span>
@@ -143,7 +146,7 @@ export function Header({ isAuthenticated = false, userFirstName }: HeaderProps) 
                 <div className="site-header__services-dropdown" id="site-services-dropdown">
                   <div className="site-header__services-grid">
                     {services.map((service) => (
-                      <a className="site-header__service-link" href={service.href} key={service.id} onClick={closeMenu}>
+                      <a className="site-header__service-link" href={service.href} key={service.id} onClick={closeMenu} aria-current={service.href === activeServicePath ? 'page' : undefined}>
                         <span className="site-header__service-icon">
                           <img src={service.icon} alt="" />
                         </span>
@@ -155,13 +158,13 @@ export function Header({ isAuthenticated = false, userFirstName }: HeaderProps) 
               </div>
 
               {primaryLinks.map((link) => (
-                <a className="site-header__nav-link" href={link.href} key={link.label} onClick={closeMenu}>
+                <a className="site-header__nav-link" href={`${homePath}${link.href}`} key={link.label} onClick={closeMenu}>
                   {toGeorgianMtavruli(link.label)}
                 </a>
               ))}
             </nav>
 
-            <a className="site-header__cabinet-action" href="#ticket" onClick={closeMenu}>
+            <a className="site-header__cabinet-action" href={`${homePath}#ticket`} onClick={closeMenu}>
               <img src="/assets/icons/user-blue.svg" alt="" />
               <span>{toGeorgianMtavruli(accountLabel)}</span>
             </a>

@@ -23,9 +23,10 @@ const socialLinks = [
   { label: 'YouTube', href: 'https://www.youtube.com/@techservicege', icon: '/assets/icons/youtube.svg' },
 ] as const
 
-export function Footer() {
+export function Footer({ homePath = '' }: { homePath?: string }) {
   const links = footerNavigation
   const label = toGeorgianMtavruli
+  const resolveHref = (href: string) => href.startsWith('#') ? `${homePath}${href}` : href
   return (
     <footer className="site-footer" data-figma-node="259:242">
       <div className="site-footer__main site-container">
@@ -43,7 +44,7 @@ export function Footer() {
               {links.map((link) => (
                 <li key={link.label}>
                   <a
-                    href={link.href}
+                    href={resolveHref(link.href)}
                     target={'external' in link && link.external ? '_blank' : undefined}
                     rel={'external' in link && link.external ? 'noreferrer' : undefined}
                   >
@@ -59,7 +60,7 @@ export function Footer() {
             <ul>
               {serviceNavigation.map((service) => (
                 <li key={service}>
-                  <a href="#services">{service}</a>
+                  <a href={resolveHref('#services')}>{service}</a>
                 </li>
               ))}
             </ul>

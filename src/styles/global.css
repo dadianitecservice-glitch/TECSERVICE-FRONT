@@ -604,23 +604,28 @@ ol {
 }
 
 .hero__trust {
+  position: relative;
+  top: 10px;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 25px;
   white-space: nowrap;
 }
 
 .trust-item {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  font-size: 11.5px;
-  line-height: 18px;
+  gap: 9px;
+  color: #455971;
+  font-size: 11px;
+  line-height: 1.65;
 }
 
-.trust-item img {
-  width: 17px;
-  height: 17px;
+.trust-item .lp-icon {
+  width: 23px;
+  height: 23px;
+  flex: 0 0 23px;
+  color: var(--brand-blue);
 }
 
 .ai-card-wrap {
@@ -2386,6 +2391,7 @@ ol {
   min-width: 0;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 1px;
 }
 
@@ -2398,9 +2404,9 @@ ol {
 .contact-detail__copy a,
 .contact-detail__copy > span {
   color: #102a43;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 18px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 20px;
 }
 
 .contact-detail__copy a:hover,
@@ -2594,6 +2600,14 @@ ol {
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.07);
+  transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.site-footer__social-list a:hover,
+.site-footer__social-list a:focus-visible {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.13);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.04);
 }
 
 .site-footer__social-list img {

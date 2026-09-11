@@ -7,8 +7,20 @@ import { ReviewsSection } from './sections/ReviewsSection'
 import { BlogSection } from './sections/BlogSection'
 import { ContactSection } from './sections/AboutSection'
 import { Footer } from './sections/Footer'
+import LaptopRepairPage from './pages/LaptopRepairPage'
+import { isLaptopRepairPath, laptopRepairPath } from './utils/routes'
 
-export default function App() {
+export default function App({ pathname = '/' }: { pathname?: string }) {
+  if (isLaptopRepairPath(pathname)) {
+    return (
+      <>
+        <Header homePath="/" activeServicePath={laptopRepairPath} />
+        <LaptopRepairPage />
+        <Footer homePath="/" />
+      </>
+    )
+  }
+
   return (
     <>
       <Header />

@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { toGeorgianMtavruli } from '../utils/text'
 import { assessDevice, type Assessment } from '../utils/assessment'
+import { LaptopIcon } from '../components/LaptopIcon'
 
 const devices = [
   { id: 'computers', label: 'კომპიუტერები', icon: '/assets/icons/device-computer.svg' },
@@ -67,12 +68,18 @@ export function Hero() {
           </button>
         </div>
         <div className="hero__trust" aria-label="სერვისის უპირატესობები">
-          {['პროფესიონალური დიაგნოსტიკა', 'რთული ელექტრონიკის შეკეთება', '2002 წლიდან'].map((item) => (
-            <div className="trust-item" key={item}>
-              <img src="/assets/icons/check-blue.svg" alt="" />
-              <span>{item}</span>
-            </div>
-          ))}
+          <div className="trust-item">
+            <LaptopIcon name="tool" />
+            <span>პროფესიონალური<br />დიაგნოსტიკა</span>
+          </div>
+          <div className="trust-item">
+            <LaptopIcon name="people" />
+            <span>სამუშაოს წინასწარი<br />შეთანხმება</span>
+          </div>
+          <div className="trust-item">
+            <LaptopIcon name="calendar" />
+            <span>2002 წლიდან</span>
+          </div>
         </div>
       </div>
 

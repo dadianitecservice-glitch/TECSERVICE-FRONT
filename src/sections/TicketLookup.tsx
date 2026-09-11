@@ -29,6 +29,11 @@ export function TicketLookup() {
 
   useEffect(() => () => cancelPendingLookup(), [])
 
+  useEffect(() => {
+    const requestedCode = new URLSearchParams(window.location.search).get('service-code')
+    if (requestedCode?.trim()) setValue(requestedCode.trim().slice(0, 64))
+  }, [])
+
   const selectMode = (nextMode: SearchMode) => {
     cancelPendingLookup()
     setMode(nextMode)
