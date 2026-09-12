@@ -1,0 +1,23 @@
+name: Export source artifact
+
+on:
+  push:
+    branches:
+      - automation/export-source
+  workflow_dispatch:
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Upload source
+        uses: actions/upload-artifact@v4
+        with:
+          name: tecservice-front-source
+          path: |
+            .
+            !.git
+          include-hidden-files: true
+          retention-days: 1
