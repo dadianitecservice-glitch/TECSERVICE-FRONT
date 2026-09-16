@@ -54,6 +54,8 @@
 .lp-hero__facts { display: flex; align-items: center; gap: 25px; margin-top: 29px; }
 .lp-hero__facts > span { display: flex; align-items: center; gap: 9px; color: #455971; font-size: 11px; line-height: 1.65; }
 .lp-hero__facts .lp-icon { color: var(--lp-blue); width: 23px; height: 23px; flex-basis: 23px; }
+.laptop-hero-facts > span > span,
+.computer-hero-facts > span > span { white-space: nowrap; }
 .lp-hero__visual { min-width: 0; display: grid; gap: 16px; }
 .lp-hero__photo { position: relative; height: 272px; overflow: hidden; border: 1px solid #d7e5ef; border-radius: 12px; background: #e1edf4; box-shadow: 0 3px 12px rgba(20, 52, 78, .06); }
 .lp-hero__photo > img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; }
@@ -166,6 +168,19 @@ body:has(.laptop-page) .site-header__service-link[aria-current='page'] { backgro
 .lp-ticket-result { margin-top: 14px; animation: lp-ticket-reveal 200ms ease-out both; }
 .lp-ticket-result .ticket-result { border-radius: 11px; box-shadow: 0 4px 12px rgba(31, 59, 87, .04); }
 
+/* Shared dark repair journey for the device-repair service pages. */
+:is(#laptop-page, .computer-page, #console-page, #drone-page, #mobile-tablet-page, #other-electronics-page) .lp-process { color: #fff; background: #102d49; border-bottom: 0; }
+:is(#laptop-page, .computer-page, #console-page, #drone-page, #mobile-tablet-page, #other-electronics-page) .lp-process .lp-section-heading h2,
+:is(#laptop-page, .computer-page, #console-page, #drone-page, #mobile-tablet-page, #other-electronics-page) .lp-process-steps h3 { color: #fff; }
+:is(#laptop-page, .computer-page, #console-page, #drone-page, #mobile-tablet-page, #other-electronics-page) .lp-process-steps > li:not(:last-child)::after { background: #3197df; }
+:is(#laptop-page, .computer-page, #console-page, #drone-page, #mobile-tablet-page, #other-electronics-page) .lp-process-number { background: #0d70bd; border-color: #dceffc; }
+:is(#laptop-page, .computer-page, #console-page, #drone-page, #mobile-tablet-page, #other-electronics-page) .lp-process-steps p { color: #c9d8e5; }
+:is(#laptop-page, .computer-page, #console-page, #drone-page, #mobile-tablet-page, #other-electronics-page) .lp-status-strip { border-color: #cfe2f1; background: #eaf5fd; }
+
+@media (min-width: 768px) {
+  :is(#laptop-page, .computer-page, #console-page, #drone-page, #mobile-tablet-page, #other-electronics-page) .lp-process-steps > li:not(:last-child)::after { height: 2px; }
+}
+
 /* Compact FAQ accordion. */
 .lp-faq { background: #fff; }
 .lp-faq .lp-section-heading, .lp-faq__list { width: min(100%, 1000px); margin-inline: auto; }
@@ -182,24 +197,6 @@ body:has(.laptop-page) .site-header__service-link[aria-current='page'] { backgro
 .lp-faq__answer { padding: 0 58px 17px 65px; background: #f5faff; }
 .lp-faq__answer p { max-width: 830px; color: var(--lp-muted); font-size: 12px; line-height: 1.8; }
 
-.lp-contact { padding-block: 46px; background: #f4f9fd; border-top: 1px solid #e1ecf4; }
-.lp-contact__card { display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(380px, .98fr); gap: 28px; padding: 26px; border: 1px solid #d9e7f2; border-radius: 14px; background: #fff; box-shadow: 0 5px 18px rgba(20, 52, 78, .045); }
-.lp-contact__copy { min-width: 0; padding: 5px 2px; }
-.lp-contact__copy h2 { max-width: 590px; margin: 7px 0 9px; font-size: 27px; line-height: 1.5; }
-.lp-contact__copy > p { max-width: 610px; color: var(--lp-muted); font-size: 13px; line-height: 1.85; }
-.lp-contact__actions { display: flex; flex-wrap: wrap; gap: 11px; margin-top: 20px; }
-.lp-contact__details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 21px; }
-.lp-contact__details > li { display: flex; align-items: center; gap: 10px; min-width: 0; min-height: 55px; padding: 8px 10px; border: 1px solid #e6eef5; border-radius: 8px; background: #fbfdff; }
-.lp-contact__details > li:last-child { grid-column: 1 / -1; }
-.lp-contact__details > li > img { width: 19px; height: 19px; flex: 0 0 19px; }
-.lp-contact__details > li > span { display: flex; flex-direction: column; justify-content: center; min-width: 0; }
-.lp-contact__details a, .lp-contact__details li > span > span { overflow-wrap: anywhere; color: #183a58; font-size: 12px; font-weight: 600; line-height: 1.65; }
-.lp-contact__details a:hover { color: var(--lp-blue); }
-.lp-contact__map { position: relative; min-width: 0; min-height: 330px; overflow: hidden; border: 1px solid #d2e0eb; border-radius: 11px; background: #e8f1f8; }
-.lp-contact__map iframe { display: block; width: 100%; height: 100%; min-height: 330px; border: 0; }
-.lp-contact__map > a { position: absolute; left: 14px; bottom: 14px; display: flex; flex-direction: column; min-width: 215px; max-width: calc(100% - 28px); padding: 9px 12px; border: 1px solid rgba(216, 229, 239, .92); border-radius: 8px; background: rgba(255, 255, 255, .95); box-shadow: 0 4px 12px rgba(28, 52, 75, .11); }
-.lp-contact__map strong { color: var(--lp-blue); font-size: 11px; line-height: 1.5; }
-.lp-contact__map small { color: #52697d; font-size: 10px; line-height: 1.6; }
 @keyframes lp-ticket-reveal { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes lp-fade-in { from { opacity: .5; } to { opacity: 1; } }
 
@@ -256,13 +253,13 @@ body:has(.laptop-page) .site-header__service-link[aria-current='page'] { backgro
   .lp-process-steps p { font-size: 10px; }
   .lp-status-strip { flex-direction: column; align-items: stretch; gap: 12px; }
   .lp-status-strip form { flex-basis: auto; }
-  .lp-contact__card { grid-template-columns: 1fr; }
-  .lp-contact__map, .lp-contact__map iframe { min-height: 300px; }
 }
 @media (max-width: 767px) {
   .lp-section-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; padding: 4px; margin-top: 17px; }
   .lp-section-nav a { flex-direction: column; justify-content: center; gap: 4px; min-width: 0; min-height: 56px; font-size: 11px; padding: 7px 2px; text-align: center; }
   .lp-section-nav a:last-child { grid-column: 1 / -1; }
+  .drone-page .lp-problems__grid { grid-template-columns: 1fr; }
+  .mobile-tablet-page .lp-problems__grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 600px) {
   .lp-section { padding-block: 28px; }
@@ -318,16 +315,207 @@ body:has(.laptop-page) .site-header__service-link[aria-current='page'] { backgro
   .lp-faq__number { width: 28px; height: 28px; }
   .lp-faq__question { font-size: 13px; }
   .lp-faq__answer { padding: 0 42px 15px 54px; }
-  .lp-contact { padding-block: 30px; }
-  .lp-contact__card { gap: 21px; padding: 18px 16px; }
-  .lp-contact__copy { padding: 0; }
-  .lp-contact__copy h2 { font-size: 23px; }
-  .lp-contact__copy > p { font-size: 12px; }
-  .lp-contact__actions { display: grid; grid-template-columns: 1fr; }
-  .lp-contact__actions .lp-button { width: 100%; min-height: 46px; }
-  .lp-contact__details { grid-template-columns: 1fr; }
-  .lp-contact__details > li:last-child { grid-column: auto; }
-  .lp-contact__map, .lp-contact__map iframe { min-height: 255px; }
+}
+
+/* Desktop-computer page additions: the laptop page remains the shared visual system. */
+.computer-page .lp-hero h1 { max-width: 610px; font-size: clamp(32px, 2.45vw, 38px); }
+.computer-page .lp-hero__photo > img { object-position: 50% 48%; }
+.computer-page .lp-hero__detail--board img { object-position: 50% 52%; }
+.computer-page .lp-hero__detail--upgrade img { object-position: 50% 48%; }
+.computer-page .lp-section-nav { grid-template-columns: repeat(6, max-content); column-gap: clamp(22px, 3.1vw, 48px); }
+.computer-page .lp-problem-panel__main { grid-template-columns: minmax(0, 1.45fr) minmax(285px, 1fr); }
+.computer-page .lp-problem-panel__photo { aspect-ratio: 4 / 3; align-self: start; }
+.computer-page .pc-problem-photo--power { --lp-photo-position: 57% 50%; }
+.computer-page .pc-problem-photo--display { --lp-photo-position: 56% 50%; }
+.computer-page .pc-problem-photo--restarts { --lp-photo-position: 62% 50%; }
+.computer-page .pc-problem-photo--heat { --lp-photo-position: 58% 50%; }
+.computer-page .pc-problem-photo--slow { --lp-photo-position: 61% 50%; }
+.computer-page .pc-problem-photo--boot { --lp-photo-position: 60% 50%; }
+.computer-page .pc-problem-photo--gpu { --lp-photo-position: 45% 50%; }
+.computer-page .pc-problem-photo--memory { --lp-photo-position: 55% 50%; }
+
+/* Console-repair page additions: keep the established service-page proportions. */
+.console-page .lp-hero h1 { max-width: 610px; }
+.console-page .lp-hero__photo > img { object-position: 50% 51%; }
+.console-page .lp-hero__detail--ps5 img { object-position: 50% 50%; }
+.console-page .lp-hero__detail--xbox img { object-position: 50% 50%; }
+.console-page .lp-problem-panel__main { grid-template-columns: minmax(0, 1.45fr) minmax(285px, 1fr); }
+.console-page .lp-problem-panel__photo { aspect-ratio: 4 / 3; align-self: start; }
+.console-page .console-problem-photo--hdmi { --lp-photo-position: 50% 50%; }
+.console-page .console-problem-photo--heat { --lp-photo-position: 50% 50%; }
+.console-page .console-problem-photo--power { --lp-photo-position: 50% 50%; }
+.console-page .console-problem-photo--disc { --lp-photo-position: 50% 50%; }
+.console-page .console-problem-photo--stick-drift { --lp-photo-position: 50% 50%; }
+.console-page .console-problem-photo--connectivity { --lp-photo-position: 50% 50%; }
+.console-page .console-problem-photo--storage { --lp-photo-position: 50% 50%; }
+.console-page .console-problem-photo--liquid { --lp-photo-position: 50% 50%; }
+.console-page .console-problem-photo--safe-mode { --lp-photo-position: 50% 50%; }
+.console-page .console-problem-photo--cleaning { --lp-photo-position: 50% 50%; }
+
+/* Drone Flight Lab uses the same responsive service-page system. */
+.drone-page .lp-hero h1 { max-width: 620px; font-size: clamp(31px, 2.45vw, 38px); }
+.drone-hero-facts > span > span { white-space: nowrap; }
+.drone-page .lp-hero__photo > img { object-position: 50% 52%; }
+.drone-page .lp-hero__detail--drone-gimbal img { object-position: 50% 50%; }
+.drone-page .lp-hero__detail--drone-fpv img { object-position: 50% 50%; }
+.drone-page .lp-problem-panel__main { grid-template-columns: minmax(0, 1.45fr) minmax(285px, 1fr); }
+.drone-page .lp-problem-panel__photo { aspect-ratio: 4 / 3; align-self: start; }
+.drone-page .drone-problem-photo--power { --lp-photo-position: 50% 50%; }
+.drone-page .drone-problem-photo--crash-gimbal { --lp-photo-position: 50% 50%; }
+.drone-page .drone-problem-photo--camera { --lp-photo-position: 50% 50%; }
+.drone-page .drone-problem-photo--motor-esc { --lp-photo-position: 50% 50%; }
+.drone-page .drone-problem-photo--app-connection { --lp-photo-position: 50% 50%; }
+.drone-page .drone-problem-photo--sensors { --lp-photo-position: 50% 50%; }
+.drone-page .drone-problem-photo--firmware { --lp-photo-position: 50% 50%; }
+.drone-page .drone-problem-photo--battery { --lp-photo-position: 50% 50%; }
+.drone-page .drone-problem-photo--water { --lp-photo-position: 50% 50%; }
+.drone-page .drone-problem-photo--fpv { --lp-photo-position: 50% 50%; }
+.drone-status-helper { margin-top: 10px; color: #b9ccdc; font-size: 10px; line-height: 1.7; }
+
+/* Mobile and tablet repair follows the shared service-page visual system. */
+.mobile-tablet-page .lp-hero { background: #f4f9fd; }
+.mobile-tablet-page .lp-hero h1 { max-width: 620px; font-size: clamp(31px, 2.45vw, 38px); }
+.mobile-tablet-page .lp-hero__photo > img { object-position: 50% 50%; }
+.mobile-tablet-page .lp-hero__detail--mobile-connectors img { object-position: 50% 50%; }
+.mobile-tablet-page .lp-hero__detail--mobile-screen img { object-position: 50% 50%; }
+.mobile-tablet-page .lp-problem-panel__main { grid-template-columns: minmax(0, 1.45fr) minmax(285px, 1fr); }
+.mobile-tablet-page .lp-problem-panel__photo { aspect-ratio: 4 / 3; align-self: start; }
+.mobile-tablet-page .mobile-tablet-hero-facts { gap: 23px; }
+.mobile-tablet-page .mobile-tablet-hero-facts > span { min-width: 136px; }
+.mobile-tablet-page .mobile-tablet-hero-facts > span > span { white-space: nowrap; }
+.mobile-tablet-page .mobile-tablet-problem-photo--power { --lp-photo-position: 50% 50%; }
+.mobile-tablet-page .mobile-tablet-problem-photo--screen-touch { --lp-photo-position: 50% 50%; }
+.mobile-tablet-page .mobile-tablet-problem-photo--battery { --lp-photo-position: 50% 50%; }
+.mobile-tablet-page .mobile-tablet-problem-photo--charging-port { --lp-photo-position: 50% 50%; }
+.mobile-tablet-page .mobile-tablet-problem-photo--heat { --lp-photo-position: 50% 50%; }
+.mobile-tablet-page .mobile-tablet-problem-photo--camera { --lp-photo-position: 50% 50%; }
+.mobile-tablet-page .mobile-tablet-problem-photo--sound { --lp-photo-position: 50% 50%; }
+.mobile-tablet-page .mobile-tablet-problem-photo--liquid { --lp-photo-position: 50% 50%; }
+.mobile-tablet-page .mobile-tablet-problem-photo--software { --lp-photo-position: 50% 50%; }
+.mobile-tablet-page .mobile-tablet-problem-photo--board { --lp-photo-position: 50% 50%; }
+
+/* Other electronics keeps the dedicated Figma layout with a shared three-photo service Hero. */
+.other-electronics-page .lp-hero h1 { max-width: 640px; font-size: clamp(30px, 2.35vw, 36px); }
+.other-electronics-page .lp-hero__description { max-width: 540px; }
+.other-electronics-hero-facts { gap: 22px; }
+.other-electronics-hero-facts > span { min-width: 132px; }
+.other-electronics-hero-facts > span > span { white-space: nowrap; }
+.other-electronics-hero-visual { align-self: stretch; }
+.other-electronics-page .lp-problems__grid { grid-template-columns: 300px minmax(0, 1fr); }
+.other-electronics-page .lp-problem-tabs button { min-height: 48px; }
+.other-electronics-page .lp-problem-panel__main { grid-template-columns: minmax(0, 1.55fr) minmax(285px, 1fr); }
+.other-electronics-page .lp-problem-panel__photo { aspect-ratio: 4 / 3; align-self: start; }
+.other-electronics-status-helper { margin-top: 10px; color: #71859a; font-size: 10px; line-height: 1.7; }
+
+@media (max-width: 1199px) {
+  .other-electronics-page .lp-problems__grid { grid-template-columns: 260px minmax(0, 1fr); }
+  .other-electronics-page .lp-problem-panel__main { grid-template-columns: minmax(0, 1.5fr) minmax(230px, 1fr); }
+  .other-electronics-hero-facts { gap: 14px; }
+  .other-electronics-hero-facts > span { min-width: 120px; }
+}
+
+@media (max-width: 900px) {
+  .other-electronics-page .lp-problems__grid { grid-template-columns: 1fr; }
+  .other-electronics-page .lp-problem-panel__main { display: flex; flex-direction: column; }
+  .other-electronics-page .lp-problem-panel__photo { aspect-ratio: 16 / 7; align-self: stretch; }
+}
+
+@media (max-width: 767px) {
+  .other-electronics-page .lp-hero h1 { font-size: 27px; }
+  .other-electronics-hero-facts > span { min-width: 0; }
+  .other-electronics-hero-facts > span > span { white-space: normal; }
+  .other-electronics-page .lp-problem-panel__photo { aspect-ratio: 16 / 9; }
+}
+.mobile-tablet-status-helper { margin-top: 10px; color: #b9ccdc; font-size: 10px; line-height: 1.7; }
+
+.pc-build { padding-block: 34px; background: linear-gradient(180deg, #f3f8fc 0%, #f8fbfe 100%); border-block: 1px solid #dfebf4; }
+.pc-build__heading { display: grid; grid-template-columns: minmax(0, .9fr) minmax(420px, 1.1fr); align-items: end; gap: 36px; }
+.pc-build__heading h2 { margin-top: 8px; }
+.pc-build__heading > p { color: var(--lp-muted); font-size: 13px; line-height: 1.8; }
+.pc-build__profiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 18px; }
+.pc-build__profiles article { display: flex; align-items: center; min-width: 0; gap: 11px; min-height: 70px; padding: 10px 13px; border: 1px solid #dce9f3; border-radius: 9px; background: #fff; transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease; }
+.pc-build__profiles article:hover { border-color: #9fc6e5; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(23, 68, 103, .07); }
+.pc-build__profiles article > span { display: grid; place-items: center; width: 39px; height: 39px; flex: 0 0 39px; color: var(--lp-blue); border-radius: 8px; background: #eaf5fd; }
+.pc-build__profiles .lp-icon { width: 20px; height: 20px; }
+.pc-build__profiles h3 { font-size: 12px; line-height: 1.55; }
+.pc-build__profiles p { margin-top: 3px; color: #6b7e91; font-size: 10px; line-height: 1.55; }
+.pc-build__card { display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr); gap: 25px; padding: 20px; border: 1px solid #d8e7f2; border-radius: 13px; background: #fff; box-shadow: 0 5px 18px rgba(20, 52, 78, .045); }
+.pc-build__photo { position: relative; min-height: 390px; overflow: hidden; border-radius: 9px; background: #e5eef5; }
+.pc-build__photo img { width: 100%; height: 100%; object-fit: cover; object-position: 54% 50%; }
+.pc-build__photo figcaption { position: absolute; left: 13px; bottom: 13px; display: inline-flex; align-items: center; gap: 7px; padding: 6px 9px; color: #24435b; border: 1px solid rgba(255,255,255,.65); border-radius: 6px; background: rgba(255,255,255,.94); font-size: 10px; box-shadow: 0 2px 8px rgba(20,52,78,.1); }
+.pc-build__photo figcaption .lp-icon { width: 14px; height: 14px; color: var(--lp-blue); }
+.pc-build__content { min-width: 0; padding: 5px 3px 3px; }
+.pc-build__content > h3 { margin: 6px 0 15px; font-size: 23px; line-height: 1.5; }
+.pc-build__includes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px 15px; }
+.pc-build__includes li { display: flex; align-items: flex-start; gap: 7px; color: #49627a; font-size: 11px; line-height: 1.6; }
+.pc-build__includes .lp-icon { width: 15px; height: 15px; flex: 0 0 15px; margin-top: 1px; padding: 3px; color: #fff; border-radius: 50%; background: var(--lp-blue); stroke-width: 2.2; }
+.pc-build__parts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 17px; }
+.pc-build__parts span { padding: 5px 8px; color: #386381; border: 1px solid #dceaf4; border-radius: 999px; background: #f3f8fc; font-size: 10px; line-height: 1.4; }
+.pc-build__prices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; margin-top: 17px; }
+.pc-build__prices > div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3px 9px; padding: 10px 11px; border: 1px solid #deebf5; border-radius: 8px; background: #fbfdff; }
+.pc-build__prices span { grid-column: 1 / -1; color: #445d73; font-size: 10px; line-height: 1.5; }
+.pc-build__prices strong { color: var(--lp-blue); font-size: 13px; }
+.pc-build__prices small { color: #6b7e91; font-size: 9px; text-align: right; }
+.pc-build__note { display: flex; align-items: flex-start; gap: 7px; margin-top: 13px; padding: 9px 10px; color: #526d84; border-radius: 7px; background: #edf6fc; font-size: 10px; line-height: 1.6; }
+.pc-build__note .lp-icon { width: 16px; height: 16px; flex: 0 0 16px; margin-top: 1px; color: var(--lp-blue); }
+.pc-build__actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 15px; }
+.pc-build__actions .lp-button { min-height: 43px; padding-inline: 14px; font-size: 11px; }
+
+@media (max-width: 1199px) {
+  .computer-page .lp-section-nav { column-gap: 20px; }
+  .computer-page .lp-section-nav a { padding-inline: 3px; font-size: 10px; }
+  .computer-page .lp-problem-panel__main { grid-template-columns: minmax(0, 1.35fr) minmax(240px, 1fr); }
+  .console-page .lp-problem-panel__main { grid-template-columns: minmax(0, 1.35fr) minmax(240px, 1fr); }
+  .drone-page .lp-problem-panel__main { grid-template-columns: minmax(0, 1.35fr) minmax(240px, 1fr); }
+  .mobile-tablet-page .lp-problem-panel__main { grid-template-columns: minmax(0, 1.35fr) minmax(240px, 1fr); }
+  .pc-build__heading { grid-template-columns: minmax(0, .9fr) minmax(340px, 1.1fr); gap: 25px; }
+  .pc-build__card { gap: 18px; }
+  .pc-build__photo { min-height: 380px; }
+  .pc-build__content > h3 { font-size: 20px; }
+  .pc-build__includes { grid-template-columns: 1fr; gap: 7px; }
+}
+@media (max-width: 900px) {
+  .computer-page .lp-section-nav { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; padding: 4px; }
+  .computer-page .lp-section-nav a { min-height: 50px; font-size: 10px; padding: 6px 3px; }
+  .computer-page .lp-section-nav a:last-child { grid-column: auto; }
+  .computer-page .lp-problem-panel__main { display: flex; }
+  .computer-page .lp-problem-panel__photo { aspect-ratio: 16 / 7; align-self: stretch; }
+  .console-page .lp-problem-panel__main { display: flex; }
+  .console-page .lp-problem-panel__photo { aspect-ratio: 16 / 7; align-self: stretch; }
+  .drone-page .lp-problem-panel__main { display: flex; }
+  .drone-page .lp-problem-panel__photo { aspect-ratio: 16 / 7; align-self: stretch; }
+  .mobile-tablet-page .lp-problem-panel__main { display: flex; }
+  .mobile-tablet-page .lp-problem-panel__photo { aspect-ratio: 16 / 7; align-self: stretch; }
+  .pc-build__heading { grid-template-columns: 1fr; gap: 6px; }
+  .pc-build__heading > p { max-width: 680px; }
+  .pc-build__profiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pc-build__card { grid-template-columns: 1fr; }
+  .pc-build__photo { min-height: 0; aspect-ratio: 16 / 8; }
+  .pc-build__includes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .drone-hero-facts > span > span { white-space: normal; }
+  .computer-page .lp-hero h1 { font-size: 30px; }
+  .computer-page .lp-section-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .computer-page .lp-section-nav a { flex-direction: column; min-height: 59px; }
+  .computer-page .lp-section-nav a:last-child { grid-column: auto; }
+  .computer-page .lp-problem-panel__photo { aspect-ratio: 16 / 9; }
+  .console-page .lp-hero h1 { font-size: 30px; }
+  .console-page .lp-problem-panel__photo { aspect-ratio: 16 / 9; }
+  .drone-page .lp-hero h1 { font-size: 28px; }
+  .drone-page .lp-problem-panel__photo { aspect-ratio: 16 / 9; }
+  .mobile-tablet-page .lp-hero h1 { font-size: 28px; }
+  .mobile-tablet-page .lp-problem-panel__photo { aspect-ratio: 16 / 9; }
+  .pc-build__profiles { gap: 8px; }
+  .pc-build__profiles article { align-items: flex-start; min-height: 100px; padding: 11px 10px; }
+  .pc-build__profiles article > span { width: 34px; height: 34px; flex-basis: 34px; }
+  .pc-build__card { gap: 17px; padding: 14px; }
+  .pc-build__photo { aspect-ratio: 4 / 3; }
+  .pc-build__content > h3 { font-size: 19px; }
+  .pc-build__includes { grid-template-columns: 1fr; }
+  .pc-build__prices { grid-template-columns: 1fr; }
+  .pc-build__actions { display: grid; grid-template-columns: 1fr; }
+  .pc-build__actions .lp-button { width: 100%; white-space: normal; text-align: center; }
 }
 @media (prefers-reduced-motion: reduce) {
   .laptop-page *, .laptop-page *::before, .laptop-page *::after { animation: none !important; transition: none !important; }

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { SectionHeader } from '../components/SectionHeader'
 import { TicketResult } from '../components/TicketResult'
 import { OtpVerification } from '../components/OtpVerification'
-import { DEMO_OTP, findTicketByCode, tickets } from '../data/tickets'
+import { DEMO_OTP, DEMO_TICKET_CODE, demoTicket, findTicketByCode, type Ticket } from '../data/tickets'
 import { toGeorgianMtavruli } from '../utils/text'
 import { normalizeGeorgianMobile } from '../utils/validation'
 import { useResponsiveHome } from '../hooks/useResponsiveHome'
@@ -16,6 +16,7 @@ export function TicketLookup() {
   const [mode, setMode] = useState<SearchMode>('code')
   const [value, setValue] = useState('')
   const [state, setState] = useState<SearchState>('default')
+  const [foundTicket, setFoundTicket] = useState<Ticket | null>(null)
   const [errorMessage, setErrorMessage] = useState('')
   const pendingLookup = useRef<number | null>(null)
   const queryInputRef = useRef<HTMLInputElement>(null)
@@ -39,6 +40,7 @@ export function TicketLookup() {
     setMode(nextMode)
     setValue('')
     setErrorMessage('')
+    setFoundTicket(null)
     setState('default')
   }
 
@@ -68,7 +70,9 @@ export function TicketLookup() {
       if (mode === 'phone') {
         setState('otp')
       } else {
-        setState(findTicketByCode(value) ? 'found' : 'not-found')
+        const ticket = findTicketByCode(value)
+        setFoundTicket(ticket ?? null)
+        setState(ticket ? 'found' : 'not-found')
       }
     }, 650)
   }
@@ -76,6 +80,7 @@ export function TicketLookup() {
   const confirmOtp = (code: string) => {
     if (code === DEMO_OTP) {
       setErrorMessage('')
+      setFoundTicket(demoTicket)
       setState('found')
     } else {
       setErrorMessage(code.length === 6 ? 'კოდი არასწორია. სცადეთ ხელახლა.' : 'შეიყვანეთ ექვსივე ციფრი.')
@@ -120,9 +125,10 @@ export function TicketLookup() {
                       cancelPendingLookup()
                       setValue(event.target.value)
                       setErrorMessage('')
+                      setFoundTicket(null)
                       setState('default')
                     }}
-                    placeholder={mode === 'code' ? '#1000' : '+995 5XX XX XX XX'}
+                    placeholder={mode === 'code' ? DEMO_TICKET_CODE : '+995 5XX XX XX XX'}
                     inputMode={mode === 'phone' ? 'tel' : 'text'}
                   />
                   <button className="ticket-search-button" type="submit" disabled={state === 'loading'}>
@@ -130,7 +136,7 @@ export function TicketLookup() {
                     {label(state === 'loading' ? 'იძებნება...' : 'ძიება')}
                   </button>
                 </div>
-                <p id="ticket-query-help">{mode === 'code' ? 'კოდი მითითებულია სერვისის მიღების დოკუმენტზე.' : 'დემო რეჟიმი — რეალური SMS არ იგზავნება.'}</p>
+                <p id="ticket-query-help">{mode === 'code' ? `კოდი მითითებულია სერვისის მიღების დოკუმენტზე. დემო კოდი: ${DEMO_TICKET_CODE}.` : 'დემო რეჟიმი — რეალური SMS არ იგზავნება.'}</p>
               </form>
               <div className="ticket-verification-note">
                 <img src="/assets/icons/shield.svg" alt="" />
@@ -146,14 +152,14 @@ export function TicketLookup() {
           <span className="cabinet-promo__icon"><img src="/assets/icons/user-blue.svg" alt="" /></span>
           <h3 className="display-title">{label('ხშირად სარგებლობთ ჩვენი სერვისებით?')}</h3>
           <p>კაბინეტში მარტივად ნახავთ აქტიურ სერვისებს, მომსახურების ისტორიას, შეტყობინებებსა და შეთავაზებებს.</p>
-          <button type="button" onClick={() => { window.location.href = '/cabinet' }}>
+          <button type="button" disabled title="მომხმარებლის კაბინეტი მალე დაემატება">
             <img src="/assets/icons/user-header.svg" alt="" />
             <span>{label('კაბინეტში შესვლა')}</span>
           </button>
-          <a href="/cabinet#register">{label('დარეგისტრირდი')} →</a>
+          <span className="cabinet-promo__status">{label('კაბინეტი მზადდება')}</span>
         </aside>
       </div>
-      {state === 'found' ? <TicketResult ticket={tickets[0]} /> : null}
+      {state === 'found' && foundTicket ? <TicketResult ticket={foundTicket} /> : null}
     </section>
   )
 }

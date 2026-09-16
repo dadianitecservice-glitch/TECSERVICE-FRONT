@@ -1,0 +1,409 @@
+.data-recovery-page .lp-hero {
+  background: #edf4fb;
+}
+
+.data-recovery-page .lp-hero h1 {
+  max-width: 590px;
+  font-size: clamp(31px, 2.4vw, 34px);
+  line-height: 1.46;
+}
+
+.data-recovery-page .lp-hero__photo > img {
+  object-position: 50% 48%;
+}
+
+.data-recovery-page .lp-hero__detail--usb img {
+  object-fit: cover;
+  object-position: 50% 54%;
+}
+
+.data-recovery-page .lp-hero__detail--upgrade img {
+  object-fit: cover;
+  object-position: 50% 46%;
+}
+
+.dr-hero-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 24px;
+  width: 100%;
+  max-width: 530px;
+}
+
+.dr-hero-facts > span {
+  min-width: 0;
+}
+
+.dr-hero-facts > span > span {
+  overflow-wrap: anywhere;
+}
+
+.data-recovery-page .dr-section-nav {
+  grid-template-columns: repeat(5, max-content);
+}
+
+.data-recovery-page .lp-problems__grid {
+  grid-template-columns: 300px minmax(0, 1fr);
+}
+
+.data-recovery-page .lp-problem-tabs button {
+  min-height: 47px;
+  gap: 12px;
+  padding: 9px 14px;
+}
+
+.data-recovery-page .lp-problem-panel {
+  background: #f9fcff;
+}
+
+.data-recovery-page .lp-problem-panel__main {
+  grid-template-columns: minmax(0, 1fr) 326px;
+  gap: 42px;
+}
+
+.data-recovery-page .lp-problem-panel__photo {
+  width: 326px;
+  max-width: 100%;
+  aspect-ratio: 4 / 3;
+  align-self: start;
+}
+
+.data-recovery-page .lp-problem-panel__photo img {
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+.data-recovery-page .lp-whatsapp-link {
+  max-width: 100%;
+}
+
+.data-recovery-page .lp-process {
+  min-height: 520px;
+  color: #e8f2fb;
+  border-bottom: 0;
+  background: #0e253c;
+  padding-top: 34px;
+  padding-bottom: 42px;
+}
+
+.data-recovery-page .lp-process .lp-section-heading h2,
+.data-recovery-page .lp-process-steps h3 {
+  color: #e8f2fb;
+}
+
+.data-recovery-page .lp-process-steps > li:not(:last-child)::after {
+  height: 2px;
+  background: #4dadf0;
+}
+
+.data-recovery-page .lp-process-number {
+  color: #e8f2fb;
+  border-color: #dceffc;
+  background: #0d70bd;
+}
+
+.data-recovery-page .lp-process-steps p {
+  color: #c9d8e5;
+}
+
+.data-recovery-page .lp-status-strip {
+  border-color: #cfe2f1;
+  background: #eaf5fd;
+}
+
+.dr-status-helper {
+  margin-top: 13px;
+  color: #b7cad9;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.data-recovery-page .lp-pricing {
+  background: #f7fbfd;
+}
+
+.data-recovery-page .lp-price-table__head,
+.data-recovery-page .lp-price-row {
+  grid-template-columns: minmax(0, 1.8fr) minmax(190px, .52fr) minmax(210px, .55fr);
+}
+
+.data-recovery-page .lp-price-row {
+  min-height: 57px;
+}
+
+.data-recovery-page .lp-price-table__head {
+  color: #36536b;
+  background: #edf5fb;
+}
+
+.data-recovery-page .lp-price-entry:nth-child(even) .lp-price-row {
+  background: #fbfdff;
+}
+
+.data-recovery-page .lp-faq .lp-section-heading {
+  width: 100%;
+}
+
+.dr-contact {
+  padding-block: 46px;
+  scroll-margin-top: 16px;
+  background: #f4f9fd;
+}
+
+.dr-contact__card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(470px, .97fr);
+  gap: 30px;
+  min-height: 528px;
+  padding: 25px;
+  border: 1px solid #d9e7f2;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.dr-contact__copy {
+  min-width: 0;
+  padding-top: 1px;
+}
+
+.dr-contact__copy h2 {
+  max-width: 650px;
+  margin: 9px 0 11px;
+  color: #14243a;
+  font-size: 27px;
+  font-weight: 700;
+  line-height: 1.52;
+}
+
+.dr-contact__copy > p {
+  max-width: 625px;
+  color: #5c6d7e;
+  font-size: 13px;
+  line-height: 1.85;
+}
+
+.dr-contact__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.dr-contact__details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 33px;
+}
+
+.dr-contact__details > * {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  column-gap: 11px;
+  min-width: 0;
+  min-height: 56px;
+  padding: 7px 10px;
+  color: #183a58;
+  border: 1px solid #e6eef5;
+  border-radius: 8px;
+  background: #fbfdff;
+}
+
+.dr-contact__details > :last-child {
+  grid-column: 1 / -1;
+}
+
+.dr-contact__details > * > span {
+  display: grid;
+  grid-row: 1 / 3;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  align-self: center;
+  color: #0864b5;
+  border: 1px solid #dce8f2;
+  border-radius: 7px;
+  background: #e8f3fc;
+}
+
+.dr-contact__details .lp-icon,
+.dr-contact__details img {
+  width: 16px;
+  height: 16px;
+}
+
+.dr-contact__details small {
+  color: #71859a;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.dr-contact__details strong {
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.dr-contact__map {
+  position: relative;
+  min-height: 476px;
+  overflow: hidden;
+  border: 1px solid #d2e0eb;
+  border-radius: 11px;
+  background: #e9f0f6;
+}
+
+.dr-contact__map iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 476px;
+  border: 0;
+}
+
+.dr-contact__map > a {
+  position: absolute;
+  left: 17px;
+  bottom: 23px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 220px;
+  padding: 8px 13px;
+  color: #52697d;
+  border: 1px solid #d8e5ef;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .96);
+  box-shadow: 0 3px 12px rgba(20, 52, 78, .08);
+}
+
+.dr-contact__map > a strong {
+  color: #0864b5;
+  font-size: 11px;
+}
+
+.dr-contact__map > a small {
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+@media (max-width: 1199px) {
+  .data-recovery-page .lp-process {
+    min-height: 0;
+  }
+
+  .data-recovery-page .lp-problem-panel__main {
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 300px);
+    gap: 18px;
+  }
+
+  .data-recovery-page .lp-problem-panel__photo {
+    width: 100%;
+  }
+
+  .dr-contact__card {
+    grid-template-columns: minmax(0, 1fr) minmax(410px, .9fr);
+    gap: 22px;
+  }
+}
+
+@media (max-width: 900px) {
+  .data-recovery-page .lp-problems__grid {
+    grid-template-columns: 220px minmax(0, 1fr);
+  }
+
+  .data-recovery-page .lp-problem-panel__main {
+    display: flex;
+  }
+
+  .data-recovery-page .lp-problem-panel__photo {
+    aspect-ratio: 16 / 7;
+  }
+
+  .data-recovery-page .dr-section-nav {
+    column-gap: 24px;
+  }
+
+  .dr-contact__card {
+    grid-template-columns: 1fr;
+  }
+
+  .dr-contact__map,
+  .dr-contact__map iframe {
+    min-height: 360px;
+  }
+}
+
+@media (max-width: 767px) {
+  .data-recovery-page .dr-section-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .data-recovery-page .dr-section-nav a:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 600px) {
+  .data-recovery-page .lp-hero h1 {
+    font-size: 29px;
+  }
+
+  .data-recovery-page .lp-problems__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .data-recovery-page .lp-problem-panel__photo {
+    aspect-ratio: 16 / 9;
+  }
+
+  .data-recovery-page .lp-price-table__head {
+    display: none;
+  }
+
+  .data-recovery-page .lp-price-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .data-recovery-page .lp-process-steps > li:not(:last-child)::after {
+    width: 1px;
+  }
+
+  .dr-contact {
+    padding-block: 28px;
+  }
+
+  .dr-contact__card {
+    gap: 20px;
+    padding: 16px;
+  }
+
+  .dr-contact__copy h2 {
+    font-size: 23px;
+  }
+
+  .dr-contact__actions,
+  .dr-contact__details {
+    grid-template-columns: 1fr;
+  }
+
+  .dr-contact__actions {
+    display: grid;
+  }
+
+  .dr-contact__actions .lp-button {
+    width: 100%;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .dr-contact__details > :last-child {
+    grid-column: auto;
+  }
+
+  .dr-contact__map,
+  .dr-contact__map iframe {
+    min-height: 300px;
+  }
+}

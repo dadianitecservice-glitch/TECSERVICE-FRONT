@@ -10,7 +10,7 @@ const root = new URL('../', import.meta.url)
 test('laptop route accepts direct and slash URLs without taking over Home or other services', () => {
   assert.equal(isLaptopRepairPath('/services/laptop-repair'), true)
   assert.equal(isLaptopRepairPath('/services/laptop-repair/'), true)
-  for (const pathname of ['/', '/services/computer-repair', '/services/laptop-repair/article']) {
+  for (const pathname of ['/', '/services/computers', '/services/laptop-repair/article']) {
     assert.equal(isLaptopRepairPath(pathname), false)
     assert.equal(getRouteMetadata(pathname), null)
   }
@@ -26,7 +26,7 @@ test('static laptop route serves its own HTML and preview metadata on a direct r
   assert.ok(built.includes(`<meta property="og:url" content="${metadata.canonical}" />`))
   assert.equal((built.match(/<h1\b/g) ?? []).length, 1)
   assert.equal((built.match(/<main\b/g) ?? []).length, 1)
-  assert.doesNotMatch(built, /<div id="root"><\/div>|id="hero-title"|id="shop"|id="blog"|application\/ld\+json/)
+  assert.doesNotMatch(built, /<div id="root"><\/div>|id="hero-title"|id="shop"|id="blog"/)
   assert.match(built, /<footer\b/)
   const scriptPath = built.match(/<script type="module"[^>]*src="([^"]+)"/)[1]
   assert.ok(scriptPath.startsWith('/assets/'), 'Nested route assets must resolve from the site root')
@@ -37,7 +37,7 @@ test('laptop Header links reach Home sections and mark the current service', asy
   const built = await readFile(new URL('dist/services/laptop-repair/index.html', root), 'utf8')
   const header = built.match(/<header\b[\s\S]*?<\/header>/)[0]
   for (const target of ['/#blog', '/#contact', '/#ticket']) assert.ok(header.includes(`href="${target}"`))
-  assert.match(header, /href="\/services\/laptop-repair"[^>]*aria-current="page"/)
+  assert.match(header, /href="\/services\/laptop-repair\/"[^>]*aria-current="page"/)
   assert.doesNotMatch(header, /href="#(?:blog|contact|ticket)"/)
 })
 
@@ -73,9 +73,12 @@ test('laptop preview keeps the problem selector and completes the page without d
   const main = built.match(/<main\b[\s\S]*?<\/main>/)[0]
   const sectionTitles = [...main.matchAll(/<section\b[^>]*aria-labelledby="([^"]+)"/g)].map(match => match[1])
   assert.deepEqual(sectionTitles, [
-    'laptop-title', 'laptop-problems-title', 'laptop-prices-title', 'laptop-process-title',
+    'laptop-title', 'laptop-problems-title', 'laptop-process-title', 'laptop-prices-title',
     'laptop-faq-title', 'laptop-contact-title',
   ])
+  for (const label of ['მიღება', 'დიაგნოსტიკა', 'შეთანხმება', 'შეკეთება', 'ტესტირება / ჩაბარება']) {
+    assert.match(main, new RegExp(`>${toGeorgianMtavruli(label)}<`))
+  }
   assert.doesNotMatch(main, /laptop-services|lp-service-list|lp-featured-service/)
   assert.equal((main.match(/role="tab"/g) ?? []).length, 10)
   for (const id of ['boot', 'hinges', 'ports']) assert.ok(main.includes(`id="problem-tab-${id}"`))
@@ -87,7 +90,7 @@ test('laptop preview keeps the problem selector and completes the page without d
   assert.match(main, /class="lp-ticket-lookup" id="laptop-status"/)
 })
 
-test('laptop completion includes visible FAQ, direct contact actions, map and routed Footer links', async () => {
+test('laptop completion includes visible FAQ, the shared simple contact layout, map and routed Footer links', async () => {
   const built = await readFile(new URL('dist/services/laptop-repair/index.html', root), 'utf8')
   const faq = built.match(/<section\b[^>]*id="laptop-faq"[\s\S]*?<\/section>/)?.[0]
   const contact = built.match(/<section\b[^>]*id="laptop-contact"[\s\S]*?<\/section>/)?.[0]
@@ -98,11 +101,10 @@ test('laptop completion includes visible FAQ, direct contact actions, map and ro
   assert.equal((faq.match(/<summary\b/g) ?? []).length, 6)
   assert.ok(contact)
   assert.match(contact, /https:\/\/wa\.me\/995591474040/)
-  assert.match(contact, /href="tel:\+995591474040"/)
-  const contactActions = contact.match(/<div class="lp-contact__actions">([\s\S]*?)<\/div>/)?.[1]
-  assert.ok(contactActions)
-  assert.equal((contactActions.match(/<a\b/g) ?? []).length, 1)
-  assert.doesNotMatch(contactActions, /დაგვირეკეთ/)
+  assert.match(contact, new RegExp(toGeorgianMtavruli('დაგვიკავშირდით')))
+  assert.equal((contact.match(/class="contact-detail"/g) ?? []).length, 3)
+  for (const label of ['ტელეფონი', 'მისამართი', 'სამუშაო საათები']) assert.ok(contact.includes(`<small>${label}</small>`))
+  assert.doesNotMatch(contact, /lp-contact__card|lp-contact__actions|მზად ხართ ლეპტოპის შესაკეთებლად/)
   assert.match(contact, /google\.com\/maps\?q=41\.7188516,44\.8036156/)
   assert.ok(footer)
   for (const target of ['/#services', '/#ticket', '/#blog', '/#contact']) assert.ok(footer.includes(`href="${target}"`))
@@ -123,10 +125,12 @@ test('laptop status lookup stays compact until a service code is submitted', asy
   assert.doesNotMatch(built, /<article class="ticket-result"/)
 })
 
-test('unpublished laptop route stays out of the sitemap and Home remains indexable', async () => {
+test('completed laptop route is indexable and included in the sitemap', async () => {
   const sitemap = await readFile(new URL('public/sitemap.xml', root), 'utf8')
   const home = await readFile(new URL('dist/index.html', root), 'utf8')
-  assert.doesNotMatch(sitemap, /laptop-repair/)
+  const metadata = getRouteMetadata('/services/laptop-repair')
+  assert.ok(sitemap.includes(`<loc>${metadata.canonical}</loc>`))
+  assert.match(metadata.robots, /^index, follow/)
   assert.match(home, /name="robots" content="index, follow/)
   assert.match(home, /id="hero-title"/)
   assert.match(home, /href="#blog"/)

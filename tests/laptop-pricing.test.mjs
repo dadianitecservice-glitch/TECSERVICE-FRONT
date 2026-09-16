@@ -62,30 +62,32 @@ test('fixed prices omit the starting-price suffix while starting prices retain i
   }
 })
 
-test('built laptop prices show eight static technical rows and a plain action for the remaining six', async () => {
+test('built laptop prices prerender every service while showing eight technical rows initially', async () => {
   const built = await readFile(new URL('../dist/services/laptop-repair/index.html', import.meta.url), 'utf8')
   const pricing = built.match(/<section\b[^>]*id="laptop-prices"[\s\S]*?<\/section>/)?.[0]
   assert.ok(pricing, 'Missing prerendered pricing section')
   assert.doesNotMatch(pricing, /სატესტო ფასები|დასადასტურებელი|price-detail-|lp-price-toggle|lp-price-detail/)
   assert.ok(pricing.includes(laptopPriceDisclaimer), 'Missing parts and license exclusions')
   const initialPrices = laptopPrices.filter(price => price.category === 'hardware').slice(0, 8)
-  for (const price of initialPrices) {
-    assert.ok(pricing.includes(price.name), `Missing service label: ${price.id}`)
-  }
-  for (const price of laptopPrices.filter(price => !initialPrices.includes(price))) {
-    assert.ok(!pricing.includes(price.name), `Service rendered outside the default preview: ${price.id}`)
+  for (const price of laptopPrices) {
+    assert.ok(pricing.includes(price.name), `Missing prerendered service label: ${price.id}`)
   }
   assert.match(pricing, /<button\b[^>]*aria-pressed="true"[^>]*>ტექნიკური<\/button>/)
-  const rows = [...pricing.matchAll(/<div role="row" class="lp-price-row">([\s\S]*?)<\/div>([\s\S]*?)<\/div>/g)]
-  assert.equal(rows.length, 8)
+  const entries = [...pricing.matchAll(/<div class="lp-price-entry"([^>]*)>([\s\S]*?)<\/div><\/div>/g)]
+  assert.equal(entries.length, laptopPrices.length)
+  const visibleEntries = entries.filter(([, attributes]) => !/\bhidden=""/.test(attributes))
+  const hiddenEntries = entries.filter(([, attributes]) => /\bhidden=""/.test(attributes))
+  assert.equal(visibleEntries.length, 8)
+  assert.equal(hiddenEntries.length, laptopPrices.length - 8)
+  hiddenEntries.forEach(([, attributes]) => assert.match(attributes, /aria-hidden="true"/))
   assert.deepEqual(initialPrices.map(price => price.id), ['diagnostics', 'screen', 'keyboard', 'battery', 'board', 'cooling', 'hinges', 'ports'])
   initialPrices.forEach((price, index) => {
-    const row = rows[index]
-    assert.ok(row[1].includes(price.name), `Incorrect service order: ${price.id}`)
-    assert.doesNotMatch(row[0], /<button\b|aria-expanded|<svg\b/, `Price row must be static: ${price.id}`)
-    const amount = row[2].match(/<strong class="lp-price-amount">([\s\S]*?)<\/strong>/)?.[1].replace(/<!--[\s\S]*?-->/g, '')
+    const entry = visibleEntries[index][2]
+    assert.ok(entry.includes(price.name), `Incorrect service order: ${price.id}`)
+    assert.doesNotMatch(entry, /<button\b|aria-expanded|<svg\b/, `Price row must be static: ${price.id}`)
+    const amount = entry.match(/<strong class="lp-price-amount">([\s\S]*?)<\/strong>/)?.[1].replace(/<!--[\s\S]*?-->/g, '')
     assert.equal(amount, formatLaptopPrice(price), `Incorrect displayed amount: ${price.id}`)
-    assert.ok(row[2].includes(price.duration), `Incorrect displayed duration: ${price.id}`)
+    assert.ok(entry.includes(price.duration), `Incorrect displayed duration: ${price.id}`)
   })
   assert.doesNotMatch(pricing, /class="lp-price-entry is-expanded"/)
   const rowGroup = pricing.match(/<div\b[^>]*id="laptop-price-rows"[^>]*>/)?.[0]

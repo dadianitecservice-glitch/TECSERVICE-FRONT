@@ -56,6 +56,7 @@ export function Header({ isAuthenticated = false, userFirstName, homePath = '', 
     setMenuOpen(false)
     setServicesOpen(false)
   }
+  const normalizedActiveServicePath = activeServicePath?.replace(/\/+$/, '')
   const shopLink = <a className="site-header__nav-link site-header__shop-link" href="https://shop.tecservice.ge" target="_blank" rel="noreferrer" onClick={closeMenu}>
     <img className="site-header__shop-icon" src="/assets/icons/shopping-bag-blue.svg" alt="" />
     <span>{toGeorgianMtavruli('მაღაზია')}</span>
@@ -146,7 +147,7 @@ export function Header({ isAuthenticated = false, userFirstName, homePath = '', 
                 <div className="site-header__services-dropdown" id="site-services-dropdown">
                   <div className="site-header__services-grid">
                     {services.map((service) => (
-                      <a className="site-header__service-link" href={service.href} key={service.id} onClick={closeMenu} aria-current={service.href === activeServicePath ? 'page' : undefined}>
+                      <a className="site-header__service-link" href={service.href} key={service.id} onClick={closeMenu} aria-current={service.href.replace(/\/+$/, '') === normalizedActiveServicePath ? 'page' : undefined}>
                         <span className="site-header__service-icon">
                           <img src={service.icon} alt="" />
                         </span>

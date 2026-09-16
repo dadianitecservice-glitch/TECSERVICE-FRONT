@@ -1,6 +1,11 @@
 import { useRef, useState } from 'react'
 import { toGeorgianMtavruli } from '../utils/text'
-import { assessDevice, type Assessment } from '../utils/assessment'
+import {
+  askTecServiceAssistant,
+  AssistantApiError,
+  type AssistantAssessment,
+  type AssistantHistoryMessage,
+} from '../utils/assistantApi'
 import { LaptopIcon } from '../components/LaptopIcon'
 
 const devices = [
@@ -11,6 +16,35 @@ const devices = [
   { id: 'other', label: 'სხვა', icon: '/assets/icons/device-other.svg' },
 ]
 
+type Assessment = {
+  title: string
+  explanation: string
+  details: AssistantAssessment | null
+}
+
+function createAssistantSessionId() {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return `web_${crypto.randomUUID().replaceAll('-', '')}`
+  }
+  return `web_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 12)}`
+}
+
+function getAssistantSessionId() {
+  const storageKey = 'tecservice-ai-session'
+  if (typeof window === 'undefined') return createAssistantSessionId()
+
+  try {
+    const existing = window.sessionStorage.getItem(storageKey)
+    if (existing && /^[A-Za-z0-9_-]{8,64}$/.test(existing)) return existing
+
+    const created = createAssistantSessionId()
+    window.sessionStorage.setItem(storageKey, created)
+    return created
+  } catch {
+    return createAssistantSessionId()
+  }
+}
+
 export function Hero() {
   const label = toGeorgianMtavruli
   const [selectedDevice, setSelectedDevice] = useState('computers')
@@ -18,18 +52,67 @@ export function Hero() {
   const [attachmentName, setAttachmentName] = useState('')
   const [feedback, setFeedback] = useState<'required' | null>(null)
   const [assessment, setAssessment] = useState<Assessment | null>(null)
+  const [assistantHistory, setAssistantHistory] = useState<AssistantHistoryMessage[]>([])
+  const [assistantError, setAssistantError] = useState('')
+  const [isAssessing, setIsAssessing] = useState(false)
+  const assistantSessionId = useRef(getAssistantSessionId())
   const fileInputRef = useRef<HTMLInputElement>(null)
   const problemInputRef = useRef<HTMLTextAreaElement>(null)
-  const currentStep = assessment ? 3 : problem.trim() ? 2 : 1
+  const currentStep = assessment || isAssessing ? 3 : problem.trim() ? 2 : 1
 
-  const runAssessment = () => {
+  const runAssessment = async () => {
     if (!problem.trim()) {
       setFeedback('required')
       problemInputRef.current?.focus()
       return
     }
+
+    const trimmedProblem = problem.trim()
+    const deviceLabel = devices.find((device) => device.id === selectedDevice)?.label ?? 'სხვა მოწყობილობა'
+    // “კომპიუტერები” is a broad UI category for both laptops and desktops.
+    // Do not send it as a desktop-only hint; the described fault provides the
+    // more precise catalogue match (for example, an HP laptop screen).
+    const message = selectedDevice === 'computers'
+      ? trimmedProblem
+      : `მოწყობილობა: ${deviceLabel}\nპრობლემა: ${trimmedProblem}`
+
     setFeedback(null)
-    setAssessment(assessDevice(selectedDevice, problem))
+    setAssistantError('')
+    setAssessment(null)
+    setIsAssessing(true)
+
+    const controller = new AbortController()
+    const timeout = window.setTimeout(() => controller.abort(), 25_000)
+
+    try {
+      const response = await askTecServiceAssistant({
+        message,
+        sessionId: assistantSessionId.current,
+        history: assistantHistory,
+        signal: controller.signal,
+      })
+      setAssessment({
+        title: 'TECSERVICE AI-ის პირველადი შეფასება',
+        explanation: response.reply,
+        details: response.assessment,
+      })
+      setAssistantHistory((current) => [
+        ...current,
+        { role: 'user', content: message },
+        { role: 'assistant', content: response.reply },
+      ].slice(-6) as AssistantHistoryMessage[])
+    } catch (error) {
+      if (error instanceof AssistantApiError && error.status === 429) {
+        setAssistantError('მოთხოვნების ლიმიტი დროებით ამოიწურა. გთხოვთ, ცოტა ხანში სცადოთ.')
+      } else if (error instanceof DOMException && error.name === 'AbortError') {
+        setAssistantError('პასუხის მიღებას მოსალოდნელზე მეტი დრო დასჭირდა. გთხოვთ, ხელახლა სცადოთ.')
+      } else {
+        setAssistantError('AI ასისტენტთან დაკავშირება ვერ მოხერხდა. გთხოვთ, რამდენიმე წამში ხელახლა სცადოთ.')
+      }
+    } finally {
+      window.clearTimeout(timeout)
+      setIsAssessing(false)
+    }
   }
 
   return (
@@ -84,7 +167,7 @@ export function Hero() {
       </div>
 
       <div className="ai-card-wrap">
-        <form className="ai-card" onSubmit={(event) => { event.preventDefault(); runAssessment() }}>
+        <form className="ai-card" onSubmit={(event) => { event.preventDefault(); void runAssessment() }}>
           <h2 className="display-title">{toGeorgianMtavruli('რა სჭირს თქვენს ტექნიკას?')}</h2>
           <p className="ai-card__subtitle">აირჩიეთ მოწყობილობა და აღწერეთ პრობლემა.</p>
           <div className="ai-steps" aria-label={`მიმდინარე ეტაპი ${currentStep}`}>
@@ -95,7 +178,7 @@ export function Hero() {
             ))}
           </div>
 
-          <fieldset className="device-fieldset">
+          <fieldset className="device-fieldset" disabled={isAssessing}>
             <legend>აირჩიეთ მოწყობილობა</legend>
             <div className="device-selector">
               {devices.map((device) => (
@@ -104,7 +187,7 @@ export function Hero() {
                   type="button"
                   key={device.id}
                   aria-pressed={selectedDevice === device.id}
-                  onClick={() => { setSelectedDevice(device.id); setFeedback(null); setAssessment(null) }}
+                  onClick={() => { setSelectedDevice(device.id); setFeedback(null); setAssistantError(''); setAssessment(null); setAssistantHistory([]) }}
                 >
                   <img src={device.icon} alt="" />
                   <span>{label(device.label)}</span>
@@ -120,15 +203,17 @@ export function Hero() {
                 ref={problemInputRef}
                 id="problem-description"
                 value={problem}
+                disabled={isAssessing}
                 aria-invalid={feedback === 'required'}
-                aria-describedby={feedback === 'required' ? 'ai-feedback ai-mode-note' : 'ai-mode-note'}
-                maxLength={2000}
-                onChange={(event) => { setProblem(event.target.value); setFeedback(null); setAssessment(null) }}
+                aria-describedby={feedback === 'required' ? 'ai-feedback ai-mode-note' : assistantError ? 'ai-error ai-mode-note' : 'ai-mode-note'}
+                maxLength={700}
+                onChange={(event) => { setProblem(event.target.value); setFeedback(null); setAssistantError(''); setAssessment(null) }}
                 placeholder="მაგ: არ ირთვება, ხურდება, ეკრანი არ მუშაობს, აქვს უცნაური ხმა..."
               />
               <button
                 type="button"
                 className="attachment-button"
+                disabled={isAssessing}
                 onClick={() => fileInputRef.current?.click()}
                 aria-label={attachmentName ? `${toGeorgianMtavruli('მიმაგრებულია')}: ${attachmentName}` : toGeorgianMtavruli('ფაილის მიმაგრება')}
                 title={attachmentName || toGeorgianMtavruli('ფაილის მიმაგრება')}
@@ -144,22 +229,41 @@ export function Hero() {
             </span>
           </div>
 
-          <button className="ai-submit" type="submit">
+          <button
+            className={`ai-submit${assessment ? ' is-complete' : ''}`}
+            type="submit"
+            disabled={isAssessing}
+            aria-busy={isAssessing}
+          >
             <img src="/assets/icons/sparkles.svg" alt="" />
-            {label('AI პირველადი შეფასება')}
+            {isAssessing ? label('AI პასუხს ამზადებს...') : label('AI პირველადი შეფასება')}
           </button>
           <p id="ai-mode-note" className="ai-disclaimer ai-development-note">
-            <strong>ასისტენტი განვითარების ეტაპზეა</strong>
-            <span>სრულფასოვანი AI ჯერ არ არის ჩართული. დროებით მიიღებთ ზოგად, ავტომატურ რჩევებს.</span>
+            <strong>TECSERVICE AI სატესტო რეჟიმშია</strong>
+            <span>პასუხი ეფუძნება ჩვენს სერვისებს, საორიენტაციო ფასებსა და უსაფრთხოების წესებს.</span>
           </p>
           {feedback === 'required' && <p id="ai-feedback" className="ai-disclaimer" role="alert">შეფასების დასაწყებად აღწერეთ პრობლემა.</p>}
+          {assistantError && <p id="ai-error" className="ai-disclaimer ai-error" role="alert">{assistantError}</p>}
           {attachmentName && <p className="ai-disclaimer">არჩეულია: {attachmentName}. ამ რეჟიმში ფაილი არ იგზავნება და არ გაანალიზდება.</p>}
           {assessment && <section className="ai-result" aria-label="პირველადი შეფასების შედეგი" role="status">
-            <h3>{assessment.title}</h3>
-            <p>{assessment.explanation}</p>
-            <ul>{assessment.steps.map((step) => <li key={step}>{step}</li>)}</ul>
-            <p>ეს არ არის საბოლოო დიაგნოზი ან ფასის შეთავაზება.</p>
-            <a href="#contact">დაუკავშირდით სერვისს →</a>
+            <h3><span aria-hidden="true">📌</span> {assessment.title}</h3>
+            {assessment.details ? <>
+              <ul className="ai-result__assessment">
+                <li><strong>მომსახურება:</strong> {assessment.details.service}</li>
+                <li>
+                  <strong>სამუშაოს ღირებულება:</strong> {assessment.details.labor_price}
+                  {assessment.details.price_note && <> <em>({assessment.details.price_note})</em></>}
+                </li>
+                <li><strong>სავარაუდო ვადა:</strong> {assessment.details.estimated_duration}</li>
+              </ul>
+              <p className="ai-result__warning">
+                <span aria-hidden="true">⚠️</span>{' '}
+                <em>{assessment.details.disclaimer}</em>
+              </p>
+            </> : <>
+              <p className="ai-result__reply">{assessment.explanation}</p>
+              <a href="#contact">დაუკავშირდით სერვისს →</a>
+            </>}
           </section>}
         </form>
       </div>

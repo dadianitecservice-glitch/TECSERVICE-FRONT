@@ -1,16 +1,17 @@
 import { toGeorgianMtavruli } from '../utils/text'
 
-export function ContactSection() {
+export function ContactSection({ id = 'contact', headingId = 'contact-heading' }: { id?: string; headingId?: string } = {}) {
   return (
-    <section className="contact-section" id="contact" aria-labelledby="contact-heading">
+    <section className="contact-section" id={id} aria-labelledby={headingId}>
       <div className="contact-copy">
-        <h2 className="display-title" id="contact-heading">{toGeorgianMtavruli('დაგვიკავშირდით')}</h2>
+        <h2 className="display-title" id={headingId}>{toGeorgianMtavruli('დაგვიკავშირდით')}</h2>
         <p className="contact-description">დაგვიკავშირდით, მოგვწერეთ ან გვესტუმრეთ სერვის ცენტრში.</p>
 
         <div className="contact-details">
           <div className="contact-detail">
             <span className="contact-detail__icon"><img src="/assets/icons/phone.svg" alt="" /></span>
             <span className="contact-detail__copy">
+              <small>ტელეფონი</small>
               <a href="https://wa.me/995591474040" target="_blank" rel="noreferrer" aria-label="ტელეფონი: +995 591 47 40 40">+995 591 47 40 40</a>
             </span>
           </div>
@@ -18,6 +19,7 @@ export function ContactSection() {
           <div className="contact-detail">
             <span className="contact-detail__icon"><img src="/assets/icons/pin.svg" alt="" /></span>
             <span className="contact-detail__copy">
+              <small>მისამართი</small>
               <a href="https://maps.app.goo.gl/6hAmMDGmQBPR8gLQ7" target="_blank" rel="noreferrer" aria-label="მისამართი: თბილისი, ცოტნე დადიანის 7ბ/2">{toGeorgianMtavruli('თბილისი, ცოტნე დადიანის 7ბ/2')}</a>
             </span>
           </div>
@@ -25,6 +27,7 @@ export function ContactSection() {
           <div className="contact-detail">
             <span className="contact-detail__icon"><img src="/assets/icons/clock.svg" alt="" /></span>
             <span className="contact-detail__copy">
+              <small>სამუშაო საათები</small>
               <span aria-label="სამუშაო საათები: ორშაბათიდან პარასკევამდე 10:00-დან 19:00-მდე; შაბათს 11:00-დან 17:00-მდე">ორშ–პარ · 10:00–19:00; შაბ · 11:00–17:00</span>
             </span>
           </div>

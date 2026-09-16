@@ -35,27 +35,27 @@ export interface Ticket {
   milestones: TicketMilestone[];
 }
 
-export const DEMO_TICKET_CODE = "TS-2026-001245";
+export const DEMO_TICKET_CODE = "1001";
 export const DEMO_PHONE = "+995 591 47 40 40";
 export const DEMO_OTP = "123456";
 
 export const tickets: Ticket[] = [
   {
-    id: "ticket-ts-2026-001245",
+    id: "ticket-1001",
     number: DEMO_TICKET_CODE,
     code: DEMO_TICKET_CODE,
     phone: DEMO_PHONE,
     device: "ლეპტოპი",
-    model: "ASUS ROG G…",
-    receivedAt: "28 აგვისტო, 2026",
-    receivedDate: "28 აგვისტო, 2026",
-    updatedAt: "2 სექტემბერი, 14:35",
-    lastUpdated: "2 სექტემბერი, 14:35",
+    model: "ASUS ROG Strix G15",
+    receivedAt: "14 სექტემბერი, 2026",
+    receivedDate: "14 სექტემბერი, 2026",
+    updatedAt: "16 სექტემბერი, 15:20",
+    lastUpdated: "16 სექტემბერი, 15:20",
     status: "მიმდინარეობს შეკეთება",
     statusKey: "repairing",
     statusLabel: "მიმდინარეობს შეკეთება",
-    update: "მოწყობილობაზე მიმდინარეობს შეთანხმებული სამუშაოები.",
-    updateNote: "სტატუსი განახლდება სამუშაო ეტაპის ცვლილებისას.",
+    update: "დიაგნოსტიკა დასრულებულია. გაგრილების სისტემა გაიწმინდა და მიმდინარეობს კვების ჯაჭვის სტაბილურობის ტესტირება.",
+    updateNote: "სამუშაოს დასრულების შემდეგ სტატუსი შეიცვლება „მზადაა“-ზე.",
     privacyNote:
       "პირადი დეტალები ხელმისაწვდომია მხოლოდ ნომრის დადასტურების შემდეგ.",
     milestones: [
@@ -93,7 +93,7 @@ export const tickets: Ticket[] = [
 ];
 
 export const normalizeTicketCode = (value: string): string =>
-  value.trim().toUpperCase().replace(/\s+/g, "");
+  value.trim().toUpperCase().replace(/^#/, "").replace(/\s+/g, "");
 
 export const normalizePhone = (value: string): string => {
   const digits = value.replace(/\D/g, "");

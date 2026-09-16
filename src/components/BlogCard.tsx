@@ -3,18 +3,18 @@ import { toGeorgianMtavruli } from '../utils/text'
 
 export function BlogCard({ post }: { post: BlogPost }) {
   return (
-    <article className="blog-card">
-      <a href={post.href} className="blog-card__image" aria-label={toGeorgianMtavruli(post.title)}>
+    <article className="blog-card" aria-labelledby={`blog-card-${post.id}`}>
+      <div className="blog-card__image">
         <img src={post.image} alt={post.imageAlt} width={post.imageWidth} height={post.imageHeight} loading="lazy" decoding="async" />
-      </a>
+      </div>
       <div className="blog-card__body">
         <div className="blog-card__meta">
           <span>{post.category}</span>
           <time dateTime={post.dateTime}>{post.date}</time>
         </div>
-        <h3 className="display-title"><a href={post.href}>{toGeorgianMtavruli(post.title)}</a></h3>
+        <h3 className="display-title" id={`blog-card-${post.id}`}>{toGeorgianMtavruli(post.title)}</h3>
         <p>{post.excerpt}</p>
-        <a className="blog-card__link" href={post.href}>{toGeorgianMtavruli('ვრცლად')} →</a>
+        <span className="blog-card__link">{toGeorgianMtavruli('სტატია მზადდება')}</span>
       </div>
     </article>
   )

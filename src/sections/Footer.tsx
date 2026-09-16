@@ -9,11 +9,13 @@ const footerNavigation = [
 ] as const
 
 const serviceNavigation = [
-  'ლეპტოპები',
-  'კომპიუტერები',
-  'ინფორმაციის აღდგენა',
-  'კონსოლები',
-  'დრონები',
+  { label: 'ლეპტოპები', href: '/services/laptop-repair/' },
+  { label: 'კომპიუტერები', href: '/services/computer-repair/' },
+  { label: 'ინფორმაციის აღდგენა', href: '/services/data-recovery/' },
+  { label: 'კონსოლები', href: '/services/console-repair/' },
+  { label: 'დრონები', href: '/services/drone-repair/' },
+  { label: 'მობილურები / პლანშეტები', href: '/services/mobile-tablet-repair/' },
+  { label: 'სხვა ელექტრონიკა', href: '/services/other-electronics/' },
 ] as const
 
 const socialLinks = [
@@ -59,8 +61,8 @@ export function Footer({ homePath = '' }: { homePath?: string }) {
             <h2>{label('სერვისები')}</h2>
             <ul>
               {serviceNavigation.map((service) => (
-                <li key={service}>
-                  <a href={resolveHref('#services')}>{service}</a>
+                <li key={service.href}>
+                  <a href={service.href}>{service.label}</a>
                 </li>
               ))}
             </ul>
@@ -87,8 +89,8 @@ export function Footer({ homePath = '' }: { homePath?: string }) {
       <div className="site-footer__bottom site-container">
         <p>© 2026 TECSERVICE. ყველა უფლება დაცულია.</p>
         <nav className="site-footer__legal" aria-label="სამართლებრივი ინფორმაცია">
-          <a href="/terms">მომსახურების პირობები</a>
-          <a href="/privacy">კონფიდენციალურობის პოლიტიკა</a>
+          <span>მომსახურების პირობები</span>
+          <span>კონფიდენციალურობის პოლიტიკა</span>
         </nav>
       </div>
     </footer>

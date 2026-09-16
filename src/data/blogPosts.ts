@@ -10,7 +10,6 @@ export interface BlogPost {
   imageWidth: number;
   imageHeight: number;
   imageAlt: string;
-  href: string;
 }
 
 export const blogPosts: BlogPost[] = [
@@ -27,7 +26,6 @@ export const blogPosts: BlogPost[] = [
     imageWidth: 849,
     imageHeight: 565,
     imageAlt: "მონაცემების აღდგენის ლაბორატორიული სამუშაო",
-    href: "/blog/lost-files-first-minutes",
   },
   {
     id: "five-reasons-laptop-is-slow",
@@ -42,7 +40,6 @@ export const blogPosts: BlogPost[] = [
     imageWidth: 2000,
     imageHeight: 1334,
     imageAlt: "ლეპტოპის ტექნიკური დიაგნოსტიკა",
-    href: "/blog/five-reasons-laptop-is-slow",
   },
   {
     id: "console-overheating",
@@ -57,7 +54,6 @@ export const blogPosts: BlogPost[] = [
     imageWidth: 800,
     imageHeight: 533,
     imageAlt: "სათამაშო კონსოლის ტექნიკური მომსახურება",
-    href: "/blog/console-overheating-signs-and-prevention",
   },
   {
     id: "choose-right-ssd",
@@ -72,7 +68,6 @@ export const blogPosts: BlogPost[] = [
     imageWidth: 1000,
     imageHeight: 1000,
     imageAlt: "ლეპტოპისთვის SSD დისკის შერჩევა",
-    href: "/blog/choose-the-right-ssd-for-your-laptop",
   },
   {
     id: "drone-care",
@@ -87,7 +82,6 @@ export const blogPosts: BlogPost[] = [
     imageWidth: 800,
     imageHeight: 533,
     imageAlt: "დრონის შემოწმება და ტექნიკური მომსახურება",
-    href: "/blog/drone-care-before-and-after-flight",
   },
   {
     id: "computer-shuts-down-under-load",
@@ -102,7 +96,6 @@ export const blogPosts: BlogPost[] = [
     imageWidth: 1000,
     imageHeight: 1000,
     imageAlt: "კომპიუტერის კომპონენტების დიაგნოსტიკა",
-    href: "/blog/why-computer-shuts-down-under-load",
   },
   {
     id: "data-recovery-after-formatting",
@@ -117,7 +110,6 @@ export const blogPosts: BlogPost[] = [
     imageWidth: 849,
     imageHeight: 565,
     imageAlt: "დისკიდან მონაცემების უსაფრთხო აღდგენა",
-    href: "/blog/data-recovery-after-formatting",
   },
   {
     id: "xbox-controller-problems",
@@ -132,7 +124,6 @@ export const blogPosts: BlogPost[] = [
     imageWidth: 800,
     imageHeight: 533,
     imageAlt: "Xbox კონტროლერის შეკეთება",
-    href: "/blog/common-xbox-controller-problems",
   },
   {
     id: "laptop-battery-replacement-signs",
@@ -147,7 +138,6 @@ export const blogPosts: BlogPost[] = [
     imageWidth: 2000,
     imageHeight: 1334,
     imageAlt: "ლეპტოპის ბატარეის დიაგნოსტიკა",
-    href: "/blog/laptop-battery-replacement-signs",
   },
   {
     id: "raid-first-steps",
@@ -162,6 +152,5 @@ export const blogPosts: BlogPost[] = [
     imageWidth: 849,
     imageHeight: 565,
     imageAlt: "RAID მასივიდან ინფორმაციის აღდგენა",
-    href: "/blog/first-steps-after-raid-failure",
   },
 ];

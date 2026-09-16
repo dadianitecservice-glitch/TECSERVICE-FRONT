@@ -54,7 +54,6 @@ export function BlogSection() {
         description="პრაქტიკული რჩევები ტექნიკის მოვლის, დიაგნოსტიკისა და შეკეთების შესახებ."
         actions={(
           <div className="blog-header-actions">
-            <a href="/blog">{toGeorgianMtavruli('ყველა სტატია')} →</a>
             <CarouselControls label="ბლოგის სტატიები" onPrevious={() => responsive ? swipe.move(-1) : move(-1)} onNext={() => responsive ? swipe.move(1) : move(1)} />
           </div>
         )}

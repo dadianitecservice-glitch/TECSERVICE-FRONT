@@ -28,6 +28,15 @@ const paths: Record<LaptopIconName, string[]> = {
   close: ['m6 6 12 12M6 18 18 6'],
   ports: ['M5 4h14v16H5zM9 8h6v4H9zM9 16h6', 'M9 1v3m6-3v3M9 20v3m6-3v3'],
   whatsapp: ['M21 11.5a9 9 0 0 1-13.4 7.9L3 21l1.6-4.6A9 9 0 1 1 21 11.5Z', 'm8.2 7.1-1.3.4c-.8 3.1 4.5 8.4 7.6 7.6l.4-1.3-2-.9-.9 1.1a9 9 0 0 1-4-4l1.1-.9-.9-2Z'],
+  hardDrive: ['M3 6h18v12H3z', 'M7 14h.01M11 14h.01M15 14h4'],
+  activity: ['M3 6h18v12H3z', 'M7 14h.01M11 14h.01', 'm14 11 1.5 2 1.5-4 1.5 6 1.5-3'],
+  impact: ['M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1m0-12.8-2.1 2.1m-8.6 8.6-2.1 2.1', 'M15.5 8.5 12 12l-3.5-1.5 1.5 5 5-1.5z'],
+  trash: ['M3 6h18M8 6V3h8v3m-9 0 1 15h8l1-15', 'M10 10v7m4-7v7'],
+  server: ['M3 4h18v6H3zM3 14h18v6H3z', 'M7 7h.01M7 17h.01M11 7h8M11 17h8'],
+  usb: ['M12 2v14m0-14 3 3m-3-3-3 3M12 10l5-3m0 0V4m0 3h3M12 13l-5-3m0 0V7m0 3H4', 'M9 19a3 3 0 1 0 6 0 3 3 0 0 0-6 0Z'],
+  lock: ['M5 10h14v11H5z', 'M8 10V7a4 4 0 0 1 8 0v3M12 14v3'],
+  camera: ['M4 7h3l2-3h6l2 3h3v13H4z', 'M16 13a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z'],
+  volume: ['M4 10v4h4l5 4V6l-5 4H4Z', 'M17 9a4 4 0 0 1 0 6M19.5 6.5a8 8 0 0 1 0 11'],
 }
 
 export function LaptopIcon({ name, className = '' }: { name: LaptopIconName; className?: string }) {

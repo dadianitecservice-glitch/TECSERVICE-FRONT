@@ -6,9 +6,10 @@
     <meta name="theme-color" content="#edf5fb" />
     <title>ტექნიკის შეკეთება თბილისში | TECSERVICE</title>
     <meta name="description" content="ლეპტოპების, კომპიუტერების, კონსოლების, დრონების, მობილურების, პლანშეტებისა და სხვა ელექტრონიკის შეკეთება, დიაგნოსტიკა და ინფორმაციის აღდგენა თბილისში." />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <link rel="canonical" href="https://tecservice.ge/" />
-    <link rel="icon" type="image/svg+xml" href="/assets/brand/tecservice-logo.svg" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/brand/tecservice-favicon.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="/assets/brand/tecservice-favicon.png" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ka_GE" />
     <meta property="og:site_name" content="TECSERVICE" />
@@ -34,10 +35,24 @@
             "name": "TECSERVICE",
             "alternateName": "ტექსერვისი",
             "url": "https://tecservice.ge/",
-            "logo": "https://tecservice.ge/assets/brand/tecservice-logo.svg",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://tecservice.ge/assets/brand/tecservice-favicon.png",
+              "contentUrl": "https://tecservice.ge/assets/brand/tecservice-favicon.png",
+              "width": 512,
+              "height": 512
+            },
             "image": "https://tecservice.ge/assets/blog/laptop-repair-figma.png",
             "description": "ტექნიკის პროფესიონალური შეკეთება, დიაგნოსტიკა და ინფორმაციის აღდგენა თბილისში.",
             "telephone": "+995591474040",
+            "areaServed": { "@type": "City", "name": "თბილისი" },
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+995591474040",
+              "contactType": "customer service",
+              "areaServed": "GE",
+              "availableLanguage": ["ka"]
+            },
             "foundingDate": "2002",
             "address": {
               "@type": "PostalAddress",
@@ -77,6 +92,7 @@
             "@id": "https://tecservice.ge/#website",
             "url": "https://tecservice.ge/",
             "name": "TECSERVICE",
+            "alternateName": ["ტექსერვისი", "tecservice.ge"],
             "inLanguage": "ka",
             "publisher": { "@id": "https://tecservice.ge/#business" }
           },
@@ -101,8 +117,8 @@
                 "position": 1,
                 "item": {
                   "@type": "Service",
-                  "@id": "https://tecservice.ge/#service-laptops",
-                  "url": "https://tecservice.ge/#service-laptops",
+                  "@id": "https://tecservice.ge/services/laptop-repair/#service",
+                  "url": "https://tecservice.ge/services/laptop-repair/",
                   "name": "ლეპტოპების შეკეთება",
                   "description": "ლეპტოპების პროგრამული და ტექნიკური დიაგნოსტიკა. ეკრანის, კლავიატურის, კვებისა და გაგრილების სისტემების შეკეთება.",
                   "provider": { "@id": "https://tecservice.ge/#business" }
@@ -113,8 +129,8 @@
                 "position": 2,
                 "item": {
                   "@type": "Service",
-                  "@id": "https://tecservice.ge/#service-computers",
-                  "url": "https://tecservice.ge/#service-computers",
+                  "@id": "https://tecservice.ge/services/computer-repair/#service",
+                  "url": "https://tecservice.ge/services/computer-repair/",
                   "name": "კომპიუტერების შეკეთება",
                   "description": "დესკტოპ კომპიუტერების დიაგნოსტიკა და კომპონენტების შეცვლა. სისტემის განახლება, გაგრილება და პროგრამული მომსახურება.",
                   "provider": { "@id": "https://tecservice.ge/#business" }
@@ -125,8 +141,8 @@
                 "position": 3,
                 "item": {
                   "@type": "Service",
-                  "@id": "https://tecservice.ge/#service-data-recovery",
-                  "url": "https://tecservice.ge/#service-data-recovery",
+                  "@id": "https://tecservice.ge/services/data-recovery/#service",
+                  "url": "https://tecservice.ge/services/data-recovery/",
                   "name": "ინფორმაციის აღდგენა",
                   "description": "HDD, SSD, RAID და სხვა მეხსიერებიდან მონაცემების აღდგენა. ვმუშაობთ რთულ ფიზიკურ და პროგრამულ დაზიანებებზეც.",
                   "provider": { "@id": "https://tecservice.ge/#business" }
@@ -137,8 +153,8 @@
                 "position": 4,
                 "item": {
                   "@type": "Service",
-                  "@id": "https://tecservice.ge/#service-consoles",
-                  "url": "https://tecservice.ge/#service-consoles",
+                  "@id": "https://tecservice.ge/services/console-repair/#service",
+                  "url": "https://tecservice.ge/services/console-repair/",
                   "name": "კონსოლების შეკეთება",
                   "description": "PlayStation, Xbox და Nintendo კონსოლების დიაგნოსტიკა. HDMI-ის, კვების, გაგრილებისა და კონტროლერების შეკეთება.",
                   "provider": { "@id": "https://tecservice.ge/#business" }
@@ -149,8 +165,8 @@
                 "position": 5,
                 "item": {
                   "@type": "Service",
-                  "@id": "https://tecservice.ge/#service-drones",
-                  "url": "https://tecservice.ge/#service-drones",
+                  "@id": "https://tecservice.ge/services/drone-repair/#service",
+                  "url": "https://tecservice.ge/services/drone-repair/",
                   "name": "დრონების შეკეთება",
                   "description": "დრონების კამერის, გიმბალისა და მოტორების დიაგნოსტიკა. მართვის პლატების, GPS-ისა და სენსორების შეკეთება.",
                   "provider": { "@id": "https://tecservice.ge/#business" }
@@ -161,8 +177,8 @@
                 "position": 6,
                 "item": {
                   "@type": "Service",
-                  "@id": "https://tecservice.ge/#service-mobile-tablets",
-                  "url": "https://tecservice.ge/#service-mobile-tablets",
+                  "@id": "https://tecservice.ge/services/mobile-tablet-repair/#service",
+                  "url": "https://tecservice.ge/services/mobile-tablet-repair/",
                   "name": "მობილურებისა და პლანშეტების შეკეთება",
                   "description": "ეკრანის, ბატარეისა და დამტენის კონექტორის შეკეთება. კამერის, დინამიკისა და პროგრამული სისტემის მომსახურება.",
                   "provider": { "@id": "https://tecservice.ge/#business" }
@@ -173,10 +189,10 @@
                 "position": 7,
                 "item": {
                   "@type": "Service",
-                  "@id": "https://tecservice.ge/#service-other-electronics",
-                  "url": "https://tecservice.ge/#service-other-electronics",
-                  "name": "სხვა ელექტრონიკის შეკეთება",
-                  "description": "პროექტორების, CCTV კამერებისა და UPS სისტემების დიაგნოსტიკა. სხვა ელექტრონული მოწყობილობების კომპონენტური შეკეთება.",
+                  "@id": "https://tecservice.ge/services/other-electronics/#service",
+                  "url": "https://tecservice.ge/services/other-electronics/",
+                  "name": "ელექტრონული პლატებისა და არასტანდარტული ტექნიკის შეკეთება",
+                  "description": "კვების ბლოკების, UPS-ების, დანადგარებისა და არასტანდარტული მართვის პლატების კომპონენტური დიაგნოსტიკა და შეკეთება.",
                   "provider": { "@id": "https://tecservice.ge/#business" }
                 }
               }

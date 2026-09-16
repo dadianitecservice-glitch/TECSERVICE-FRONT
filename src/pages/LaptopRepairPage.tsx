@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent, type ReactNode } from 'react'
 import { LaptopIcon } from '../components/LaptopIcon'
 import { TicketResult } from '../components/TicketResult'
+import { ContactSection } from '../sections/AboutSection'
 import { laptopFaqs, laptopProblems, laptopPrices, laptopPriceFilters, laptopPriceDisclaimer, formatLaptopPrice, laptopRepairSteps, laptopRequestUrl, laptopProblemRequestUrl, type LaptopPriceCategory } from '../data/laptopRepair'
 import { findTicketByCode, type Ticket } from '../data/tickets'
 import { toGeorgianMtavruli as display } from '../utils/text'
@@ -33,10 +34,9 @@ export default function LaptopRepairPage() {
   const serviceCodeInput = useRef<HTMLInputElement>(null)
   const ticketResultRef = useRef<HTMLDivElement>(null)
   const ticketLookupTimer = useRef<number | null>(null)
-  const problem = laptopProblems.find(item => item.id === selectedProblem)!
   const prices = laptopPrices.filter(item => priceCategory === 'all' || item.category === priceCategory)
   const hasRemainingTechnical = priceCategory === 'hardware' && prices.length > technicalPreviewCount
-  const visiblePrices = hasRemainingTechnical && !showRemainingTechnical ? prices.slice(0, technicalPreviewCount) : prices
+  const shownPriceIds = new Set((hasRemainingTechnical && !showRemainingTechnical ? prices.slice(0, technicalPreviewCount) : prices).map(item => item.id))
 
   const cancelTicketLookup = () => {
     if (ticketLookupTimer.current !== null) {
@@ -98,10 +98,10 @@ export default function LaptopRepairPage() {
               <RequestLink className="lp-button lp-button--primary">{display('შეკეთების მოთხოვნა')}<LaptopIcon name="arrow" /></RequestLink>
               <a className="lp-button lp-button--secondary" href="#laptop-contact"><LaptopIcon name="phone" />{display('დაგვიკავშირდით')}</a>
             </div>
-            <div className="lp-hero__facts">
-              <span><LaptopIcon name="tool" /><span>კომპონენტური<br />შეკეთება</span></span>
-              <span><LaptopIcon name="people" /><span>სამუშაოს წინასწარი<br />შეთანხმება</span></span>
-              <span><LaptopIcon name="calendar" /><span>2002 წლიდან</span></span>
+            <div className="lp-hero__facts laptop-hero-facts">
+              <span><LaptopIcon name="screen" /><span>ეკრანი / კლავიატურა</span></span>
+              <span><LaptopIcon name="chip" /><span>პლატის შეკეთება</span></span>
+              <span><LaptopIcon name="memory" /><span>SSD / RAM განახლება</span></span>
             </div>
           </div>
           <div className="lp-hero__visual">
@@ -123,40 +123,31 @@ export default function LaptopRepairPage() {
           <div className="lp-problems__grid">
             <div className="lp-problems__sidebar">
               <div className="lp-problem-tabs" role="tablist" aria-label="ლეპტოპის პრობლემები" aria-orientation="vertical">
-                {laptopProblems.map((item, index) => <button key={item.id} ref={node => { problemTabs.current[index] = node }} id={`problem-tab-${item.id}`} role="tab" type="button" aria-selected={selectedProblem === item.id} aria-controls="laptop-problem-panel" tabIndex={selectedProblem === item.id ? 0 : -1} onClick={() => setSelectedProblem(item.id)} onKeyDown={event => moveProblem(event, index)}><LaptopIcon name={item.icon} /><span>{item.label}</span><span className="lp-selection-dot" aria-hidden="true" /></button>)}
+                {laptopProblems.map((item, index) => <button key={item.id} ref={node => { problemTabs.current[index] = node }} id={`problem-tab-${item.id}`} role="tab" type="button" aria-selected={selectedProblem === item.id} aria-controls={item.id === 'screen' ? 'laptop-problem-panel' : `laptop-problem-panel-${item.id}`} tabIndex={selectedProblem === item.id ? 0 : -1} onClick={() => setSelectedProblem(item.id)} onKeyDown={event => moveProblem(event, index)}><LaptopIcon name={item.icon} /><span>{item.label}</span><span className="lp-selection-dot" aria-hidden="true" /></button>)}
               </div>
               <p className="lp-safety-note"><LaptopIcon name="info" /><span>სითხის მოხვედრისას არ ჩართოთ და არ დატენოთ მოწყობილობა.</span></p>
             </div>
-            <div className="lp-problem-panel" id="laptop-problem-panel" role="tabpanel" aria-labelledby={`problem-tab-${problem.id}`} tabIndex={0}>
-              <div className="lp-problem-panel__main" key={problem.id}>
-                <div className="lp-problem-panel__copy">
-                  <span className="lp-eyebrow">სიმპტომი და დიაგნოსტიკა</span>
-                  <h3>{display(problem.title)}</h3>
-                  <p>{problem.description}</p>
-                  <ul className="lp-check-list">{problem.checks.map(check => <li key={check}><span><LaptopIcon name="check" /></span>{check}</li>)}</ul>
-                  <div className="lp-problem-service"><h4>შესაძლო მომსახურება</h4><p>{problem.service}</p></div>
-                  <RequestLink className="lp-text-link lp-whatsapp-link" href={laptopProblemRequestUrl(problem)}><LaptopIcon name="whatsapp" /><span>მოგვწერეთ WhatsApp-ში</span><LaptopIcon name="arrow" /></RequestLink>
+            {laptopProblems.map(problem => {
+              const isSelected = selectedProblem === problem.id
+              const panelId = problem.id === 'screen' ? 'laptop-problem-panel' : `laptop-problem-panel-${problem.id}`
+              return (
+                <div key={problem.id} className="lp-problem-panel" id={panelId} role="tabpanel" aria-labelledby={`problem-tab-${problem.id}`} aria-hidden={!isSelected} hidden={!isSelected} tabIndex={isSelected ? 0 : -1}>
+                  <div className="lp-problem-panel__main">
+                    <div className="lp-problem-panel__copy">
+                      <span className="lp-eyebrow">სიმპტომი და დიაგნოსტიკა</span>
+                      <h3>{display(problem.title)}</h3>
+                      <p>{problem.description}</p>
+                      <ul className="lp-check-list">{problem.checks.map(check => <li key={check}><span><LaptopIcon name="check" /></span>{check}</li>)}</ul>
+                      <div className="lp-problem-service"><h4>შესაძლო მომსახურება</h4><p>{problem.service}</p></div>
+                      <RequestLink className="lp-text-link lp-whatsapp-link" href={laptopProblemRequestUrl(problem)}><LaptopIcon name="whatsapp" /><span>მოგვწერეთ WhatsApp-ში</span><LaptopIcon name="arrow" /></RequestLink>
+                    </div>
+                    <div className={`lp-problem-panel__photo lp-problem-panel__photo--${problem.id}`}><img src={problem.photo.src} alt={problem.photo.alt} width={problem.photo.width} height={problem.photo.height} loading="lazy" /></div>
+                  </div>
+                  <p className="lp-info-note"><LaptopIcon name="info" />არ ხართ დარწმუნებული? სერვისში შემოწმება პრობლემის მიზეზის გარკვევაში დაგეხმარებათ.</p>
                 </div>
-                <div className={`lp-problem-panel__photo lp-problem-panel__photo--${problem.id}`}><img src={problem.photo.src} alt={problem.photo.alt} width={problem.photo.width} height={problem.photo.height} loading="lazy" /></div>
-              </div>
-              <p className="lp-info-note"><LaptopIcon name="info" />არ ხართ დარწმუნებული? სერვისში შემოწმება პრობლემის მიზეზის გარკვევაში დაგეხმარებათ.</p>
-            </div>
+              )
+            })}
           </div>
-        </div>
-      </section>
-
-      <section className="lp-section lp-pricing" id="laptop-prices" aria-labelledby="laptop-prices-title">
-        <div className="site-container">
-          <div className="lp-section-heading lp-section-heading--split"><h2 id="laptop-prices-title">{display('ფასები და სავარაუდო ვადები')}</h2><div className="lp-price-filters" role="group" aria-label="მომსახურების ტიპი">{laptopPriceFilters.map(filter => <button key={filter.id} type="button" aria-pressed={priceCategory === filter.id} onClick={() => { setPriceCategory(filter.id); setShowRemainingTechnical(false) }}>{filter.label}</button>)}</div></div>
-          <p className="lp-info-note lp-price-disclaimer" id="laptop-price-disclaimer"><LaptopIcon name="info" /><span>{laptopPriceDisclaimer}</span></p>
-          <div className="lp-price-table" role="table" aria-label="ლეპტოპის შეკეთების ფასები" aria-describedby="laptop-price-disclaimer">
-            <div className="lp-price-table__head" role="row"><span role="columnheader">მომსახურება</span><span role="columnheader">ფასი</span><span role="columnheader">სავარაუდო ვადა</span></div>
-            <div className="lp-price-table__rows" id="laptop-price-rows" role="rowgroup">{visiblePrices.map(price => <div className="lp-price-entry" key={price.id}>
-              <div role="row" className="lp-price-row"><div role="cell" className="lp-price-name">{price.name}{price.programs && <span className="lp-price-programs">{price.programs.join(' · ')}</span>}</div><span role="cell" data-label="ფასი"><strong className="lp-price-amount">{formatLaptopPrice(price)}</strong><small className="lp-price-note">{price.priceNote}</small></span><span role="cell" data-label="სავარაუდო ვადა">{price.duration}</span></div>
-            </div>)}</div>
-          </div>
-          {hasRemainingTechnical && <button className="lp-price-more" type="button" aria-expanded={showRemainingTechnical} aria-controls="laptop-price-rows" onClick={() => setShowRemainingTechnical(current => !current)}>{showRemainingTechnical ? 'ნაკლების ჩვენება ↑' : `დანარჩენი ${prices.length - technicalPreviewCount} მომსახურების ნახვა →`}</button>}
-          <div className="lp-price-footer"><p className="lp-info-note"><LaptopIcon name="info" />საბოლოო ფასი თანხმდება დიაგნოსტიკის შემდეგ. ვადა დამოკიდებულია სამუშაოზე, რიგსა და ნაწილების მარაგზე.</p><RequestLink className="lp-button lp-button--outline lp-button--small" subject="ლეპტოპის შეკეთების ღირებულება">ღირებულების დაზუსტება<LaptopIcon name="arrow" /></RequestLink></div>
         </div>
       </section>
 
@@ -170,6 +161,24 @@ export default function LaptopRepairPage() {
             {ticketState === 'not-found' && <p className="lp-ticket-message" id="laptop-service-code-message" role="status">სერვისი ვერ მოიძებნა. გადაამოწმეთ კოდი და სცადეთ ხელახლა.</p>}
             {ticketState === 'found' && foundTicket && <div ref={ticketResultRef} className="lp-ticket-result" id="laptop-ticket-result" role="region" aria-label="მოძებნილი სერვისის სტატუსი" tabIndex={-1}><TicketResult ticket={foundTicket} /></div>}
           </div>
+        </div>
+      </section>
+
+      <section className="lp-section lp-pricing" id="laptop-prices" aria-labelledby="laptop-prices-title">
+        <div className="site-container">
+          <div className="lp-section-heading lp-section-heading--split"><h2 id="laptop-prices-title">{display('ფასები და სავარაუდო ვადები')}</h2><div className="lp-price-filters" role="group" aria-label="მომსახურების ტიპი">{laptopPriceFilters.map(filter => <button key={filter.id} type="button" aria-pressed={priceCategory === filter.id} onClick={() => { setPriceCategory(filter.id); setShowRemainingTechnical(false) }}>{filter.label}</button>)}</div></div>
+          <p className="lp-info-note lp-price-disclaimer" id="laptop-price-disclaimer"><LaptopIcon name="info" /><span>{laptopPriceDisclaimer}</span></p>
+          <div className="lp-price-table" role="table" aria-label="ლეპტოპის შეკეთების ფასები" aria-describedby="laptop-price-disclaimer">
+            <div className="lp-price-table__head" role="row"><span role="columnheader">მომსახურება</span><span role="columnheader">ფასი</span><span role="columnheader">სავარაუდო ვადა</span></div>
+            <div className="lp-price-table__rows" id="laptop-price-rows" role="rowgroup">{laptopPrices.map(price => {
+              const isVisible = shownPriceIds.has(price.id)
+              return <div className="lp-price-entry" key={price.id} hidden={!isVisible} aria-hidden={isVisible ? undefined : true}>
+                <div role="row" className="lp-price-row"><div role="cell" className="lp-price-name">{price.name}{price.programs && <span className="lp-price-programs">{price.programs.join(' · ')}</span>}</div><span role="cell" data-label="ფასი"><strong className="lp-price-amount">{formatLaptopPrice(price)}</strong><small className="lp-price-note">{price.priceNote}</small></span><span role="cell" data-label="სავარაუდო ვადა">{price.duration}</span></div>
+              </div>
+            })}</div>
+          </div>
+          {hasRemainingTechnical && <button className="lp-price-more" type="button" aria-expanded={showRemainingTechnical} aria-controls="laptop-price-rows" onClick={() => setShowRemainingTechnical(current => !current)}>{showRemainingTechnical ? 'ნაკლების ჩვენება ↑' : `დანარჩენი ${prices.length - technicalPreviewCount} მომსახურების ნახვა →`}</button>}
+          <div className="lp-price-footer"><p className="lp-info-note"><LaptopIcon name="info" />საბოლოო ფასი თანხმდება დიაგნოსტიკის შემდეგ. ვადა დამოკიდებულია სამუშაოზე, რიგსა და ნაწილების მარაგზე.</p><RequestLink className="lp-button lp-button--outline lp-button--small" subject="ლეპტოპის შეკეთების ღირებულება">ღირებულების დაზუსტება<LaptopIcon name="arrow" /></RequestLink></div>
         </div>
       </section>
 
@@ -194,27 +203,7 @@ export default function LaptopRepairPage() {
         </div>
       </section>
 
-      <section className="lp-section lp-contact" id="laptop-contact" aria-labelledby="laptop-contact-title">
-        <div className="site-container lp-contact__card">
-          <div className="lp-contact__copy">
-            <span className="lp-eyebrow">შემდეგი ნაბიჯი</span>
-            <h2 id="laptop-contact-title">{display('მზად ხართ ლეპტოპის შესაკეთებლად?')}</h2>
-            <p>მოგვწერეთ პრობლემის მოკლე აღწერა ან დაგვირეკეთ. მოწყობილობის მიღების შემდეგ დიაგნოსტიკის შედეგსა და სამუშაოს პირობებს წინასწარ შეგითანხმებთ.</p>
-            <div className="lp-contact__actions">
-              <RequestLink className="lp-button lp-button--primary"><LaptopIcon name="whatsapp" />{display('შეკეთების მოთხოვნა')}</RequestLink>
-            </div>
-            <ul className="lp-contact__details" aria-label="საკონტაქტო ინფორმაცია">
-              <li><img src="/assets/icons/phone.svg" alt="" /><span><a href="tel:+995591474040" aria-label="ტელეფონი: +995 591 47 40 40">+995 591 47 40 40</a></span></li>
-              <li><img src="/assets/icons/pin.svg" alt="" /><span><a href="https://maps.app.goo.gl/6hAmMDGmQBPR8gLQ7" target="_blank" rel="noreferrer" aria-label="მისამართი: თბილისი, ცოტნე დადიანის 7ბ/2">თბილისი, ცოტნე დადიანის 7ბ/2</a></span></li>
-              <li><img src="/assets/icons/clock.svg" alt="" /><span><span aria-label="სამუშაო საათები: ორშაბათიდან პარასკევამდე 10:00-დან 19:00-მდე; შაბათს 11:00-დან 17:00-მდე">ორშ–პარ · 10:00–19:00; შაბ · 11:00–17:00</span></span></li>
-            </ul>
-          </div>
-          <div className="lp-contact__map">
-            <iframe src="https://www.google.com/maps?q=41.7188516,44.8036156&z=17&output=embed" title="TECSERVICE-ის მდებარეობა Google Maps-ზე" loading="lazy" allowFullScreen referrerPolicy="no-referrer-when-downgrade" />
-            <a href="https://maps.app.goo.gl/6hAmMDGmQBPR8gLQ7" target="_blank" rel="noreferrer" aria-label="TECSERVICE-ის მდებარეობის გახსნა Google Maps-ზე"><strong>TECSERVICE</strong><small>თბილისი, ცოტნე დადიანის 7ბ/2</small></a>
-          </div>
-        </div>
-      </section>
+      <ContactSection id="laptop-contact" headingId="laptop-contact-title" />
     </main>
   )
 }

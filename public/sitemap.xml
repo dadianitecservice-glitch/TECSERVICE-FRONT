@@ -3,4 +3,25 @@
   <url>
     <loc>https://tecservice.ge/</loc>
   </url>
+  <url>
+    <loc>https://tecservice.ge/services/laptop-repair/</loc>
+  </url>
+  <url>
+    <loc>https://tecservice.ge/services/computer-repair/</loc>
+  </url>
+  <url>
+    <loc>https://tecservice.ge/services/data-recovery/</loc>
+  </url>
+  <url>
+    <loc>https://tecservice.ge/services/console-repair/</loc>
+  </url>
+  <url>
+    <loc>https://tecservice.ge/services/drone-repair/</loc>
+  </url>
+  <url>
+    <loc>https://tecservice.ge/services/mobile-tablet-repair/</loc>
+  </url>
+  <url>
+    <loc>https://tecservice.ge/services/other-electronics/</loc>
+  </url>
 </urlset>

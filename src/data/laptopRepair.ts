@@ -1,4 +1,4 @@
-export type LaptopIconName = 'power' | 'screen' | 'battery' | 'heat' | 'keyboard' | 'speed' | 'drop' | 'search' | 'chip' | 'fan' | 'memory' | 'software' | 'tool' | 'people' | 'calendar' | 'arrow' | 'phone' | 'check' | 'info' | 'chevron' | 'laptop' | 'gamepad' | 'briefcase' | 'barcode' | 'close' | 'ports' | 'whatsapp'
+export type LaptopIconName = 'power' | 'screen' | 'battery' | 'heat' | 'keyboard' | 'speed' | 'drop' | 'search' | 'chip' | 'fan' | 'memory' | 'software' | 'tool' | 'people' | 'calendar' | 'arrow' | 'phone' | 'check' | 'info' | 'chevron' | 'laptop' | 'gamepad' | 'briefcase' | 'barcode' | 'close' | 'ports' | 'whatsapp' | 'hardDrive' | 'activity' | 'impact' | 'trash' | 'server' | 'usb' | 'lock' | 'camera' | 'volume'
 
 export type LaptopProblem = {
   id: string
@@ -164,11 +164,11 @@ export const laptopPrices: LaptopPrice[] = [
 ]
 
 export const laptopRepairSteps = [
-  { title: 'მიღება', description: 'მოწყობილობისა და სიმპტომების დაფიქსირება' },
-  { title: 'დიაგნოსტიკა', description: 'პრობლემის მიზეზის შემოწმება' },
-  { title: 'შეთანხმება', description: 'სამუშაოსა და ღირებულების დაზუსტება' },
-  { title: 'შეკეთება და ტესტირება', description: 'სამუშაოსა და შედეგის შემოწმება' },
-  { title: 'ჩაბარება', description: 'შედეგისა და რეკომენდაციების გაცნობა' },
+  { title: 'მიღება', description: 'მოწყობილობის, კომპლექტაციისა და დაზიანების ისტორიის დაფიქსირება' },
+  { title: 'დიაგნოსტიკა', description: 'აპარატურული და პროგრამული ტესტები, საჭირო გაზომვები' },
+  { title: 'შეთანხმება', description: 'სამუშაოს, ნაწილის, ფასისა და სავარაუდო ვადის წინასწარი დადასტურება' },
+  { title: 'შეკეთება', description: 'კომპონენტური, მექანიკური ან პროგრამული სამუშაო' },
+  { title: 'ტესტირება / ჩაბარება', description: 'დატვირთვის ტესტი, შედეგის შემოწმება და შესრულებული სამუშაოს გაცნობა' },
 ]
 
 export const laptopFaqs = [

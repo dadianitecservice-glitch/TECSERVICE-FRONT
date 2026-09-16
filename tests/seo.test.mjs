@@ -10,6 +10,11 @@ const built = await readFile(new URL('dist/index.html', root), 'utf8')
 const sitemap = await readFile(new URL('public/sitemap.xml', root), 'utf8')
 const robots = await readFile(new URL('public/robots.txt', root), 'utf8')
 const graph = JSON.parse(source.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])['@graph']
+const completedServiceCanonicalById = new Map(
+  services
+    .filter(service => service.href.startsWith('/services/'))
+    .map(service => [service.id, new URL(service.href, 'https://tecservice.ge').href]),
+)
 
 test('built structured data matches the current source without stale service or hours data', () => {
   const builtGraph = JSON.parse(built.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])['@graph']
@@ -24,13 +29,16 @@ test('Georgian document has a unique descriptive title and description', () => {
   assert.match(source, /ინფორმაციის აღდგენა თბილისში/)
 })
 
-test('canonical, sitemap and social URL use the same production homepage', () => {
+test('canonical, sitemap and social URLs cover Home and every completed service', () => {
   assert.equal((source.match(/rel="canonical"/g) ?? []).length, 1)
   assert.match(source, /rel="canonical" href="https:\/\/tecservice\.ge\/"/)
   assert.match(source, /property="og:url" content="https:\/\/tecservice\.ge\/"/)
-  assert.deepEqual([...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(match => match[1]), ['https://tecservice.ge/'])
+  assert.deepEqual(
+    [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(match => match[1]),
+    ['https://tecservice.ge/', ...completedServiceCanonicalById.values()],
+  )
   assert.match(robots, /Sitemap: https:\/\/tecservice\.ge\/sitemap\.xml/)
-  assert.doesNotMatch(sitemap, /localhost|127\.0\.0\.1|\/cabinet|\/blog|\/services|lastmod/)
+  assert.doesNotMatch(sitemap, /localhost|127\.0\.0\.1|\/cabinet|\/blog|lastmod/)
 })
 
 test('sharing and brand image files exist', async () => {
@@ -42,7 +50,18 @@ test('sharing and brand image files exist', async () => {
     await access(new URL(`public${pathname}`, root))
   }
   await access(new URL('public/assets/brand/tecservice-logo.svg', root))
+  await access(new URL('public/assets/brand/tecservice-favicon.png', root))
+  assert.match(source, /rel="icon" type="image\/png" sizes="512x512" href="\/assets\/brand\/tecservice-favicon\.png"/)
   assert.match(source, /property="og:image:alt"/)
+})
+
+test('custom 404 is prerendered, noindexed and does not canonicalize to Home', async () => {
+  const notFound = await readFile(new URL('dist/404.html', root), 'utf8')
+  assert.match(notFound, /<title>გვერდი ვერ მოიძებნა \| TECSERVICE<\/title>/)
+  assert.match(notFound, /name="robots" content="noindex, follow"/)
+  assert.match(notFound, /id="not-found-title"/)
+  assert.doesNotMatch(notFound, /rel="canonical"/)
+  assert.doesNotMatch(notFound, /application\/ld\+json/)
 })
 
 test('business schema matches visible address, telephone, hours and social links', async () => {
@@ -80,15 +99,34 @@ test('Home description and structured list represent all seven visible service d
   assert.deepEqual(graph.find(item => item['@type'] === 'WebPage').mainEntity, { '@id': list['@id'] })
   list.itemListElement.forEach(({ position, item }, index) => {
     const service = services[index]
+    const canonical = completedServiceCanonicalById.get(service.id)
     assert.equal(position, index + 1)
     assert.equal(item['@type'], 'Service')
     assert.equal(item.description, service.description)
-    assert.equal(item.url, `https://tecservice.ge/#service-${service.id}`)
-    assert.equal(item['@id'], item.url)
+    if (canonical) {
+      assert.equal(item.url, canonical)
+      assert.equal(item['@id'], `${canonical}#service`)
+    } else {
+      assert.equal(item.url, `https://tecservice.ge/#service-${service.id}`)
+      assert.equal(item['@id'], item.url)
+    }
     assert.deepEqual(item.provider, { '@id': 'https://tecservice.ge/#business' })
     assert.ok(built.includes(`id="service-${service.id}"`))
-    assert.doesNotMatch(item.url, /\/services\//)
   })
+})
+
+test('completed service cards, Header and Footer use canonical trailing-slash links', async () => {
+  const header = await readFile(new URL('src/components/Header.tsx', root), 'utf8')
+  const footer = await readFile(new URL('src/sections/Footer.tsx', root), 'utf8')
+  assert.equal(completedServiceCanonicalById.size, 7)
+
+  for (const service of services.filter(service => service.href.startsWith('/services/'))) {
+    assert.match(service.href, /^\/services\/[a-z-]+\/$/)
+    assert.ok(footer.includes(`href: '${service.href}'`), `Footer is missing ${service.href}`)
+  }
+
+  assert.ok(header.includes("service.href.replace(/\\/+$/, '')"))
+  assert.equal(services.find(service => service.id === 'other-electronics')?.href, '/services/other-electronics/')
 })
 
 test('production HTML includes real page content before JavaScript', () => {

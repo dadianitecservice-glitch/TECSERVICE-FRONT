@@ -1300,13 +1300,21 @@ ol {
   outline: none;
 }
 
+.cabinet-promo > button:disabled {
+  border-color: #91b4d0;
+  background: #91b4d0;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
 .cabinet-promo > button img {
   width: 14px;
   height: 14px;
   filter: brightness(0) invert(1);
 }
 
-.cabinet-promo > a {
+.cabinet-promo > a,
+.cabinet-promo__status {
   align-self: flex-start;
   margin-top: 14px;
   color: #f51c2b;
@@ -2637,6 +2645,69 @@ ol {
   align-items: baseline;
   gap: 28px;
   color: #c2d6e5;
+}
+
+.site-footer__legal span {
+  color: inherit;
+}
+
+.not-found-page {
+  min-height: 62vh;
+  display: grid;
+  place-items: center;
+  padding: 72px var(--desktop-gutter);
+  background: #f4f9fd;
+}
+
+.not-found-page__card {
+  width: min(640px, 100%);
+  padding: 48px;
+  border: 1px solid #d8e5ef;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 18px 50px rgba(21, 53, 82, 0.08);
+  text-align: center;
+}
+
+.not-found-page__code {
+  margin: 0 0 8px;
+  color: #0b64b1;
+  font-size: 52px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.not-found-page h1 {
+  color: #15243a;
+  font-size: clamp(28px, 4vw, 40px);
+  line-height: 1.25;
+}
+
+.not-found-page__card > p:not(.not-found-page__code) {
+  margin: 16px auto 0;
+  color: #607084;
+  line-height: 1.7;
+}
+
+.not-found-page__actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+@media (max-width: 640px) {
+  .not-found-page {
+    padding: 48px 20px;
+  }
+
+  .not-found-page__card {
+    padding: 36px 22px;
+  }
+
+  .not-found-page__actions {
+    flex-direction: column;
+  }
 }
 
 /* Align the copyright and both links by their text baselines, not box centers. */
