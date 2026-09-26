@@ -40,6 +40,20 @@ export const blogCategories: Array<{ id: string; label: { ka: string; en: string
 
 const blogTeasers: BlogTeaser[] = [
   {
+    id: "sd-card-photo-recovery-for-photographers",
+    slug: "sd-card-photo-recovery-for-photographers",
+    category: "მონაცემები",
+    date: "26 სექტემბერი, 2026",
+    dateTime: "2026-09-26",
+    title: "SD ბარათიდან ფოტოების აღდგენა — გზამკვლევი ფოტოგრაფებისთვის",
+    excerpt:
+      "კამერა SD ბარათს ვერ კითხულობს ან ფოტოები გაქრა? გაიგეთ, რა გააკეთოთ პირველ წუთებში, რას მოერიდოთ და რაზეა დამოკიდებული RAW, JPEG და ვიდეოს აღდგენა.",
+    image: "/assets/blog/sd-card-photo-recovery.webp",
+    imageWidth: 1280,
+    imageHeight: 720,
+    imageAlt: "SD მეხსიერების ბარათი და ბარათის წამკითხველი ფოტოაპარატის გვერდით",
+  },
+  {
     id: "lost-files-first-minutes",
     slug: "lost-files-first-minutes",
     category: "მონაცემები",

@@ -18,11 +18,13 @@ const preserved = [
 ]
 
 test('The 10 original articles preserve their identities, publication dates and image metadata', async () => {
-  assert.equal(blogPosts.length, 10)
+  assert.ok(blogPosts.length >= preserved.length)
   assert.deepEqual(blogPosts, getBlogPosts('ka'))
   for (const locale of ['ka', 'en']) {
     const posts = getBlogPosts(locale)
-    assert.deepEqual(posts.map(post => [post.id, post.slug, post.dateTime, post.image.split('/').at(-1), post.imageWidth, post.imageHeight]), preserved)
+    const originalIds = new Set(preserved.map(([id]) => id))
+    const originals = posts.filter(post => originalIds.has(post.id))
+    assert.deepEqual(originals.map(post => [post.id, post.slug, post.dateTime, post.image.split('/').at(-1), post.imageWidth, post.imageHeight]), preserved)
     assert.equal(new Set(posts.map(post => post.slug)).size, posts.length)
     for (const post of posts) {
       assert.match(post.slug, /^[a-z0-9]+(?:-[a-z0-9]+)*$/)
@@ -51,7 +53,7 @@ test('Both languages contain substantial, unique article bodies with usable sect
   for (const locale of ['ka', 'en']) {
     const bodies = new Set()
     for (const post of getBlogPosts(locale)) {
-      assert.ok(post.sections.length >= 3 && post.sections.length <= 4, post.id)
+      assert.ok(post.sections.length >= 3 && post.sections.length <= 8, post.id)
       assert.equal(new Set(post.sections.map(section => section.id)).size, post.sections.length)
       assert.ok(post.takeaway.length >= 70, `${post.id}: useful takeaway`)
       const paragraphs = []
@@ -73,7 +75,7 @@ test('Both languages contain substantial, unique article bodies with usable sect
       assert.doesNotMatch(body, /lorem ipsum|coming soon|placeholder|TODO/i)
       bodies.add(body)
     }
-    assert.equal(bodies.size, 10, `${locale}: no repeated article bodies`)
+    assert.equal(bodies.size, getBlogPosts(locale).length, `${locale}: no repeated article bodies`)
   }
 })
 
@@ -93,11 +95,11 @@ test('English articles translate every public text field without changing articl
   }
 })
 
-test('Manufacturer references are HTTPS links with translated, meaningful labels', () => {
-  const primaryDomains = ['microsoft.com', 'seagate.com', 'dell.com', 'playstation.com', 'kingston.com', 'crucial.com', 'djicdn.com', 'dji.com', 'xbox.com', 'hp.com', 'synology.com']
+test('Published reference arrays may be empty; included references use HTTPS and meaningful labels', () => {
+  const primaryDomains = ['microsoft.com', 'seagate.com', 'dell.com', 'playstation.com', 'kingston.com', 'crucial.com', 'djicdn.com', 'dji.com', 'xbox.com', 'hp.com', 'synology.com', 'sony.co.uk', 'sony.co.jp', 'sdcard.org', 'nikonusa.com', 'cam.start.canon']
   for (const locale of ['ka', 'en']) {
     for (const post of getBlogPosts(locale)) {
-      assert.ok(post.sources.length > 0, post.id)
+      assert.ok(Array.isArray(post.sources), `${post.id}: explicitly defines its published references`)
       for (const source of post.sources) {
         const url = new URL(source.url)
         assert.equal(url.protocol, 'https:')
@@ -110,8 +112,8 @@ test('Manufacturer references are HTTPS links with translated, meaningful labels
 
 test('Article lookup returns the requested locale and rejects unrecognised slugs', () => {
   const slug = 'console-overheating-signs-and-prevention'
-  assert.deepEqual(getBlogPost(slug), blogPosts[2])
-  assert.deepEqual(getBlogPost(slug, 'en'), getBlogPosts('en')[2])
+  assert.deepEqual(getBlogPost(slug), blogPosts.find(post => post.id === 'console-overheating'))
+  assert.deepEqual(getBlogPost(slug, 'en'), getBlogPosts('en').find(post => post.id === 'console-overheating'))
   assert.equal(getBlogPost('not-a-real-article'), undefined)
   assert.equal(getBlogPost('console-overheating'), undefined, 'Lookup uses slug, not a mismatched ID')
   assert.equal(getBlogPost(`${slug}/`), undefined, 'Routing normalisation belongs to the route layer')

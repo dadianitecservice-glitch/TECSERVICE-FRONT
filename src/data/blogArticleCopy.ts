@@ -15,6 +15,168 @@ interface BilingualArticle {
 }
 
 export const blogArticleCopy: Record<string, BilingualArticle> = {
+  "sd-card-photo-recovery-for-photographers": {
+    categoryId: "data", readMinutes: 6, serviceHref: "/services/data-recovery/",
+    ka: {
+      takeaway: "თუ SD ბარათიდან ფოტოები გაქრა, შეწყვიტეთ მასზე გადაღება და არ დააფორმატოთ. შეინახეთ ბარათი უსაფრთხოდ — აღდგენის შესაძლებლობა დაზიანების ტიპსა და შემდგომ ჩაწერებზეა დამოკიდებული; სრული შედეგი გარანტირებული არ არის.",
+      sections: [
+        {
+          id: "missing-photos", title: "გადაღება დასრულდა, მაგრამ კადრები აღარ ჩანს",
+          paragraphs: [
+            "ქორწილი, ღონისძიება თუ კომერციული ფოტოსესია — არის კადრები, რომლებსაც მეორედ ვეღარ გადაიღებთ. ამიტომ განსაკუთრებით რთულია მომენტი, როცა კამერა ბარათის შეცდომას აჩვენებს, კომპიუტერი დაფორმატებას გთავაზობთ ან გადაღებული ფოტოები საქაღალდეში აღარ ჩანს.",
+            "ეს ჯერ კიდევ არ ნიშნავს, რომ ყველა კადრი საბოლოოდ დაკარგულია. ფოტოგრაფები SD ბარათს ხშირად „ჩიპს“ უწოდებენ, თუმცა „ჩიპი დაზიანდა“ ზუსტი დიაგნოზი არ არის. პრობლემა შეიძლება ფაილების წაშლას, ფაილურ სისტემას ან თვითონ ბარათის ფიზიკურ დაზიანებას უკავშირდებოდეს. პირველი ამოცანაა არსებული მდგომარეობის შენარჩუნება, და არა ბარათის სასწრაფოდ სამუშაოდ დაბრუნება.",
+          ],
+        },
+        {
+          id: "first-steps", title: "პირველი ნაბიჯები — დაიცავით დარჩენილი ინფორმაცია",
+          paragraphs: [
+            "აღდგენის შანსის შესანარჩუნებლად პირველ რიგში ახალი ჩაწერა უნდა შეჩერდეს. დაკარგული ფაილების ადგილას გადაღებულმა ახალმა მასალამ ძველი მონაცემები შეიძლება გადაწეროს. დარჩენილი ფოტოსესია სხვა, გამართული ბარათით გააგრძელეთ.",
+          ],
+          bullets: [
+            "შეწყვიტეთ გადაღება. ბარათის ამოღებამდე დარწმუნდით, რომ კამერამ ჩაწერა დაასრულა, შემდეგ გამორთეთ მოწყობილობა და მიჰყევით მის ინსტრუქციას.",
+            "არ დაეთანხმოთ კამერის ან კომპიუტერის შეთავაზებას ბარათის დაფორმატებაზე.",
+            "გამოყენებული ბარათი ცალკე დამცავ ყუთში მოათავსეთ და მონიშნეთ, რომ შემთხვევით ისევ არ გადაიღოთ მასზე.",
+            "სხვა მოწყობილობიდან შეამოწმეთ უკვე არსებული ასლები: მეორე ბარათი, კომპიუტერი, გარე დისკი ან ღრუბლოვანი საცავი.",
+          ],
+        },
+        {
+          id: "card-damage", title: "წაშლილი ფაილები თუ ფიზიკურად დაზიანებული ბარათი?",
+          paragraphs: [
+            "შემთხვევით წაშლილი კადრები და დაზიანებული ფაილური სისტემა ერთი და იგივე არ არის, მაგრამ ორივე შემთხვევაში ბარათზე ინფორმაციის ნაწილი შეიძლება ჯერ კიდევ არსებობდეს. მხოლოდ ცარიელი საქაღალდე, შეცდომის შეტყობინება ან დაფორმატების მოთხოვნა მიზეზის დასადგენად საკმარისი არ არის.",
+            "გაბზარული, მოღუნული ან დასველებული SD თუ microSD ბარათი კამერაში ან წამკითხველში ხელახლა არ მოათავსოთ. თუ ბარათი ხან იკითხება და ხან ქრება, აღდგენის პროგრამებით განმეორებითი ექსპერიმენტების ნაცვლად შეწყვიტეთ მცდელობები და მოითხოვეთ შეფასება. პროგრამა გატეხილ კორპუსს ან დაზიანებულ ელექტრონულ კომპონენტს ვერ შეაკეთებს; სპეციალისტის ჩარევაც ყველა შემთხვევაში წარმატებას არ ნიშნავს.",
+          ],
+        },
+        {
+          id: "avoid-mistakes", title: "რას უნდა მოერიდოთ აღდგენამდე",
+          paragraphs: [
+            "ბარათის გამართვა და ფოტოების გადარჩენა სხვადასხვა მიზანია. თუ მასალა მნიშვნელოვანია, შეფასებამდე ნუ გაუშვებთ ავტომატურ შეკეთებას ან ფორმატირებას. დაფორმატების შედეგი მეთოდსა და მოწყობილობაზეა დამოკიდებული: მაგალითად, SD Association-ის პროგრამაში Quick Format და Overwrite Format მონაცემებს ერთნაირად არ ამუშავებს. ეს არ ნიშნავს, რომ კამერაში „სწრაფი ფორმატირება“ აღდგენის უსაფრთხო ნაბიჯია.",
+          ],
+          bullets: [
+            "არ გადაიღოთ საცდელი ფოტო და არ ჩაწეროთ ახალი ფაილები დაზიანებულ ბარათზე.",
+            "აღდგენილი მასალა შეინახეთ სხვა გამართულ დისკზე და არა იმავე SD ბარათზე.",
+            "არ გახსნათ ბარათის კორპუსი, არ გააცხელოთ და არ სცადოთ კონტაქტების თვითნებური დამუშავება.",
+            "თუ ბარათი უკვე დააფორმატეთ, აღარ გაიმეოროთ პროცედურა — ჩაინიშნეთ, სად და როგორ მოხდა ეს.",
+          ],
+        },
+        {
+          id: "recoverable-formats", title: "შესაძლებელია RAW, JPEG და ვიდეოს აღდგენა?",
+          paragraphs: [
+            "ზოგ შემთხვევაში შესაძლებელია როგორც JPEG ფოტოების, ისე RAW ფაილებისა და ვიდეოს აღდგენა. თუმცა მხარდაჭერა კამერის მოდელზე, ფაილის ფორმატსა და აღდგენის მეთოდზეა დამოკიდებული. ერთი პროგრამის მიერ კონკრეტული RAW ფორმატის მხარდაჭერა არ ნიშნავს, რომ ის ყველა კამერისა და ყველა ბარათის მასალას აღადგენს.",
+            "ნაპოვნი ფაილის სახელი ან პატარა წინასწარი ხედი ჯერ კიდევ არ ადასტურებს ორიგინალის მთლიანობას. მიღებული ფოტო სრულ ზომაზე უნდა გაიხსნას, ვიდეო კი დაკვრისას შემოწმდეს. ძლიერ დაზიანებული ან ახალი მონაცემებით გადაწერილი მასალა შეიძლება ვეღარ აღდგეს. წინასწარი დაპირება, რომ „ყველა კადრი აუცილებლად დაბრუნდება“, სანდო შეფასებას ვერ შეცვლის.",
+          ],
+        },
+        {
+          id: "assessment", title: "რა ინფორმაცია მოამზადოთ შეფასებისთვის",
+          paragraphs: [
+            "კარგი შეფასება შემთხვევის ისტორიით იწყება. სპეციალისტისთვის მნიშვნელოვანია არა მხოლოდ ბარათის წარწერა, არამედ ისიც, რა მოხდა ფოტოების გაქრობამდე და შემდეგ. თუ ნაწილი უკვე გადმოწერილი გაქვთ, გამოყავით, კონკრეტულად რომელი გადაღება ან დროის მონაკვეთი გაკლიათ.",
+          ],
+          bullets: [
+            "კამერის მოდელი; ბარათის ბრენდი, მოცულობა და ტიპი — SD თუ microSD.",
+            "რა შეცდომა გამოჩნდა და როდის იკითხებოდა ბარათი ბოლოს გამართულად.",
+            "წაიშალა თუ არა ფაილები, დაფორმატდა თუ არა ბარათი და გაგრძელდა თუ არა მასზე გადაღება.",
+            "რომელი პროგრამები გამოიყენეთ ან შეკეთების რა მცდელობები ჩაატარეთ და ხომ არ დასველდა ან დაზიანდა ბარათი.",
+            "რომელია პრიორიტეტული მასალა: RAW, JPEG, ვიდეო ან კონკრეტული ღონისძიების კადრები.",
+          ],
+        },
+        {
+          id: "next-shoot", title: "როგორ დაიცვათ შემდეგი გადაღება",
+          paragraphs: [
+            "ორი ბარათის სლოტი თავისთავად სარეზერვო ასლს არ ნიშნავს. თუ კამერა მხარს უჭერს, აირჩიეთ ერთი და იმავე მასალის ორივე ბარათზე ჩაწერა — Backup. Overflow მხოლოდ პირველი ბარათის შევსების შემდეგ გადადის მეორეზე. RAW-ისა და JPEG-ის სხვადასხვა ბარათზე განაწილებაც ორივე ორიგინალის დუბლირება არ არის. ვიდეოს პარალელური ჩაწერის შესაძლებლობა ცალკე გადაამოწმეთ თქვენი მოდელის ინსტრუქციაში.",
+            "გადაღების შემდეგ შეინახეთ მასალა დამოუკიდებელ საცავებშიც და გადაამოწმეთ, რომ ასლები ნამდვილად იხსნება. მხოლოდ ამის შემდეგ მოამზადეთ ბარათი შემდეგი სამუშაოსთვის კამერის ინსტრუქციის მიხედვით. ბარათს ნუ გამოიყენებთ არქივის ერთადერთ ადგილად — სამუშაო დღის დასრულებას გადაღებული მასალის უსაფრთხოდ შენახვაც უნდა მოჰყვეს.",
+          ],
+        },
+        {
+          id: "get-help", title: "SD ბარათის შეფასება TECSERVICE-ში",
+          paragraphs: [
+            "თუ SD ბარათი აღარ იკითხება ან მნიშვნელოვანი ფოტოები და ვიდეო გაქრა, დაუკავშირდით TECSERVICE-ს მონაცემების აღდგენის საკითხზე. მოგვაწოდეთ ბარათისა და კამერის მონაცემები, აღწერეთ შემთხვევა და უკვე ჩატარებული მცდელობები. მომსახურების შესახებ ინფორმაციას ამ გვერდის სერვისის ბმულით ნახავთ.",
+            "კონკრეტული შემთხვევის აღდგენის შესაძლებლობა, ფასი და ვადა ინდივიდუალურ შეფასებას საჭიროებს. სანამ ბარათს მოიტანთ, აღარ გამოიყენოთ იგი გადაღებისთვის და ნუ სცდით მის ფორმატირებას. ყველაზე ღირებული ნაბიჯი ახლა ისაა, რომ დარჩენილი მასალა დამატებითი ცვლილებებისგან დაიცვათ.",
+          ],
+        },
+      ],
+      sources: [],
+    },
+    en: {
+      title: "SD card photo recovery: a photographer’s guide",
+      excerpt: "Camera cannot read your SD card or photos have disappeared? Learn the first steps, mistakes to avoid and what affects RAW, JPEG and video recovery.",
+      imageAlt: "SD memory card and card reader beside a camera",
+      takeaway: "If photos disappear from an SD card, stop shooting on it and do not format it. Keep the card safe: recovery depends on the fault and subsequent writes, and complete recovery is never guaranteed.",
+      sections: [
+        {
+          id: "missing-photos", title: "The shoot is over, but the images are missing",
+          paragraphs: [
+            "A wedding, an event or a commercial shoot can contain moments you cannot capture twice. Finding a card error on the camera, a format prompt on the computer or an unexpectedly empty folder is a difficult way to end that working day.",
+            "It does not automatically mean every image is gone for good. A card error does not, by itself, confirm that the memory chip is physically damaged. Deleted files, a damaged file system and physical card damage are different problems. The first priority is to preserve what remains, not to make the card ready for another shoot.",
+          ],
+        },
+        {
+          id: "first-steps", title: "First steps: protect the remaining data",
+          paragraphs: [
+            "Preventing new writes is the first precaution. Further shooting can overwrite data that might otherwise be recoverable. Use a different, working card if you need to finish the assignment, and set the affected one aside.",
+          ],
+          bullets: [
+            "Stop shooting. Before removing the card, ensure the camera has finished writing; then switch it off and follow its removal instructions.",
+            "Decline any camera or computer prompt to format the card.",
+            "Put the affected card in a separate protective case and label it so it is not accidentally used again.",
+            "Use another device to check existing copies on a second card, computer, external drive or cloud storage.",
+          ],
+        },
+        {
+          id: "card-damage", title: "Deleted files or a physically damaged card?",
+          paragraphs: [
+            "Accidental deletion and file-system corruption are different faults, but some data may still be present in either case. An empty folder, an error message or a request to format the card does not identify the cause on its own.",
+            "Do not reinsert a cracked, bent or wet SD or microSD card into a camera or reader. If detection comes and goes, stop further attempts and request an assessment rather than repeatedly trying recovery applications. Software cannot repair a broken casing or a damaged electronic component, and specialist intervention does not guarantee success either.",
+          ],
+        },
+        {
+          id: "avoid-mistakes", title: "What to avoid before recovery",
+          paragraphs: [
+            "Restoring a card to use and preserving lost photographs are different goals. For valuable material, avoid automatic repair operations or formatting before assessment. Formatting behaviour varies: the SD Association’s utility distinguishes Quick Format from Overwrite Format. That distinction is not a reason to treat a camera’s quick-format option as a safe recovery step.",
+          ],
+          bullets: [
+            "Do not take test shots or copy new files onto the affected card.",
+            "Save recovered material to another healthy drive, never back onto the source SD card.",
+            "Do not open or heat the card, or attempt improvised work on its contacts.",
+            "If you have already formatted it, do not repeat the operation; record which device and method were used.",
+          ],
+        },
+        {
+          id: "recoverable-formats", title: "Can RAW, JPEG and video files be recovered?",
+          paragraphs: [
+            "Recovery can sometimes include JPEG images, RAW files and video, but support depends on the camera, file format and recovery method. An application supporting one RAW format does not establish compatibility with every camera or card.",
+            "A recovered filename or thumbnail is not proof of an intact original. Open photographs at full size and check video playback. Severe corruption or overwritten data may prevent recovery. A promise that every frame will definitely return is not a substitute for an assessment.",
+          ],
+        },
+        {
+          id: "assessment", title: "What to prepare for an assessment",
+          paragraphs: [
+            "A useful assessment starts with the history of the incident, not just the information printed on the card. Explain what happened before the files disappeared and what you did afterwards. If you already copied some material, identify the missing shoot or time period as precisely as possible.",
+          ],
+          bullets: [
+            "Camera model, card brand and capacity, and whether it is SD or microSD.",
+            "The error you saw and when the card last worked normally.",
+            "Whether files were deleted, the card was formatted or shooting continued after the loss.",
+            "Any recovery applications or repair attempts already used, plus any liquid or physical damage.",
+            "Your priority material: RAW photographs, JPEGs, video or images from a particular event.",
+          ],
+        },
+        {
+          id: "next-shoot", title: "Protecting the next shoot",
+          paragraphs: [
+            "Two card slots do not automatically create a backup. Where supported, select Backup to duplicate the same material. Overflow moves to the second card when the first fills up; splitting RAW and JPEG across cards is not a duplicate of both originals either. Check your own camera’s manual separately for simultaneous video recording support.",
+            "After the shoot, keep copies on independent storage and verify that they open before preparing the card for reuse according to the camera’s instructions. The card should not be your only archive. Make safeguarding the day’s material part of finishing the assignment, not an optional task for later.",
+          ],
+        },
+        {
+          id: "get-help", title: "SD card assessment at TECSERVICE",
+          paragraphs: [
+            "If an SD card is unreadable or important photographs and footage are missing, contact TECSERVICE about data recovery. Share the card and camera details, describe the incident and explain any previous attempts. The service link on this page leads to more information about data recovery.",
+            "Recovery options, cost and timing require an individual assessment. Before bringing the card in, stop using it for photography and do not try formatting it. The most useful action now is to protect the remaining material from further changes.",
+          ],
+        },
+      ],
+      sources: [],
+    },
+  },
   "lost-files-first-minutes": {
     categoryId: "data", readMinutes: 3, serviceHref: "/services/data-recovery/",
     ka: {

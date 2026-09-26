@@ -1,8 +1,8 @@
 # Georgian / English public website
 
-Updated 2026-09-25; older responsive evidence below is dated explicitly.
+Updated 2026-09-26; older responsive evidence below is dated explicitly.
 
-The current site has 42 indexable Georgian/English URLs: Home, seven services, Contact, About, Blog and ten articles. Terms/Privacy, private account sign-in shells and 404 documents are also built in both languages but deliberately not indexed. The header uses canonical language-switch links while preserving route, query and section fragment. Internal links stay in the selected language. The shop remains an external website; this work does not translate, integrate or deploy it.
+The current site has 44 indexable Georgian/English URLs: Home, seven services, Contact, About, Blog and eleven articles. Terms/Privacy, private account sign-in shells and 404 documents are also built in both languages but deliberately not indexed. The header uses canonical language-switch links while preserving route, query and section fragment. Internal links stay in the selected language. The shop remains an external website; this work does not translate, integrate or deploy it.
 
 ## Content maintenance
 
@@ -37,6 +37,6 @@ Testing used local Chromium, not actual iOS Safari or other physical devices. No
 
 ## Deployment and follow-up
 
-Deploy fresh `dist/` output and review `docs/nginx-seo-routes.conf`, then verify all 42 indexable URLs, legal/private indexing policy, localized 404 statuses, redirects/query retention, indexing headers, compression and caching. Native local server tests are not evidence of the deployed server's behavior.
+Deploy fresh `dist/` output and review `docs/nginx-seo-routes.conf`, then verify all 44 indexable URLs, legal/private indexing policy, localized 404 statuses, redirects/query retention, indexing headers, compression and caching. Native local server tests are not evidence of the deployed server's behavior.
 
 Search Console submission, deployed PageSpeed Insights and actual-device QA remain outstanding. Blog, Privacy and Terms pages now exist; the legal content still has an approval gate before indexing. Production activation or integration of admin, ticket, SMS and assistant services requires separate user approval. See [SEO.md](../SEO.md) for the current launch checklist.

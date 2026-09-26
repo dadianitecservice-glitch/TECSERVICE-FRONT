@@ -36,7 +36,9 @@ npm run build
 npm run preview
 ```
 
-The build prerenders all Georgian/English pages and private sign-in shells into complete HTML (50 documents; 42 currently indexable URLs) and audits the output. Each page loads its own code/styles, with English translation catalogs loaded only for English pages. Run `npm run test:seo` after building and `node --test tests/*.test.mjs` for all regressions. Local dev/preview has a noindex response header; deploy only `dist` to the public site. See [SEO.md](SEO.md) for server configuration, the legal-content indexing gate, performance checks and Search Console setup still required at launch.
+The build prerenders all Georgian/English pages and private sign-in shells into complete HTML (52 documents; 44 currently indexable URLs) and audits the output. Each page loads its own code/styles, with English translation catalogs loaded only for English pages. Run `npm run test:seo` after building and `node --test tests/*.test.mjs` for all regressions. Local dev/preview has a noindex response header; deploy only `dist` to the public site. See [SEO.md](SEO.md) for server configuration, the legal-content indexing gate, performance checks and Search Console setup still required at launch.
+
+For the ready-to-upload website archive and Facebook article previews, follow the [Georgian deployment guide](docs/upload-website-ka.md). Upload the complete generated site and serve each article's own HTML; publishing source code to GitHub alone does not update the hosting server.
 
 ## Demo interactions
 

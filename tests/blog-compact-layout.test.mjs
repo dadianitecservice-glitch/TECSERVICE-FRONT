@@ -42,7 +42,6 @@ for (const locale of ['ka', 'en']) {
     const main = html.match(/<main\b[\s\S]*?<\/main>/)?.[0]
     assert.ok(main)
     const cards = [...main.matchAll(/<article\b[^>]*class="([^"]*\bjournal-card\b[^"]*)"[^>]*>[\s\S]*?<\/article>/g)]
-    assert.equal(cards.length, 10)
     assert.equal(cards.length, posts.length)
     assert.equal(new Set(cards.map(([, classes]) => classes)).size, 1)
     for (const post of posts) {

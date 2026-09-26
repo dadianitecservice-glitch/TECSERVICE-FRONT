@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "tsc -b && vite build && node scripts/prerender.mjs && node scripts/audit-seo.mjs",
-    "test:seo": "node scripts/audit-seo.mjs && node --test tests/seo.test.mjs tests/seo-assets.test.mjs tests/english-seo.test.mjs tests/service-structured-data.test.mjs tests/blog-schema-previews.test.mjs tests/route-metadata-recovery.test.mjs tests/route-paths.test.mjs tests/route-loading.test.mjs tests/translation-loading.test.mjs tests/public-media.test.mjs tests/seo-audit.test.mjs tests/nginx-production-config.test.mjs",
+    "test:seo": "node scripts/audit-seo.mjs && node --test tests/seo.test.mjs tests/seo-assets.test.mjs tests/english-seo.test.mjs tests/service-structured-data.test.mjs tests/blog-schema-previews.test.mjs tests/facebook-sharing.test.mjs tests/route-metadata-recovery.test.mjs tests/route-paths.test.mjs tests/route-loading.test.mjs tests/translation-loading.test.mjs tests/public-media.test.mjs tests/seo-audit.test.mjs tests/nginx-production-config.test.mjs",
     "preview": "vite preview --host 0.0.0.0"
   },
   "dependencies": {

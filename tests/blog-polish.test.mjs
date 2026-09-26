@@ -38,7 +38,7 @@ for (const locale of ['ka', 'en']) {
     for (const path of [indexPath, ...posts.map(post => `${prefix}/blog/${post.slug}/`)]) {
       const html = await readFile(new URL(`dist${path}index.html`, root), 'utf8')
       const cards = [...html.matchAll(/<article\b[^>]*class="[^"]*\bjournal-card\b[^"]*"[^>]*>[\s\S]*?<\/article>/g)]
-      assert.equal(cards.length, path === indexPath ? 10 : 3, `${path} retains its index or related cards`)
+      assert.equal(cards.length, path === indexPath ? posts.length : 3, `${path} retains its index or related cards`)
       const headingIds = new Set()
       for (const [card] of cards) {
         assert.equal((card.match(/<a\b/g) ?? []).length, 1, `${path}: cards do not contain nested or duplicate links`)
@@ -97,7 +97,7 @@ for (const locale of ['ka', 'en']) {
     assert.ok(main)
     assert.doesNotMatch(main, /class="[^"]*\bjournal-(?:featured|eyebrow)(?:\b|__)/)
     const cards = [...main.matchAll(/<article\b[^>]*class="[^"]*\bjournal-card\b[^"]*"[^>]*>[\s\S]*?<\/article>/g)]
-    assert.equal(cards.length, 10)
+    assert.equal(cards.length, posts.length)
     for (const [card] of cards) assert.doesNotMatch(card, /<p\b/)
     const content = visibleText(main)
     for (const post of posts) {
