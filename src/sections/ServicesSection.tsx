@@ -3,15 +3,17 @@ import { SectionHeader } from '../components/SectionHeader'
 import { services } from '../data/services'
 import { toGeorgianMtavruli } from '../utils/text'
 import { useResponsiveHome } from '../hooks/useResponsiveHome'
+import { useTranslation } from '../i18n/LocaleProvider'
 
 export function ServicesSection() {
+  const l10n = useTranslation()
   const responsive = useResponsiveHome()
   return (
     <section className="services-section" id="services" aria-labelledby="services-title">
       <SectionHeader
         headingId="services-title"
-        title={toGeorgianMtavruli('ჩვენი სერვისები')}
-        description="პროფესიონალური დიაგნოსტიკა და შეკეთება სხვადასხვა ტიპის ტექნიკისთვის."
+        title={l10n.t(toGeorgianMtavruli('ჩვენი სერვისები'))}
+        description={l10n.t('პროფესიონალური დიაგნოსტიკა და შეკეთება სხვადასხვა ტიპის ტექნიკისთვის.')}
       />
       <div className="services-grid" aria-labelledby="services-title" tabIndex={responsive ? 0 : undefined} role={responsive ? 'region' : undefined} onKeyDown={event => {
         if (responsive && (event.key === 'ArrowRight' || event.key === 'ArrowLeft')) {

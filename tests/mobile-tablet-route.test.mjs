@@ -110,7 +110,7 @@ test('mobile and tablet prices, process, FAQs and WhatsApp messages preserve dev
   assert.equal(mobileTabletFaqs.length, 6)
   assert.deepEqual(mobileTabletPrices.map(item => item.name), [
     'მოწყობილობის დიაგნოსტიკა',
-    'ეკრანის / Touch-ის შეცვლის სამუშაო',
+    'ეკრანის / სენსორის შეცვლის სამუშაო',
     'ბატარეის შეცვლის სამუშაო',
     'USB‑C / Lightning დამტენის პორტის შეკეთება',
     'კამერის, დინამიკის ან მიკროფონის შეცვლის სამუშაო',

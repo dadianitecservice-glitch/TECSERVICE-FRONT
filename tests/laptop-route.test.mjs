@@ -33,10 +33,10 @@ test('static laptop route serves its own HTML and preview metadata on a direct r
   await access(new URL(`dist${scriptPath}`, root))
 })
 
-test('laptop Header links reach Home sections and mark the current service', async () => {
+test('laptop Header links reach Home sections, About and Contact and mark the current service', async () => {
   const built = await readFile(new URL('dist/services/laptop-repair/index.html', root), 'utf8')
   const header = built.match(/<header\b[\s\S]*?<\/header>/)[0]
-  for (const target of ['/#blog', '/#contact', '/#ticket']) assert.ok(header.includes(`href="${target}"`))
+  for (const target of ['/blog/', '/about/', '/contact/', '/account/']) assert.ok(header.includes(`href="${target}"`))
   assert.match(header, /href="\/services\/laptop-repair\/"[^>]*aria-current="page"/)
   assert.doesNotMatch(header, /href="#(?:blog|contact|ticket)"/)
 })
@@ -100,14 +100,14 @@ test('laptop completion includes visible FAQ, the shared simple contact layout, 
   assert.equal((faq.match(/<details\b/g) ?? []).length, 6)
   assert.equal((faq.match(/<summary\b/g) ?? []).length, 6)
   assert.ok(contact)
-  assert.match(contact, /https:\/\/wa\.me\/995591474040/)
+  assert.match(contact, /href="tel:\+995591474040" aria-label="ტელეფონი: \+995 591 47 40 40"/)
   assert.match(contact, new RegExp(toGeorgianMtavruli('დაგვიკავშირდით')))
   assert.equal((contact.match(/class="contact-detail"/g) ?? []).length, 3)
   for (const label of ['ტელეფონი', 'მისამართი', 'სამუშაო საათები']) assert.ok(contact.includes(`<small>${label}</small>`))
   assert.doesNotMatch(contact, /lp-contact__card|lp-contact__actions|მზად ხართ ლეპტოპის შესაკეთებლად/)
   assert.match(contact, /google\.com\/maps\?q=41\.7188516,44\.8036156/)
   assert.ok(footer)
-  for (const target of ['/#services', '/#ticket', '/#blog', '/#contact']) assert.ok(footer.includes(`href="${target}"`))
+  for (const target of ['/#services', '/account/', '/blog/', '/contact/']) assert.ok(footer.includes(`href="${target}"`))
 })
 
 test('laptop status lookup stays compact until a service code is submitted', async () => {
@@ -133,5 +133,5 @@ test('completed laptop route is indexable and included in the sitemap', async ()
   assert.match(metadata.robots, /^index, follow/)
   assert.match(home, /name="robots" content="index, follow/)
   assert.match(home, /id="hero-title"/)
-  assert.match(home, /href="#blog"/)
+  assert.match(home, /href="\/blog\/"/)
 })

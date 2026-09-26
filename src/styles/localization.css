@@ -1,0 +1,12 @@
+.site-header__language-option[href] { display: inline-flex; align-items: center; justify-content: center; min-width: 26px; min-height: 26px; cursor: pointer; }
+.site-header__language-option[href]:hover { color: #0864b5; text-decoration: underline; text-underline-offset: 3px; }
+.site-header__language-option[href]:focus-visible { outline: 2px solid #0864b5; outline-offset: 2px; border-radius: 3px; }
+html[lang='en'] .lp-hero h1 { letter-spacing: -0.025em; }
+html[lang='en'] .lp-hero__facts { flex-wrap: wrap; }
+html[lang='en'] .lp-section-nav { column-gap: clamp(16px, 4vw, 64px); }
+html[lang='en'] .contact-page__address { flex-wrap: wrap; }
+html[lang='en'] .contact-page__lead { max-width: 480px; }
+@media (max-width: 600px) {
+  html[lang='en'] .lp-section-nav { column-gap: 8px; }
+  html[lang='en'] .hero__title { overflow-wrap: normal; }
+}

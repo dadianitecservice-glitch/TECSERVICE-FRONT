@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="T/S">
+  <title>T/S — TECSERVICE</title>
+  <path fill="#ed1c24" d="M1 10H24V19H17V54H8V19H1Z"/>
+  <path fill="#8b9eb3" d="M34 10H39L29 54H24Z"/>
+  <path fill="#0664b5" d="M63 10H49C43 10 40 14 40 20V27C40 33 43 36 49 36H53C55 36 56 37 56 39V43C56 45 55 46 53 46H40V54H54C60 54 63 50 63 44V37C63 31 60 28 54 28H50C48 28 47 27 47 25V21C47 19 48 18 50 18H63Z"/>
+</svg>

@@ -14,7 +14,7 @@
 .laptop-page h1, .laptop-page h2, .laptop-page h3 { color: var(--lp-ink); font-weight: 650; }
 .laptop-page [hidden] { display: none !important; }
 .laptop-page button { cursor: pointer; }
-.laptop-page a:focus-visible, .laptop-page button:focus-visible, .laptop-page input:focus-visible, .lp-problem-panel:focus-visible { outline: 2px solid #0864b5; outline-offset: 4px; }
+.laptop-page a:focus-visible, .laptop-page button:focus-visible, .lp-problem-panel:focus-visible { outline: 2px solid #0864b5; outline-offset: 4px; }
 .laptop-page figure { margin: 0; }
 .lp-icon { width: 22px; height: 22px; flex: 0 0 22px; }
 .lp-button { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 46px; padding: 11px 19px; border: 1px solid transparent; border-radius: 8px; font-size: 13px; font-weight: 600; line-height: 20px; white-space: nowrap; transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease; }
@@ -72,9 +72,6 @@
 .lp-section-nav a { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: auto; min-width: 0; min-height: 44px; padding: 8px 6px; color: #3a5975; font-size: 12px; font-weight: 550; line-height: 1.5; text-align: center; white-space: normal; overflow-wrap: anywhere; }
 .lp-section-nav .lp-icon { color: var(--lp-blue); width: 17px; height: 17px; flex-basis: 17px; }
 .lp-section-nav a:hover { color: var(--lp-blue); }
-body:has(.laptop-page) .site-header__nav-link--services { color: #0864b5; }
-body:has(.laptop-page) .site-header__nav-link--services::after { opacity: 1; transform: none; }
-body:has(.laptop-page) .site-header__service-link[aria-current='page'] { background: #eef6fc; color: #0864b5; }
 
 /* Symptom list and its contextual detail panel. */
 .lp-problems { background: #fff; }
@@ -162,6 +159,7 @@ body:has(.laptop-page) .site-header__service-link[aria-current='page'] { backgro
 .lp-status-strip form { display: flex; gap: 10px; flex: 0 1 490px; min-width: 0; }
 .lp-status-strip input { min-width: 0; flex: 1; width: 100%; height: 42px; border: 1px solid #cfdfeb; border-radius: 6px; padding: 10px 12px; color: #294761; background: #fff; font-size: 12px; }
 .lp-status-strip input::placeholder { color: #8b9cab; }
+.lp-status-strip input:focus { outline: none; box-shadow: none; background: #f0f5f9; }
 .lp-status-strip button:disabled { cursor: wait; opacity: .76; }
 .lp-ticket-message { margin-top: 10px; padding: 10px 13px; border: 1px solid #d9e8f4; border-radius: 7px; color: #426680; background: #f3f8fc; font-size: 11px; line-height: 1.7; }
 .lp-ticket-message--error { color: #b83342; border-color: #f1cbd0; background: #fff3f4; }
@@ -292,7 +290,7 @@ body:has(.laptop-page) .site-header__service-link[aria-current='page'] { backgro
   .lp-info-note .lp-icon { margin-top: 2px; }
   .lp-price-filters { display: flex; width: 100%; }
   .lp-price-filters button { flex: 1; font-size: 12px; padding-inline: 8px; }
-  .lp-price-table__head { display: none; }
+  .lp-price-table__head { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
   .lp-price-row { grid-template-columns: 1fr 1fr; padding: 0 15px 13px; }
   .lp-price-name { grid-column: 1 / -1; padding: 13px 0 11px; font-size: 13px; }
   .lp-price-row > span { padding: 0; display: flex; flex-direction: column; gap: 2px; font-size: 12px; }
@@ -324,7 +322,7 @@ body:has(.laptop-page) .site-header__service-link[aria-current='page'] { backgro
 .computer-page .lp-hero__detail--upgrade img { object-position: 50% 48%; }
 .computer-page .lp-section-nav { grid-template-columns: repeat(6, max-content); column-gap: clamp(22px, 3.1vw, 48px); }
 .computer-page .lp-problem-panel__main { grid-template-columns: minmax(0, 1.45fr) minmax(285px, 1fr); }
-.computer-page .lp-problem-panel__photo { aspect-ratio: 4 / 3; align-self: start; }
+.computer-page .lp-problem-panel__photo { aspect-ratio: 3 / 4; align-self: center; }
 .computer-page .pc-problem-photo--power { --lp-photo-position: 57% 50%; }
 .computer-page .pc-problem-photo--display { --lp-photo-position: 56% 50%; }
 .computer-page .pc-problem-photo--restarts { --lp-photo-position: 62% 50%; }
@@ -336,11 +334,14 @@ body:has(.laptop-page) .site-header__service-link[aria-current='page'] { backgro
 
 /* Console-repair page additions: keep the established service-page proportions. */
 .console-page .lp-hero h1 { max-width: 610px; }
+.console-page .console-hero-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; max-width: 420px; gap: 12px; }
+.console-page .console-hero-facts > span { min-width: 0; justify-content: center; }
+.console-page .console-hero-facts > span > span { text-align: center; white-space: nowrap; }
 .console-page .lp-hero__photo > img { object-position: 50% 51%; }
 .console-page .lp-hero__detail--ps5 img { object-position: 50% 50%; }
 .console-page .lp-hero__detail--xbox img { object-position: 50% 50%; }
 .console-page .lp-problem-panel__main { grid-template-columns: minmax(0, 1.45fr) minmax(285px, 1fr); }
-.console-page .lp-problem-panel__photo { aspect-ratio: 4 / 3; align-self: start; }
+.console-page .lp-problem-panel__photo { aspect-ratio: 3 / 4; align-self: center; }
 .console-page .console-problem-photo--hdmi { --lp-photo-position: 50% 50%; }
 .console-page .console-problem-photo--heat { --lp-photo-position: 50% 50%; }
 .console-page .console-problem-photo--power { --lp-photo-position: 50% 50%; }
@@ -359,7 +360,7 @@ body:has(.laptop-page) .site-header__service-link[aria-current='page'] { backgro
 .drone-page .lp-hero__detail--drone-gimbal img { object-position: 50% 50%; }
 .drone-page .lp-hero__detail--drone-fpv img { object-position: 50% 50%; }
 .drone-page .lp-problem-panel__main { grid-template-columns: minmax(0, 1.45fr) minmax(285px, 1fr); }
-.drone-page .lp-problem-panel__photo { aspect-ratio: 4 / 3; align-self: start; }
+.drone-page .lp-problem-panel__photo { aspect-ratio: 3 / 4; align-self: center; }
 .drone-page .drone-problem-photo--power { --lp-photo-position: 50% 50%; }
 .drone-page .drone-problem-photo--crash-gimbal { --lp-photo-position: 50% 50%; }
 .drone-page .drone-problem-photo--camera { --lp-photo-position: 50% 50%; }
@@ -379,7 +380,7 @@ body:has(.laptop-page) .site-header__service-link[aria-current='page'] { backgro
 .mobile-tablet-page .lp-hero__detail--mobile-connectors img { object-position: 50% 50%; }
 .mobile-tablet-page .lp-hero__detail--mobile-screen img { object-position: 50% 50%; }
 .mobile-tablet-page .lp-problem-panel__main { grid-template-columns: minmax(0, 1.45fr) minmax(285px, 1fr); }
-.mobile-tablet-page .lp-problem-panel__photo { aspect-ratio: 4 / 3; align-self: start; }
+.mobile-tablet-page .lp-problem-panel__photo { aspect-ratio: 3 / 4; align-self: center; }
 .mobile-tablet-page .mobile-tablet-hero-facts { gap: 23px; }
 .mobile-tablet-page .mobile-tablet-hero-facts > span { min-width: 136px; }
 .mobile-tablet-page .mobile-tablet-hero-facts > span > span { white-space: nowrap; }
@@ -404,8 +405,17 @@ body:has(.laptop-page) .site-header__service-link[aria-current='page'] { backgro
 .other-electronics-page .lp-problems__grid { grid-template-columns: 300px minmax(0, 1fr); }
 .other-electronics-page .lp-problem-tabs button { min-height: 48px; }
 .other-electronics-page .lp-problem-panel__main { grid-template-columns: minmax(0, 1.55fr) minmax(285px, 1fr); }
-.other-electronics-page .lp-problem-panel__photo { aspect-ratio: 4 / 3; align-self: start; }
+.other-electronics-page .lp-problem-panel__photo { aspect-ratio: 3 / 4; align-self: center; }
 .other-electronics-status-helper { margin-top: 10px; color: #71859a; font-size: 10px; line-height: 1.7; }
+
+/* Keep every service detail photo identical to the laptop page on desktop. */
+@media (min-width: 901px) {
+  .laptop-page .lp-problem-panel__photo {
+    width: 326px;
+    max-width: 100%;
+    justify-self: center;
+  }
+}
 
 @media (max-width: 1199px) {
   .other-electronics-page .lp-problems__grid { grid-template-columns: 260px minmax(0, 1fr); }
@@ -501,6 +511,7 @@ body:has(.laptop-page) .site-header__service-link[aria-current='page'] { backgro
   .computer-page .lp-section-nav a:last-child { grid-column: auto; }
   .computer-page .lp-problem-panel__photo { aspect-ratio: 16 / 9; }
   .console-page .lp-hero h1 { font-size: 30px; }
+  .console-page .console-hero-facts { gap: 8px; }
   .console-page .lp-problem-panel__photo { aspect-ratio: 16 / 9; }
   .drone-page .lp-hero h1 { font-size: 28px; }
   .drone-page .lp-problem-panel__photo { aspect-ratio: 16 / 9; }
@@ -519,4 +530,77 @@ body:has(.laptop-page) .site-header__service-link[aria-current='page'] { backgro
 }
 @media (prefers-reduced-motion: reduce) {
   .laptop-page *, .laptop-page *::before, .laptop-page *::after { animation: none !important; transition: none !important; }
+}
+
+/* One compact selector keeps the active diagnosis beside the user's choice. */
+.lp-problem-picker { min-width: 0; }
+.lp-problem-picker__caption { display: block; margin-bottom: 9px; color: #526b82; font-size: 12px; font-weight: 500; }
+.lp-problem-picker__control { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 70px; padding: 12px 14px; color: #0b63b6; text-align: left; border: 1px solid #b8d5ec; border-radius: 14px; background: linear-gradient(120deg, #fff, #f2f8fe); box-shadow: 0 4px 14px #17486d08; cursor: pointer; }
+.lp-problem-picker__icon { display: grid; place-items: center; flex: 0 0 40px; width: 40px; height: 40px; border: 1px solid #dceaf7; border-radius: 11px; background: #eaf4fe; }
+.lp-problem-picker__icon .lp-icon { width: 21px; height: 21px; }
+.lp-problem-picker__value { flex: 1; min-width: 0; font-size: 14px; font-weight: 600; line-height: 1.65; overflow-wrap: anywhere; }
+.lp-problem-picker__chevron { display: grid; place-items: center; flex: 0 0 28px; height: 28px; border-radius: 50%; background: #e7f1fb; }
+.lp-problem-picker__chevron .lp-icon { width: 15px; height: 15px; }
+.lp-problem-picker__control[aria-expanded='true'] .lp-problem-picker__chevron { transform: rotate(180deg); }
+.lp-problem-picker__control:focus-visible { outline: 2px solid #0b63b6; outline-offset: 3px; }
+
+/* Native modal dialog supplies focus containment and an inert page behind the sheet. */
+.lp-problem-sheet { position: fixed; inset: auto 0 0; width: min(100%, 520px); max-width: 100%; max-height: none; margin: 0 auto; padding: 0; overflow: visible; color: #102d47; border: 0; border-radius: 24px 24px 0 0; background: #fff; box-shadow: 0 -12px 60px #0c294b26; }
+.lp-problem-sheet::backdrop { background: #0b203b80; backdrop-filter: blur(4px); }
+.lp-problem-sheet[open] { animation: problem-sheet-enter 190ms cubic-bezier(.2,.7,.2,1) both; }
+.lp-problem-sheet__surface { display: flex; flex-direction: column; max-height: min(86vh, 790px); max-height: min(86dvh, 790px); padding-bottom: env(safe-area-inset-bottom, 0px); overflow: hidden; border-radius: inherit; background: #fff; }
+.lp-problem-sheet__header { display: flex; align-items: flex-start; justify-content: space-between; flex: 0 0 auto; gap: 12px; padding: 24px 22px 18px; border-bottom: 1px solid #edf2f7; }
+.lp-problem-sheet__eyebrow { display: flex; align-items: center; gap: 9px; margin-bottom: 9px; color: #648098; font-size: 10px; font-weight: 600; letter-spacing: .09em; }
+.lp-problem-sheet__eyebrow > span { color: #b5c8d8; }
+.lp-problem-sheet__header h2 { margin: 0; color: #102d47; font-size: 20px; font-weight: 700; line-height: 1.5; letter-spacing: -.02em; }
+.lp-problem-sheet__header p { margin: 5px 0 0; color: #708395; font-size: 12px; line-height: 1.7; }
+.lp-problem-sheet__close { display: grid; place-items: center; flex: 0 0 42px; width: 42px; height: 42px; margin-top: 3px; color: #516e86; border: 1px solid #e4edf4; border-radius: 50%; background: #f5f8fb; cursor: pointer; }
+.lp-problem-sheet__close .lp-icon { width: 19px; height: 19px; }
+.lp-problem-sheet__choices { display: grid; gap: 6px; min-height: 0; padding: 12px 14px 20px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #c3d5e5 transparent; }
+.lp-problem-sheet__choice { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 60px; padding: 9px 12px; color: #304d64; text-align: left; border: 1px solid transparent; border-radius: 13px; background: #fff; cursor: pointer; transition: background 120ms ease, border-color 120ms ease; }
+.lp-problem-sheet__choice:hover { border-color: #e1ebf4; background: #f7fafe; }
+.lp-problem-sheet__choice[aria-pressed='true'] { color: #0864b5; border-color: #bad8f2; background: #edf6ff; }
+.lp-problem-sheet__icon { display: grid; place-items: center; flex: 0 0 37px; width: 37px; height: 37px; color: #4e83af; border-radius: 10px; background: #f0f5fa; }
+.lp-problem-sheet__icon .lp-icon { width: 20px; height: 20px; }
+.lp-problem-sheet__choice[aria-pressed='true'] .lp-problem-sheet__icon { color: #0864b5; background: #dcebfb; }
+.lp-problem-sheet__text { flex: 1; min-width: 0; font-size: 13px; font-weight: 500; line-height: 1.7; overflow-wrap: anywhere; }
+.lp-problem-sheet__choice[aria-pressed='true'] .lp-problem-sheet__text { font-weight: 600; }
+.lp-problem-sheet__indicator { display: grid; place-items: center; flex: 0 0 19px; width: 19px; height: 19px; border: 1px solid #d4e0ea; border-radius: 50%; }
+.lp-problem-sheet__choice[aria-pressed='true'] .lp-problem-sheet__indicator { color: #fff; border-color: #0b6fc4; background: #0b6fc4; }
+.lp-problem-sheet__indicator .lp-icon { width: 12px; height: 12px; stroke-width: 2.5; }
+.lp-problem-sheet__choice:focus-visible, .lp-problem-sheet__close:focus-visible { outline: 2px solid #0b6fc4; outline-offset: -3px; }
+@keyframes problem-sheet-enter { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+@media (min-width: 601px) { .lp-problem-sheet { bottom: 20px; width: min(520px, calc(100% - 40px)); border-radius: 24px; } }
+@media (max-height: 500px) { .lp-problem-sheet__surface { max-height: 95vh; max-height: 95dvh; } .lp-problem-sheet__header { padding-block: 14px 10px; } }
+@media (min-width: 601px) { .lp-problem-sheet__surface { max-height: min(86vh, 790px, calc(100vh - 40px)); max-height: min(86dvh, 790px, calc(100dvh - 40px)); } }
+@media (prefers-reduced-motion: reduce) { .lp-problem-sheet[open], .lp-problem-sheet__choice { animation: none; transition: none; } }
+
+@media (max-width: 900px) {
+  .laptop-page .lp-problems__grid { display: flex; flex-direction: column; gap: 14px; }
+  .laptop-page .lp-problems__sidebar { display: contents; }
+  .laptop-page .lp-problems__sidebar > .lp-safety-note { order: 2; align-items: flex-start; margin: 0; }
+  .laptop-page .lp-problems__sidebar > .lp-safety-note .lp-icon { margin-top: 2px; }
+  .laptop-page .lp-problem-panel { order: 1; padding: 20px; }
+  .laptop-page .lp-problem-panel__main { display: flex; flex-direction: column; gap: 0; }
+  .laptop-page .lp-problem-panel__copy { display: contents; }
+  .laptop-page .lp-problem-panel__copy > .lp-eyebrow { order: 0; }
+  .laptop-page .lp-problem-panel h3 { order: 1; margin: 6px 0 14px; font-size: 22px; line-height: 1.5; }
+  .laptop-page .lp-problem-panel__photo { order: 2; width: 100%; max-width: none; max-height: 300px; height: auto; aspect-ratio: 16 / 8; align-self: stretch; margin: 0 0 17px; }
+  .laptop-page .lp-problem-panel__copy > p { order: 3; font-size: 14px; line-height: 1.8; }
+  .laptop-page .lp-problem-panel__copy > .lp-check-list { order: 4; margin: 18px 0; }
+  .laptop-page .lp-check-list > li { font-size: 13px; }
+  .laptop-page .lp-problem-panel__copy > .lp-problem-service { order: 5; }
+  .laptop-page .lp-problem-panel__copy > .lp-text-link { order: 6; align-self: flex-start; min-height: 44px; }
+  .laptop-page .lp-problem-service p { font-size: 14px; }
+  .laptop-page .lp-price-filters { display: flex; flex-wrap: wrap; gap: 6px; width: 100%; border: 0; border-radius: 0; overflow: visible; }
+  .laptop-page .lp-price-filters button { flex: 1 1 auto; min-height: 44px; padding-inline: 14px; border: 1px solid #d9e7f2; border-radius: 7px; }
+}
+
+@media (max-width: 600px) {
+  .laptop-page .lp-problem-panel { padding: 17px 15px; }
+  .laptop-page .lp-problem-panel h3 { font-size: 20px; }
+  .laptop-page .lp-problem-panel__photo { aspect-ratio: 16 / 9; }
+  .laptop-page .lp-price-row > span { min-width: 0; overflow-wrap: anywhere; }
+  .laptop-page .lp-price-amount { white-space: normal; }
+  .laptop-page .lp-status-strip input { font-size: 16px; }
 }

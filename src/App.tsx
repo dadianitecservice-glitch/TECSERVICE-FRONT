@@ -1,132 +1,29 @@
+import { useEffect } from 'react'
 import { Header } from './components/Header'
-import { Hero } from './sections/Hero'
-import { ServicesSection } from './sections/ServicesSection'
-import { TicketLookup } from './sections/TicketLookup'
-import { ShopSection } from './sections/ShopSection'
-import { ReviewsSection } from './sections/ReviewsSection'
-import { BlogSection } from './sections/BlogSection'
-import { ContactSection } from './sections/AboutSection'
+import { LocaleProvider } from './i18n/LocaleProvider'
 import { Footer } from './sections/Footer'
-import LaptopRepairPage from './pages/LaptopRepairPage'
-import ComputerRepairPage from './pages/ComputerRepairPage'
-import DataRecoveryPage from './pages/DataRecoveryPage'
-import ConsoleRepairPage from './pages/ConsoleRepairPage'
-import DroneRepairPage from './pages/DroneRepairPage'
-import MobileTabletRepairPage from './pages/MobileTabletRepairPage'
-import OtherElectronicsRepairPage from './pages/OtherElectronicsRepairPage'
-import NotFoundPage from './pages/NotFoundPage'
-import {
-  computerRepairPath,
-  consoleRepairPath,
-  dataRecoveryPath,
-  droneRepairPath,
-  isComputerRepairPath,
-  isConsoleRepairPath,
-  isDataRecoveryPath,
-  isDroneRepairPath,
-  isLaptopRepairPath,
-  isMobileTabletRepairPath,
-  isOtherElectronicsPath,
-  isHomePath,
-  laptopRepairPath,
-  mobileTabletRepairPath,
-  otherElectronicsPath,
-} from './utils/routes'
+import { CustomerAuthProvider } from './account/CustomerAuthProvider'
+import AuthDialog from './account/AuthDialog'
+import type { LoadedPage } from './pageLoader'
 
-export default function App({ pathname = '/' }: { pathname?: string }) {
-  if (isLaptopRepairPath(pathname)) {
-    return (
-      <>
-        <Header homePath="/" activeServicePath={laptopRepairPath} />
-        <LaptopRepairPage />
-        <Footer homePath="/" />
-      </>
-    )
-  }
-
-  if (isComputerRepairPath(pathname)) {
-    return (
-      <>
-        <Header homePath="/" activeServicePath={computerRepairPath} />
-        <ComputerRepairPage />
-        <Footer homePath="/" />
-      </>
-    )
-  }
-
-  if (isDataRecoveryPath(pathname)) {
-    return (
-      <>
-        <Header homePath="/" activeServicePath={dataRecoveryPath} />
-        <DataRecoveryPage />
-        <Footer homePath="/" />
-      </>
-    )
-  }
-
-  if (isConsoleRepairPath(pathname)) {
-    return (
-      <>
-        <Header homePath="/" activeServicePath={consoleRepairPath} />
-        <ConsoleRepairPage />
-        <Footer homePath="/" />
-      </>
-    )
-  }
-
-  if (isDroneRepairPath(pathname)) {
-    return (
-      <>
-        <Header homePath="/" activeServicePath={droneRepairPath} />
-        <DroneRepairPage />
-        <Footer homePath="/" />
-      </>
-    )
-  }
-
-  if (isMobileTabletRepairPath(pathname)) {
-    return (
-      <>
-        <Header homePath="/" activeServicePath={mobileTabletRepairPath} />
-        <MobileTabletRepairPage />
-        <Footer homePath="/" />
-      </>
-    )
-  }
-
-  if (isOtherElectronicsPath(pathname)) {
-    return (
-      <>
-        <Header homePath="/" activeServicePath={otherElectronicsPath} />
-        <OtherElectronicsRepairPage />
-        <Footer homePath="/" />
-      </>
-    )
-  }
-
-  if (!isHomePath(pathname)) {
-    return (
-      <>
-        <Header homePath="/" />
-        <NotFoundPage />
-        <Footer homePath="/" />
-      </>
-    )
-  }
-
-  return (
-    <>
-      <Header />
-      <main>
-        <Hero />
-        <ServicesSection />
-        <TicketLookup />
-        <ShopSection />
-        <ReviewsSection />
-        <BlogSection />
-        <ContactSection />
-      </main>
-      <Footer />
-    </>
-  )
+export default function App({ pathname = '/', page }: { pathname?: string; page: LoadedPage }) {
+  useEffect(() => {
+    if (!window.location.hash) return
+    let frame = 0
+    // Resolve deep links after hydration and the compact mobile layout settle.
+    frame = window.requestAnimationFrame(() => {
+      frame = window.requestAnimationFrame(() => {
+        let id: string
+        try { id = decodeURIComponent(window.location.hash.slice(1)) } catch { return }
+        document.getElementById(id)?.scrollIntoView({ block: 'start', behavior: 'instant' })
+      })
+    })
+    return () => window.cancelAnimationFrame(frame)
+  }, [pathname])
+  return <LocaleProvider pathname={pathname}><CustomerAuthProvider>
+    <Header {...page.header} />
+    {page.content}
+    <Footer homePath={page.header.homePath} />
+    <AuthDialog />
+  </CustomerAuthProvider></LocaleProvider>
 }

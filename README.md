@@ -36,7 +36,7 @@ npm run build
 npm run preview
 ```
 
-The build also prerenders Home into HTML for crawlers and link-preview clients. Run `npm run test:seo` after building. Local dev/preview has a noindex response header; deploy only `dist` to the public site. See [SEO.md](SEO.md) for the SEO configuration and remaining launch checks, including unfinished page routes and Search Console setup.
+The build prerenders all Georgian/English pages and private sign-in shells into complete HTML (50 documents; 42 currently indexable URLs) and audits the output. Each page loads its own code/styles, with English translation catalogs loaded only for English pages. Run `npm run test:seo` after building and `node --test tests/*.test.mjs` for all regressions. Local dev/preview has a noindex response header; deploy only `dist` to the public site. See [SEO.md](SEO.md) for server configuration, the legal-content indexing gate, performance checks and Search Console setup still required at launch.
 
 ## Demo interactions
 
@@ -45,7 +45,8 @@ The build also prerenders Home into HTML for crawlers and link-preview clients. 
 - OTP: `123456`
 - Phone/OTP verification is a local demo; no real SMS is sent.
 - Product “ყიდვა” actions open the corresponding shop product; comparison has a local selected state.
-- The assessment card gives local rule-based advice, not an OpenAI-backed diagnosis.
+- The trial assessment card reads prices, timeframes and price notes directly from the same seven service-page data catalogs. It shows a source-page link, preserves starting prices and diagnostic-only quotes, and asks for clarification when a device or service is unclear. It is a local rule-based preview, not an AI model or a confirmed diagnosis.
+- The trial assistant does not upload photos, call an external AI provider, or store question text in browser storage. The existing assistant API client remains unused for a future separately approved integration.
 
 ## Typography and external content
 

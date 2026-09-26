@@ -6,8 +6,10 @@ import { products } from '../data/products'
 import { toGeorgianMtavruli } from '../utils/text'
 import { useResponsiveHome } from '../hooks/useResponsiveHome'
 import { useSwipeCarousel } from '../hooks/useSwipeCarousel'
+import { useTranslation } from '../i18n/LocaleProvider'
 
 export function ShopSection() {
+  const l10n = useTranslation()
   const responsive = useResponsiveHome()
   const swipe = useSwipeCarousel(responsive, products.length)
   const productsPerPage = 12
@@ -28,12 +30,12 @@ export function ShopSection() {
     <section className="shop-section" id="shop" aria-labelledby="shop-title">
       <SectionHeader
         headingId="shop-title"
-        title={toGeorgianMtavruli('მაღაზია')}
-        description="შეარჩიეთ კომპონენტები, აქსესუარები და ტექნიკის პროდუქტები ონლაინ."
+        title={l10n.t(toGeorgianMtavruli('მაღაზია'))}
+        description={l10n.t('შეარჩიეთ კომპონენტები, აქსესუარები და ტექნიკის პროდუქტები ონლაინ.')}
         actions={(
           <div className="shop-header-actions">
-            <a href="https://shop.tecservice.ge" target="_blank" rel="noreferrer">{toGeorgianMtavruli('გადასვლა მაღაზიაში')} →</a>
-            <CarouselControls label="მაღაზიის პროდუქტები" onPrevious={() => responsive ? swipe.move(-1) : move(-1)} onNext={() => responsive ? swipe.move(1) : move(1)} />
+            <a href="https://shop.tecservice.ge" target="_blank" rel="noreferrer">{l10n.t(toGeorgianMtavruli('გადასვლა მაღაზიაში'))} →</a>
+            <CarouselControls label={l10n.t('მაღაზიის პროდუქტები')} onPrevious={() => responsive ? swipe.move(-1) : move(-1)} onNext={() => responsive ? swipe.move(1) : move(1)} />
           </div>
         )}
       />
@@ -45,9 +47,9 @@ export function ShopSection() {
           />
         ))}
       </div>
-      <div className="carousel-pagination" aria-label="პროდუქტების გვერდები">
+      <div className="carousel-pagination" aria-label={l10n.t('პროდუქტების გვერდები')}>
         {Array.from({ length: responsive ? swipe.pageCount : pageCount }, (_, index) => (
-          <button key={index} className={index === (responsive ? swipe.page : page) ? 'is-active' : ''} type="button" onClick={() => responsive ? swipe.goTo(index) : setPage(index)} aria-label={`${index + 1} გვერდი`} aria-current={index === (responsive ? swipe.page : page) ? 'page' : undefined} />
+          <button key={index} className={index === (responsive ? swipe.page : page) ? 'is-active' : ''} type="button" onClick={() => responsive ? swipe.goTo(index) : setPage(index)} aria-label={l10n.locale === 'en' ? `Page ${index + 1}` : `${index + 1} გვერდი`} aria-current={index === (responsive ? swipe.page : page) ? 'page' : undefined} />
         ))}
       </div>
     </section>

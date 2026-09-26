@@ -1,3 +1,4 @@
+import { useTranslation } from '../i18n/LocaleProvider'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { DEMO_OTP } from '../data/tickets'
 import { toGeorgianMtavruli } from '../utils/text'
@@ -12,6 +13,7 @@ type OtpVerificationProps = {
 }
 
 export function OtpVerification({ phone, errorMessage, onCodeChange, onConfirm, onBack }: OtpVerificationProps) {
+  const l10n = useTranslation()
   const [digits, setDigits] = useState(['', '', '', '', '', ''])
   const inputsRef = useRef<Array<HTMLInputElement | null>>([])
   const pendingFocusRef = useRef<number | null>(null)
@@ -71,12 +73,12 @@ export function OtpVerification({ phone, errorMessage, onCodeChange, onConfirm, 
     <form className="otp-panel" onSubmit={(event) => { event.preventDefault(); onConfirm(digits.join('')) }}>
       <div className="otp-panel__icon"><img src="/assets/icons/shield.svg" alt="" /></div>
       <div className="otp-panel__copy">
-        <h3 className="display-title">{toGeorgianMtavruli('SMS დადასტურება')}</h3>
-        <p>დემო დადასტურება ნომრისთვის {phone}.</p>
-        {errorMessage && <p id="otp-error" role="alert">{errorMessage}</p>}
+        <h3 className="display-title">{l10n.t(toGeorgianMtavruli('SMS დადასტურება'))}</h3>
+        <p>{l10n.t("დემო დადასტურება ნომრისთვის")}{' '}{phone}.</p>
+        {l10n.t(errorMessage && <p id="otp-error" role="alert">{l10n.t(errorMessage)}</p>)}
       </div>
-      <div className="otp-inputs" aria-label="ერთჯერადი კოდი">
-        {digits.map((digit, index) => (
+      <div className="otp-inputs" aria-label={l10n.t("ერთჯერადი კოდი")}>
+        {l10n.t(digits.map((digit, index) => (
           <input
             key={index}
             ref={(element) => { inputsRef.current[index] = element }}
@@ -86,7 +88,7 @@ export function OtpVerification({ phone, errorMessage, onCodeChange, onConfirm, 
             autoComplete="off"
             aria-invalid={!!errorMessage}
             aria-describedby={`otp-help${errorMessage ? ' otp-error' : ''}`}
-            aria-label={`${index + 1} ციფრი`}
+            aria-label={l10n.locale === 'en' ? `Digit ${index + 1}` : `${index + 1} ციფრი`}
             onFocus={(event) => event.currentTarget.select()}
             onChange={(event) => updateDigit(index, event.target.value)}
             onPaste={(event) => {
@@ -100,20 +102,20 @@ export function OtpVerification({ phone, errorMessage, onCodeChange, onConfirm, 
               }
             }}
           />
-        ))}
+        )))}
       </div>
       <button className="button button--primary otp-confirm" type="submit">
-        {toGeorgianMtavruli('დადასტურება')}
+        {l10n.t(toGeorgianMtavruli('დადასტურება'))}
       </button>
       <div className="otp-panel__links">
         <button type="button" onClick={() => {
           pendingFocusRef.current = 0
           setDigits(['', '', '', '', '', ''])
           onCodeChange()
-        }}>{toGeorgianMtavruli('კოდის ხელახლა გაგზავნა')}</button>
-        <button type="button" onClick={onBack}>{toGeorgianMtavruli('უკან დაბრუნება')}</button>
+        }}>{l10n.t(toGeorgianMtavruli('კოდის ხელახლა გაგზავნა'))}</button>
+        <button type="button" onClick={onBack}>{l10n.t(toGeorgianMtavruli('უკან დაბრუნება'))}</button>
       </div>
-      <small id="otp-help">რეალური SMS არ იგზავნება. დემო კოდი: {DEMO_OTP}</small>
+      <small id="otp-help">{l10n.t("რეალური SMS არ იგზავნება. დემო კოდი:")}{' '}{DEMO_OTP}</small>
     </form>
   )
 }

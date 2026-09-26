@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import { readFile, access } from 'node:fs/promises'
 import { formatPrice } from '../src/utils/formatPrice.ts'
 import { services } from '../src/data/services.ts'
+import { getBlogPaths } from '../src/utils/routes.ts'
 
 const root = new URL('../', import.meta.url)
 const source = await readFile(new URL('index.html', root), 'utf8')
@@ -29,16 +30,16 @@ test('Georgian document has a unique descriptive title and description', () => {
   assert.match(source, /ინფორმაციის აღდგენა თბილისში/)
 })
 
-test('canonical, sitemap and social URLs cover Home and every completed service', () => {
+test('canonical, sitemap and social URLs cover Home, Contact, About, Blog and every completed service', () => {
   assert.equal((source.match(/rel="canonical"/g) ?? []).length, 1)
   assert.match(source, /rel="canonical" href="https:\/\/tecservice\.ge\/"/)
   assert.match(source, /property="og:url" content="https:\/\/tecservice\.ge\/"/)
   assert.deepEqual(
-    [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(match => match[1]),
-    ['https://tecservice.ge/', ...completedServiceCanonicalById.values()],
+    [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(match => match[1]).sort(),
+    ['', '/en'].flatMap(prefix => ['/', ...[...completedServiceCanonicalById.values()].map(url => new URL(url).pathname), '/contact/', '/about/', ...getBlogPaths().map(path => `${path}/`)].map(path => `https://tecservice.ge${prefix}${path}`)).sort(),
   )
   assert.match(robots, /Sitemap: https:\/\/tecservice\.ge\/sitemap\.xml/)
-  assert.doesNotMatch(sitemap, /localhost|127\.0\.0\.1|\/cabinet|\/blog|lastmod/)
+  assert.doesNotMatch(sitemap, /localhost|127\.0\.0\.1|\/cabinet|\/terms|\/privacy|lastmod/)
 })
 
 test('sharing and brand image files exist', async () => {
@@ -50,8 +51,15 @@ test('sharing and brand image files exist', async () => {
     await access(new URL(`public${pathname}`, root))
   }
   await access(new URL('public/assets/brand/tecservice-logo.svg', root))
-  await access(new URL('public/assets/brand/tecservice-favicon.png', root))
-  assert.match(source, /rel="icon" type="image\/png" sizes="512x512" href="\/assets\/brand\/tecservice-favicon\.png"/)
+  await access(new URL('public/assets/brand/tecservice-favicon-v2.png', root))
+  const favicon = await readFile(new URL('public/assets/brand/ts-monogram-v2.svg', root), 'utf8')
+  assert.match(favicon, /aria-label="TS"/)
+  assert.equal((favicon.match(/<path\b/g) ?? []).length, 2)
+  assert.deepEqual([...favicon.matchAll(/fill="(#[a-f0-9]+)"/g)].map(match => match[1]), ['#ed1c24', '#0664b5'])
+  await access(new URL('public/assets/brand/ts-monogram-v2-96.png', root))
+  await access(new URL('public/assets/brand/ts-monogram-v2-180.png', root))
+  assert.match(source, /rel="icon" type="image\/svg\+xml" sizes="any" href="\/assets\/brand\/ts-monogram-v2\.svg"/)
+  assert.match(source, /rel="icon" type="image\/png" sizes="96x96" href="\/assets\/brand\/ts-monogram-v2-96\.png"/)
   assert.match(source, /property="og:image:alt"/)
 })
 
@@ -76,9 +84,9 @@ test('business schema matches visible address, telephone, hours and social links
   assert.equal(business.openingHoursSpecification[0].dayOfWeek.length, 5)
   assert.deepEqual(business.openingHoursSpecification[1].dayOfWeek, ['Saturday'])
   assert.equal(business.openingHoursSpecification[1].opens, '11:00')
-  assert.equal(business.openingHoursSpecification[1].closes, '17:00')
+  assert.equal(business.openingHoursSpecification[1].closes, '18:00')
   assert.ok(contact.includes('ორშ–პარ · 10:00–19:00'))
-  assert.ok(contact.includes('შაბ · 11:00–17:00'))
+  assert.ok(contact.includes('შაბ · 11:00–18:00'))
   for (const url of business.sameAs) assert.ok(footer.includes(url))
   assert.ok(contact.includes(String(business.geo.latitude)))
   assert.ok(contact.includes(String(business.geo.longitude)))
@@ -145,7 +153,7 @@ test('product prices hydrate with the same grouping as the approved browser disp
   assert.equal(formatPrice(2599), '2,599')
   assert.equal(formatPrice(195), '195')
   assert.equal(formatPrice(149.5), '149.5')
-  assert.match(built, /<strong>2,599<!-- --> ₾<\/strong>/)
+  assert.match(built, /<span class="product-card__price-value">2,599<!-- --> ₾<\/span>/)
 })
 
 test('preview indexing protection is separate from public crawl configuration', async () => {

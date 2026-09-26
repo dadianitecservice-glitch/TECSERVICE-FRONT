@@ -1,0 +1,51 @@
+.account-profile-editor { width: 100%; max-width: 460px; min-width: 0; margin-inline: auto; color: #18364b; }
+.account-profile-editor__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
+.account-profile-editor__field, .account-profile-editor__phone { position: relative; min-width: 0; border-radius: 10px; background: #f7f9fb; }
+.account-profile-editor__phone { display: flex; flex-direction: column; justify-content: center; gap: 2px; min-height: 56px; padding: 7px 20px; border: 1px solid #e5ebf0; }
+.account-profile-editor__phone > span, .account-profile-editor__field > label { color: #84909a; font-size: 11px; font-weight: 400; line-height: 1.5; }
+.account-profile-editor__phone > strong { color: #40515d; font-size: 15px; font-weight: 400; line-height: 1.5; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.account-profile-editor__field > label { position: absolute; z-index: 1; top: 7px; left: 20px; right: 52px; margin: 0; pointer-events: none; transition: top .15s ease, color .15s ease; }
+.account-profile-editor__field:not(.has-value):not(:focus-within) > label { top: 18px; font-size: 13px; }
+.account-profile-editor .account-profile-editor__field > input { display: block; width: 100%; min-width: 0; height: 56px; padding: 25px 52px 7px 20px; border: 1px solid #e5ebf0; border-radius: 10px; outline: none; background: transparent; color: #40515d; font-size: 15px; font-weight: 400; line-height: 1.5; box-shadow: none; }
+.account-dashboard .account-profile-editor__field > input:is(:focus, :focus-visible) { outline: none; background: #edf3f7; box-shadow: none; }
+.account-profile-editor .account-profile-editor__field > input[aria-invalid="true"] { border-color: #c96f7b; }
+.account-profile-editor .account-profile-editor__field > input:disabled { color: #83909b; opacity: 1; }
+.account-profile-editor .account-profile-editor__pencil { position: absolute; z-index: 2; top: 6px; right: 6px; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 7px; color: #87939d; background: transparent; }
+.account-profile-editor .account-profile-editor__pencil:hover { background: #e9eef2; color: #0969b5; }
+.account-profile-editor .account-profile-editor__save { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 50px; margin-top: 32px; padding: 12px 20px; border: 1px solid #0969b5; border-radius: 10px; background: #0969b5; color: #fff; font-size: 14px; font-weight: 600; line-height: 1.7; }
+.account-profile-editor .account-profile-editor__save:hover { border-color: #075b9d; background: #075b9d; }
+.account-profile-editor button:disabled { cursor: default; opacity: .6; }
+.account-profile-editor button:focus-visible { outline: 2px solid #0969b5; outline-offset: 3px; }
+.account-profile-editor__success, .account-profile-editor__error { padding: 12px 14px; border: 1px solid transparent; border-radius: 9px; font-size: 12px; line-height: 1.8; overflow-wrap: anywhere; }
+.account-profile-editor__success { margin: 0 0 20px; color: #247250; background: #eef8f2; border-color: #deeee4; }
+.account-profile-editor__error { margin: 16px 0 0; color: #a13946; background: #fff3f5; border-color: #f0dce0; }
+.account-profile-editor__error + .account-profile-editor__save { margin-top: 18px; }
+.account-profile-confirm { width: min(400px, calc(100% - 32px)); max-height: calc(100dvh - 40px); margin: auto; padding: 0; overflow: auto; border: 0; border-radius: 15px; background: #fff; color: #18364b; box-shadow: 0 18px 70px #18364b25; }
+.account-profile-confirm::backdrop { background: #18364b66; }
+.account-profile-confirm__panel { position: relative; padding: 30px 26px 22px; }
+.account-profile-confirm__panel > h3 { margin: 0 30px 12px 0; font-size: 19px; line-height: 1.6; font-weight: 600; }
+.account-profile-confirm__panel > p { margin: 0 0 22px; color: #748593; font-size: 13px; line-height: 1.8; }
+.account-profile-confirm .account-profile-confirm__close { position: absolute; top: 10px; right: 10px; display: grid; place-items: center; width: 38px; height: 38px; padding: 0; border: 0; border-radius: 8px; background: transparent; color: #7a8c99; }
+.account-profile-confirm__close > svg { width: 18px; height: 18px; }
+.account-profile-confirm .account-profile-confirm__close:hover { background: #f2f5f7; color: #18364b; }
+.account-profile-confirm__password { position: relative; }
+.account-profile-confirm__password > label { display: block; margin: 0 0 8px; color: #536c7e; font-size: 12px; line-height: 1.7; }
+.account-profile-confirm .account-profile-confirm__password > input { display: block; width: 100%; height: 48px; min-width: 0; padding: 11px 48px 11px 14px; border: 1px solid #e0e7ec; border-radius: 9px; outline: none; background: #f8fafb; color: #18364b; font-size: 16px; line-height: 1.5; box-shadow: none; }
+.account-profile-confirm .account-profile-confirm__password > input:is(:focus, :focus-visible) { outline: none; background: #edf3f7; box-shadow: none; }
+.account-profile-confirm__password > button { position: absolute; bottom: 2px; right: 3px; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 7px; background: transparent; color: #7c8e9c; }
+.account-profile-confirm__password > button:hover { background: #edf2f6; color: #0969b5; }
+.account-profile-confirm .account-profile-editor__save { margin-top: 22px; min-height: 48px; }
+.account-profile-confirm .account-profile-confirm__cancel { width: 100%; min-height: 44px; margin-top: 5px; padding: 10px 16px; border: 0; border-radius: 8px; background: transparent; color: #748594; font-size: 13px; }
+.account-profile-confirm .account-profile-confirm__cancel:hover { background: #f5f7f9; color: #244b67; }
+@media (max-width: 760px) {
+  .account-profile-editor__grid { gap: 16px; }
+  .account-profile-editor .account-profile-editor__field > input { font-size: 16px; }
+  .account-profile-editor__field > label { left: 16px; }
+  .account-profile-editor .account-profile-editor__field > input, .account-profile-editor__phone { padding-left: 16px; }
+  .account-profile-editor .account-profile-editor__save { margin-top: 28px; }
+  .account-profile-confirm__panel { padding: 28px 20px 18px; }
+  .account-profile-confirm .account-profile-editor__save { margin-top: 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .account-profile-editor__field > label { transition: none; }
+}

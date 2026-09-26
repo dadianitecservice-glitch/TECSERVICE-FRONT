@@ -38,7 +38,7 @@ test('other electronics route is prerendered with its own SEO and page content',
   assert.equal((built.match(/<main\b/g) ?? []).length, 1)
   assert.equal((built.match(/<h1\b/g) ?? []).length, 1)
   assert.match(built, /<footer\b/)
-  await access(new URL('public/assets/electronic-board-repair/hero-tv-repair.jpg', root))
+  await access(new URL('public/assets/electronic-board-repair/hero-tv-repair.webp', root))
 })
 
 test('other electronics page follows the Figma section order and complete controls', async () => {
@@ -69,9 +69,9 @@ test('approved ten repair directions and three repair Hero photos are present', 
   assert.ok(hero)
   const heroSources = [...hero.matchAll(/<img\b[^>]*src="([^"]+)"/g)].map(match => match[1])
   assert.deepEqual(heroSources, [
-    '/assets/electronic-board-repair/hero-tv-repair.jpg',
-    '/assets/electronic-board-repair/hero-ups-repair.jpg',
-    '/assets/electronic-board-repair/hero-nonstandard-board-repair.jpg',
+    '/assets/electronic-board-repair/hero-tv-repair.webp',
+    '/assets/electronic-board-repair/hero-ups-repair.webp',
+    '/assets/electronic-board-repair/hero-nonstandard-board-repair.webp',
   ])
   for (const source of heroSources) await access(new URL(`public${source}`, root))
   assert.equal(otherElectronicsProblems.length, 10)
@@ -86,9 +86,19 @@ test('approved ten repair directions and three repair Hero photos are present', 
 })
 
 test('pricing keeps all amounts indicative and WhatsApp drafts retain the selected direction', () => {
-  assert.equal(otherElectronicsPrices.length, 8)
+  assert.equal(otherElectronicsPrices.length, 10)
   assert.equal(otherElectronicsRepairSteps.length, 5)
-  assert.equal(otherElectronicsFaqs.length, 6)
+  assert.equal(otherElectronicsFaqs.length, 9)
+  assert.deepEqual(
+    otherElectronicsPrices
+      .filter(price => ['ups-inverter', 'tv-board', 'tv-backlight'].includes(price.id))
+      .map(({ id, priceLabel, duration }) => ({ id, priceLabel, duration })),
+    [
+      { id: 'ups-inverter', priceLabel: '100 ₾-დან', duration: '2–5 სამუშაო დღე' },
+      { id: 'tv-board', priceLabel: '100 ₾-დან', duration: '2–3 სამუშაო დღე' },
+      { id: 'tv-backlight', priceLabel: '120 ₾-დან', duration: '2–3 სამუშაო დღე' },
+    ],
+  )
   for (const price of otherElectronicsPrices) {
     assert.match(price.priceLabel, /^\d+\s*₾-დან$/)
   }

@@ -1,44 +1,40 @@
+import { useTranslation } from '../i18n/LocaleProvider'
 import type { Ticket } from '../data/tickets'
 import { toGeorgianMtavruli } from '../utils/text'
+import { TicketMilestones } from './TicketMilestones'
 
 export function TicketResult({ ticket }: { ticket: Ticket }) {
+  const l10n = useTranslation()
   return (
     <article className="ticket-result" aria-live="polite">
       <header className="ticket-result__header">
-        <h3>{toGeorgianMtavruli('სერვისი')} #{ticket.code}</h3>
+        <h3>{l10n.t(toGeorgianMtavruli('სერვისი'))} #{l10n.t(ticket.code)}</h3>
         <span className="ticket-status-pill">
           <img src="/assets/icons/status-dot.svg" alt="" />
-          {ticket.statusLabel}
+          {l10n.t(ticket.statusLabel)}
         </span>
       </header>
       <div className="ticket-result__body">
         <dl className="ticket-metadata">
-          <div><dt>მოწყობილობა</dt><dd>{ticket.device}</dd></div>
-          <div><dt>მოდელი</dt><dd>{ticket.model}</dd></div>
-          <div><dt>მიღების თარიღი</dt><dd>{ticket.receivedDate}</dd></div>
-          <div><dt>ბოლო განახლება</dt><dd>{ticket.lastUpdated}</dd></div>
+          <div><dt>{l10n.t("მოწყობილობა")}</dt><dd>{l10n.t(ticket.device)}</dd></div>
+          <div><dt>{l10n.t("მოდელი")}</dt><dd>{l10n.t(ticket.model)}</dd></div>
+          <div><dt>{l10n.t("მიღების თარიღი")}</dt><dd>{l10n.t(ticket.receivedDate)}</dd></div>
+          <div><dt>{l10n.t("ბოლო განახლება")}</dt><dd>{l10n.t(ticket.lastUpdated)}</dd></div>
           <div className="ticket-privacy">
             <img src="/assets/icons/lock.svg" alt="" />
-            <span>პირადი დეტალები ხელმისაწვდომია მხოლოდ ნომრის დადასტურების შემდეგ.</span>
+            <span>{l10n.t("პირადი დეტალები ხელმისაწვდომია მხოლოდ ნომრის დადასტურების შემდეგ.")}</span>
           </div>
         </dl>
         <div className="ticket-progress">
-          <ol className="milestones">
-            {ticket.milestones.map((milestone, index) => (
-              <li className={`${milestone.state === 'complete' ? 'is-complete' : ''}${milestone.state === 'current' ? ' is-current' : ''}`} key={milestone.label}>
-                <span className="milestone-marker">
-                  {milestone.state === 'complete' ? <img src="/assets/icons/check-white.svg" alt="" /> : null}
-                </span>
-                <span>{milestone.label}</span>
-                {milestone.state === 'current' ? <small>{milestone.helperText || 'მიმდინარე'}</small> : null}
-                {index < ticket.milestones.length - 1 ? <i aria-hidden="true" /> : null}
-              </li>
-            ))}
-          </ol>
+          <TicketMilestones locale={l10n.locale} milestones={ticket.milestones.map(milestone => ({
+            ...milestone,
+            label: l10n.t(milestone.label),
+            helperText: l10n.t(milestone.helperText || 'მიმდინარე'),
+          }))} />
           <div className="status-summary">
-            <strong>{toGeorgianMtavruli(ticket.statusLabel)}</strong>
-            <span>{ticket.update}</span>
-            <small>{ticket.updateNote}</small>
+            <strong>{l10n.t(toGeorgianMtavruli(ticket.statusLabel))}</strong>
+            <span>{l10n.t(ticket.update)}</span>
+            <small>{l10n.t(ticket.updateNote)}</small>
           </div>
         </div>
       </div>

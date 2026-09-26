@@ -1,0 +1,16 @@
+.account-dropdown { position: relative; flex: 0 0 174px; min-width: 0; max-width: 100%; }
+.account-dropdown__label { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+.account-dashboard .account-dropdown > button { width: 100%; min-height: 42px; display: flex; align-items: center; justify-content: space-between; gap: 10px; text-align: left; padding: 9px 12px; border: 1px solid #dce7f0; border-radius: 9px; color: #244761; background: #fff; font-size: 11px; line-height: 1.7; }
+.account-dropdown > button > span { min-width: 0; overflow-wrap: anywhere; }
+.account-dropdown > button > .lp-icon { width: 16px; height: 16px; color: #577f9f; transition: transform .18s; }
+.account-dropdown > button:hover { border-color: #9dbfdb; }
+.account-dropdown.is-open > button { border-color: #77add6; box-shadow: 0 0 0 3px #eaf3fb; }
+.account-dropdown.is-open > button > .lp-icon { transform: rotate(180deg); }
+.account-dropdown__list { position: absolute; z-index: 30; inset: calc(100% + 7px) 0 auto; list-style: none; margin: 0; padding: 6px; max-height: min(310px,50vh); overflow-y: auto; overscroll-behavior: contain; border: 1px solid #dce8f1; border-radius: 12px; background: #fff; box-shadow: 0 12px 34px #153f601a; scrollbar-width: thin; }
+.account-dropdown__list > li { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 42px; margin: 0; padding: 10px 11px; font-size: 11px; line-height: 1.7; color: #49667e; border-radius: 7px; cursor: pointer; }
+.account-dropdown__list > li > span { min-width: 0; overflow-wrap: anywhere; }
+.account-dropdown__list > li .lp-icon { width: 15px; height: 15px; color: #096eb7; }
+.account-dropdown__list > li.is-focused { background: #f1f6fb; }
+.account-dropdown__list > li[aria-selected="true"] { background: #eaf4fe; color: #0965ae; font-weight: 600; }
+@media (max-width: 680px) { .account-dropdown { width: 100%; min-width: 0; flex: initial; } .account-dashboard .account-dropdown > button { min-height: 44px; } }
+@media (prefers-reduced-motion: reduce) { .account-dropdown > button > .lp-icon { transition: none; } }

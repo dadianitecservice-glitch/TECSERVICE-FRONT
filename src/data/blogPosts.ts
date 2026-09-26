@@ -1,3 +1,12 @@
+import { blogArticleCopy } from "./blogArticleCopy.ts";
+
+export interface BlogSection {
+  id: string;
+  title: string;
+  paragraphs: string[];
+  bullets?: string[];
+}
+
 export interface BlogPost {
   id: string;
   slug: string;
@@ -10,9 +19,26 @@ export interface BlogPost {
   imageWidth: number;
   imageHeight: number;
   imageAlt: string;
+  categoryId: string;
+  readMinutes: number;
+  takeaway: string;
+  serviceHref: string;
+  sections: BlogSection[];
+  sources?: Array<{ label: string; url: string }>;
 }
 
-export const blogPosts: BlogPost[] = [
+type BlogTeaser = Omit<BlogPost, "categoryId" | "readMinutes" | "takeaway" | "serviceHref" | "sections" | "sources">;
+
+export const blogCategories: Array<{ id: string; label: { ka: string; en: string } }> = [
+  { id: "data", label: { ka: "მონაცემები", en: "Data recovery" } },
+  { id: "laptops", label: { ka: "ლეპტოპები", en: "Laptops" } },
+  { id: "consoles", label: { ka: "კონსოლები", en: "Consoles" } },
+  { id: "components", label: { ka: "კომპონენტები", en: "Components" } },
+  { id: "drones", label: { ka: "დრონები", en: "Drones" } },
+  { id: "computers", label: { ka: "კომპიუტერები", en: "Computers" } },
+];
+
+const blogTeasers: BlogTeaser[] = [
   {
     id: "lost-files-first-minutes",
     slug: "lost-files-first-minutes",
@@ -21,7 +47,7 @@ export const blogPosts: BlogPost[] = [
     dateTime: "2026-09-04",
     title: "დაკარგული ფაილები — რა უნდა გააკეთოთ პირველ წუთებში?",
     excerpt:
-      "სწორი პირველი ნაბიჯები ზრდის უსაფრთხო აღდგენის შანსს და იცავს დისკს დამატებითი დაზიანებისგან.",
+      "როგორ შეაჩეროთ ახალი ჩაწერა, შეამოწმოთ სარეზერვო ასლები და ამოიცნოთ დაზიანების საყურადღებო ნიშნები.",
     image: "/assets/blog/data-recovery-figma.png",
     imageWidth: 849,
     imageHeight: 565,
@@ -35,7 +61,7 @@ export const blogPosts: BlogPost[] = [
     dateTime: "2026-09-01",
     title: "ლეპტოპი ნელდება? 5 მიზეზი და გამოსავალი",
     excerpt:
-      "მტვერი, გადახურება, ძველი HDD და მცირე RAM ხშირად შენელების მთავარი მიზეზებია.",
+      "ფონური პროგრამები, დისკი, ოპერატიული მეხსიერება და გაგრილება — რა უნდა შეამოწმოთ პირველ რიგში.",
     image: "/assets/blog/laptop-repair-figma.png",
     imageWidth: 2000,
     imageHeight: 1334,
@@ -117,7 +143,7 @@ export const blogPosts: BlogPost[] = [
     category: "კონსოლები",
     date: "03 აგვისტო, 2026",
     dateTime: "2026-08-03",
-    title: "Xbox კონტროლერის გავრცელებული პრობლემები",
+    title: "Xbox-ის კონტროლერის გავრცელებული პრობლემები",
     excerpt:
       "Stick drift, კავშირის წყვეტა და ღილაკების გაუმართაობა — ძირითადი ნიშნები.",
     image: "/assets/blog/console-repair-figma.png",
@@ -131,9 +157,9 @@ export const blogPosts: BlogPost[] = [
     category: "ლეპტოპები",
     date: "28 ივლისი, 2026",
     dateTime: "2026-07-28",
-    title: "ლეპტოპის ბატარეის შეცვლის ნიშნები",
+    title: "როდის სჭირდება ლეპტოპის ბატარეას შემოწმება?",
     excerpt:
-      "სწრაფი დაცლა, გადახურება და შეშუპება — ნიშნები, რომლებიც უყურადღებოდ არ უნდა დარჩეს.",
+      "სწრაფი დაცლა, გადახურება და გაბერვა — ნიშნები, რომლებიც უყურადღებოდ არ უნდა დარჩეს.",
     image: "/assets/blog/laptop-repair-figma.png",
     imageWidth: 2000,
     imageHeight: 1334,
@@ -145,7 +171,7 @@ export const blogPosts: BlogPost[] = [
     category: "მონაცემები",
     date: "21 ივლისი, 2026",
     dateTime: "2026-07-21",
-    title: "RAID მასივის დაზიანების პირველი ნაბიჯები",
+    title: "პირველი ნაბიჯები RAID მასივის დაზიანებისას",
     excerpt:
       "უსაფრთხო რეაგირება, რომელიც რთული ავარიისას მონაცემთა აღდგენის შანსს ინარჩუნებს.",
     image: "/assets/blog/data-recovery-figma.png",
@@ -154,3 +180,28 @@ export const blogPosts: BlogPost[] = [
     imageAlt: "RAID მასივიდან ინფორმაციის აღდგენა",
   },
 ];
+
+const englishMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+export function getBlogPosts(locale: "ka" | "en"): BlogPost[] {
+  return blogTeasers.map((teaser) => {
+    const article = blogArticleCopy[teaser.id];
+    const [year, month, day] = teaser.dateTime.split("-");
+    const category = blogCategories.find((item) => item.id === article.categoryId)!;
+    return {
+      ...teaser,
+      ...article[locale],
+      category: category.label[locale],
+      categoryId: article.categoryId,
+      readMinutes: article.readMinutes,
+      serviceHref: article.serviceHref,
+      date: locale === "ka" ? teaser.date : `${Number(day)} ${englishMonths[Number(month) - 1]} ${year}`,
+    };
+  });
+}
+
+export const blogPosts: BlogPost[] = getBlogPosts("ka");
+
+export function getBlogPost(slug: string, locale: "ka" | "en" = "ka"): BlogPost | undefined {
+  return getBlogPosts(locale).find((post) => post.slug === slug);
+}

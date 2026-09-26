@@ -5,11 +5,13 @@ import { toGeorgianMtavruli } from '../utils/text'
 import { useViewportWidth } from '../hooks/useViewportWidth'
 import { useResponsiveHome } from '../hooks/useResponsiveHome'
 import { useSwipeCarousel } from '../hooks/useSwipeCarousel'
+import { useTranslation } from '../i18n/LocaleProvider'
 
 const featuredReviews = reviews
   .filter((review) => review.rating >= 4 && review.text.trim().length >= 35 && review.text.length <= 420)
 
 export function ReviewsSection() {
+  const l10n = useTranslation()
   const responsive = useResponsiveHome()
   const reviewPool = featuredReviews
   const swipe = useSwipeCarousel(responsive, reviewPool.length)
@@ -102,35 +104,35 @@ export function ReviewsSection() {
       }}
     >
       <div className="reviews-header">
-        <h2 id="reviews-heading">{toGeorgianMtavruli('რას ამბობენ ჩვენზე')}</h2>
+        <h2 id="reviews-heading">{l10n.t(toGeorgianMtavruli('რას ამბობენ ჩვენზე'))}</h2>
         <div className="reviews-header__actions">
           <a className="reviews-google-summary" href={googleReviewsUrl} target="_blank" rel="noreferrer">
             <img src="/assets/icons/google-g.svg" alt="Google" />
             <span>★★★★★</span>
             <strong>{reviewSummary.rating.toFixed(1)}</strong>
-            <small>· {reviewSummary.publicReviewCount} Google {toGeorgianMtavruli('შეფასება')}</small>
+            <small>· {reviewSummary.publicReviewCount} Google {l10n.locale === 'en' ? 'reviews' : toGeorgianMtavruli('შეფასება')}</small>
           </a>
-          <CarouselControls label="Google შეფასებები" onPrevious={() => responsive ? swipe.move(-1) : move(-1)} onNext={() => responsive ? swipe.move(1) : move(1)} />
+          <CarouselControls label={l10n.t('Google შეფასებები')} onPrevious={() => responsive ? swipe.move(-1) : move(-1)} onNext={() => responsive ? swipe.move(1) : move(1)} />
         </div>
       </div>
       <div className="reviews-grid" ref={swipe.ref} onScroll={swipe.onScroll} key={responsive ? 'swipe' : start} aria-live={paused || focusWithin || selectedReview ? 'polite' : 'off'}>
         {(responsive ? reviewPool : visible).map((review) => (
           <article className="review-card" key={review.id}>
             <div className="review-card__meta">
-              <div className="review-card__rating" aria-label={`${review.rating} ვარსკვლავი 5-დან`}>
+              <div className="review-card__rating" aria-label={l10n.locale === 'en' ? `${review.rating} out of 5 stars` : `${review.rating} ვარსკვლავი 5-დან`}>
                 <span aria-hidden="true">{'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}</span>
                 <strong>{review.rating.toFixed(1)}</strong>
               </div>
-              <time>{review.date}</time>
+              <time>{l10n.t(review.date)}</time>
             </div>
             <div className="review-card__text">
-              <p>{review.text}</p>
+              <p>{l10n.t(review.text)}</p>
               {review.text.length > 120 && (
                 <button
                   type="button"
                   className="review-card__more"
-                  aria-label={toGeorgianMtavruli('სრული რევიუს ნახვა')}
-                  title={toGeorgianMtavruli('სრული რევიუს ნახვა')}
+                  aria-label={l10n.t(toGeorgianMtavruli('სრული რევიუს ნახვა'))}
+                  title={l10n.t(toGeorgianMtavruli('სრული რევიუს ნახვა'))}
                   onClick={(event) => {
                     openerRef.current = event.currentTarget
                     setSelectedReview(review)
@@ -140,16 +142,16 @@ export function ReviewsSection() {
                 </button>
               )}
             </div>
-            <strong>{review.customerName}</strong>
+            <strong>{l10n.t(review.customerName)}</strong>
             <small className="review-card__source">
               <img src="/assets/icons/check-blue.svg" alt="" />
-              <span>{review.sourceLabel}</span>
+              <span>{l10n.t(review.sourceLabel)}</span>
             </small>
           </article>
         ))}
       </div>
       <a className="reviews-all-link" href={googleReviewsUrl} target="_blank" rel="noreferrer">
-        {toGeorgianMtavruli('ყველა შეფასების ნახვა')} →
+        {l10n.t(toGeorgianMtavruli('ყველა შეფასების ნახვა'))} →
       </a>
 
       {selectedReview && (
@@ -167,21 +169,21 @@ export function ReviewsSection() {
               ref={closeButtonRef}
               className="review-modal__close"
               type="button"
-              aria-label="რევიუს დახურვა"
+              aria-label={l10n.t('რევიუს დახურვა')}
               onClick={() => setSelectedReview(null)}
             >
               ×
             </button>
-            <div className="review-card__rating" aria-label={`${selectedReview.rating} ვარსკვლავი 5-დან`}>
+            <div className="review-card__rating" aria-label={l10n.locale === 'en' ? `${selectedReview.rating} out of 5 stars` : `${selectedReview.rating} ვარსკვლავი 5-დან`}>
               <span aria-hidden="true">
                 {'★'.repeat(selectedReview.rating)}{'☆'.repeat(5 - selectedReview.rating)}
               </span>
               <strong>{selectedReview.rating.toFixed(1)}</strong>
             </div>
-            <p>{selectedReview.text}</p>
-            <strong id="review-modal-author">{selectedReview.customerName}</strong>
+            <p>{l10n.t(selectedReview.text)}</p>
+            <strong id="review-modal-author">{l10n.t(selectedReview.customerName)}</strong>
             <small>
-              Google Maps · {selectedReview.date}
+              Google Maps · {l10n.t(selectedReview.date)}
             </small>
           </article>
         </div>

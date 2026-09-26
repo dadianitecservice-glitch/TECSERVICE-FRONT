@@ -1,3 +1,5 @@
+import { normalizeGeorgianMobile } from "../utils/validation.ts";
+
 export type TicketStage =
   | "received"
   | "diagnostics"
@@ -117,9 +119,11 @@ export const demoTicket = tickets[0];
 export const findTicket = findTicketByCode;
 
 export const findTicketsByPhone = (phone: string): Ticket[] => {
-  const normalizedPhone = normalizePhone(phone);
+  const normalizedPhone = normalizeGeorgianMobile(phone);
+  if (!normalizedPhone) return [];
+
   return tickets.filter(
-    (ticket) => normalizePhone(ticket.phone) === normalizedPhone,
+    (ticket) => normalizeGeorgianMobile(ticket.phone) === normalizedPhone,
   );
 };
 

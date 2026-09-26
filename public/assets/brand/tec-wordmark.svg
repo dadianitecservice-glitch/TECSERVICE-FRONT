@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="#ed1c24" role="img" aria-label="TEC">
+  <title>TEC</title>
+  <path d="M1 12H20V20H14V52H7V20H1Z"/>
+  <path d="M23 12H40V20H30V28H39V36H30V44H40V52H23Z"/>
+  <path d="M63 12H51C46 12 43 15 43 20V44C43 49 46 52 51 52H63V44H52C51 44 50 43 50 42V22C50 21 51 20 52 20H63Z"/>
+</svg>

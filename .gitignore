@@ -5,3 +5,11 @@ dist/
 .env
 .env.*
 .DS_Store
+
+# Local scratch, delivery archives and backend/reference snapshots.
+/.tmp/
+/.tmp-*
+/exports/
+/release/
+/work/
+/*.zip

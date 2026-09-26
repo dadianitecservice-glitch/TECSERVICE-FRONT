@@ -19,6 +19,7 @@ export type AssistantResponse = {
 
 type AskAssistantOptions = {
   message: string
+  language?: 'ka' | 'en'
   sessionId: string
   history?: AssistantHistoryMessage[]
   signal?: AbortSignal
@@ -59,6 +60,7 @@ function isAssistantAssessment(value: unknown): value is AssistantAssessment {
 
 export async function askTecServiceAssistant({
   message,
+  language = 'ka',
   sessionId,
   history = [],
   signal,
@@ -68,7 +70,7 @@ export async function askTecServiceAssistant({
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       message,
-      language: 'ka',
+      language,
       session_id: sessionId,
       history: history.slice(-6).map((item) => ({
         ...item,

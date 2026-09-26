@@ -26,8 +26,8 @@ test('drone route is prerendered with its own metadata and page content', async 
   const metadata = getRouteMetadata(droneRepairPath)
   assert.ok(metadata)
   assert.equal(metadata.image, 'https://tecservice.ge/assets/drone-repair/hero-mavic-4-pro.webp')
-  assert.equal(metadata.imageWidth, '1672')
-  assert.equal(metadata.imageHeight, '941')
+  assert.equal(metadata.imageWidth, '1280')
+  assert.equal(metadata.imageHeight, '720')
   assert.match(metadata.robots, /^index, follow/)
   assert.ok(built.includes(`<title>${metadata.title}</title>`))
   assert.ok(built.includes(`<meta name="robots" content="${metadata.robots}" />`))
@@ -105,8 +105,8 @@ test('drone prices, process, FAQs and WhatsApp messages preserve service context
       'მკლავის ან კორპუსის შეცვლის სამუშაო',
       'მოტორის შეცვლა და ESC-ის შემოწმება',
       'კამერის / გიმბალის შლეიფის ან კვანძის სამუშაო',
-      'IMU / Compass / GPS კალიბრაცია',
-      'Firmware / FlySafe / აპთან დაკავშირების გამართვა',
+      'IMU-ის / კომპასის / GPS-ის კალიბრაცია',
+      'მიკროპროგრამა / FlySafe / აპთან დაკავშირების გამართვა',
       'წყლით დაზიანება ან ESC/FC პლატის შეკეთება',
     ],
   )

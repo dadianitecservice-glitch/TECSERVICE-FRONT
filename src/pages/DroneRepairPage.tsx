@@ -1,4 +1,6 @@
-import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent, type ReactNode } from 'react'
+import { useTranslation } from '../i18n/LocaleProvider'
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react'
+import { ProblemSelector, useCompactProblemLayout } from '../components/ProblemSelector'
 import { LaptopIcon } from '../components/LaptopIcon'
 import { TicketResult } from '../components/TicketResult'
 import { ContactSection } from '../sections/AboutSection'
@@ -28,16 +30,18 @@ const sectionLinks = [
 ] as const
 
 function RequestLink({ children, className = '', subject, href }: { children: ReactNode; className?: string; subject?: string; href?: string }) {
-  return <a className={className} href={href ?? droneRequestUrl(subject)} target="_blank" rel="noreferrer">{children}</a>
+  const l10n = useTranslation()
+  return <a className={className} href={l10n.href(href ?? droneRequestUrl(subject))} target="_blank" rel="noreferrer">{l10n.t(children)}</a>
 }
 
 export default function DroneRepairPage() {
+  const l10n = useTranslation()
   const [selectedProblem, setSelectedProblem] = useState('crash-gimbal')
   const [priceCategory, setPriceCategory] = useState<DronePriceCategory>('all')
   const [serviceCode, setServiceCode] = useState('')
   const [ticketState, setTicketState] = useState<'default' | 'loading' | 'found' | 'not-found' | 'error'>('default')
   const [foundTicket, setFoundTicket] = useState<Ticket | null>(null)
-  const problemTabs = useRef<(HTMLButtonElement | null)[]>([])
+  const compactProblems = useCompactProblemLayout()
   const serviceCodeInput = useRef<HTMLInputElement>(null)
   const ticketResultRef = useRef<HTMLDivElement>(null)
   const ticketLookupTimer = useRef<number | null>(null)
@@ -75,114 +79,101 @@ export default function DroneRepairPage() {
     }, 650)
   }
 
-  const moveProblem = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
-    let next = index
-    if (event.key === 'ArrowDown' || event.key === 'ArrowRight') next = (index + 1) % droneProblems.length
-    else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') next = (index - 1 + droneProblems.length) % droneProblems.length
-    else if (event.key === 'Home') next = 0
-    else if (event.key === 'End') next = droneProblems.length - 1
-    else return
-    event.preventDefault()
-    setSelectedProblem(droneProblems[next].id)
-    problemTabs.current[next]?.focus()
-  }
 
   return (
     <main className="laptop-page drone-page" id="drone-page">
       <section className="lp-hero" aria-labelledby="drone-title">
         <div className="site-container lp-hero__grid">
           <div className="lp-hero__copy">
-            <nav className="lp-breadcrumb" aria-label="გვერდის მდებარეობა">
-              <a href="/">მთავარი</a><span aria-hidden="true">/</span><a href="/#services">სერვისები</a><span aria-hidden="true">/</span><span aria-current="page">დრონები</span>
+            <nav className="lp-breadcrumb" aria-label={l10n.t("გვერდის მდებარეობა")}>
+              <a href={l10n.href("/")}>{l10n.t("მთავარი")}</a><span aria-hidden="true">/</span><a href={l10n.href("/#services")}>{l10n.t("სერვისები")}</a><span aria-hidden="true">/</span><span aria-current="page">{l10n.t("დრონები")}</span>
             </nav>
-            <h1 id="drone-title">{display('დრონების')} <span>{display('დიაგნოსტიკა და შეკეთება')}</span></h1>
+            <h1 id="drone-title">{l10n.locale === 'en' ? 'Drone' : l10n.t(display('დრონების'))} <span>{l10n.locale === 'en' ? 'diagnostics and repair' : l10n.t(display('დიაგნოსტიკა და შეკეთება'))}</span></h1>
             <span className="lp-title-accent" aria-hidden="true" />
-            <p className="lp-hero__description">DJI და FPV დრონების დაცემის, გიმბალის, კამერის, მკლავების, მოტორების, ESC/FC-ის, სენსორებისა და პროგრამული სისტემების სრული დიაგნოსტიკა.</p>
+            <p className="lp-hero__description">{l10n.t("DJI და FPV დრონების დაცემის, გიმბალის, კამერის, მკლავების, მოტორების, ESC/FC-ის, სენსორებისა და პროგრამული სისტემების სრული დიაგნოსტიკა.")}</p>
             <div className="lp-hero__actions">
-              <RequestLink className="lp-button lp-button--primary">{display('შეკეთების მოთხოვნა')}<LaptopIcon name="arrow" /></RequestLink>
-              <a className="lp-button lp-button--secondary" href="#drone-contact"><LaptopIcon name="phone" />{display('დაგვიკავშირდით')}</a>
+              <RequestLink className="lp-button lp-button--primary">{l10n.t(display('შეკეთების მოთხოვნა'))}<LaptopIcon name="arrow" /></RequestLink>
+              <a className="lp-button lp-button--secondary" href={l10n.href("#drone-contact")}><LaptopIcon name="phone" />{l10n.t(display('დაგვიკავშირდით'))}</a>
             </div>
             <div className="lp-hero__facts drone-hero-facts">
-              {droneHeroFacts.map(fact => <span key={fact.title}><LaptopIcon name={fact.icon} /><span>{fact.title} {fact.subtitle}</span></span>)}
+              {l10n.t(droneHeroFacts.map(fact => <span key={fact.title}><LaptopIcon name={fact.icon} /><span>{l10n.t(fact.title)} {l10n.t(fact.subtitle)}</span></span>))}
             </div>
           </div>
           <div className="lp-hero__visual">
-            <figure className="lp-hero__photo"><img src="/assets/drone-repair/hero-mavic-4-pro.webp" alt="ხელთათმანიანი ტექნიკოსი დაშლილი DJI დრონის დიაგნოსტიკასა და შეკეთებაზე მუშაობს" width="1672" height="941" fetchPriority="high" decoding="async" /><figcaption><span />DJI დრონის შეკეთება</figcaption></figure>
+            <figure className="lp-hero__photo"><img src="/assets/drone-repair/hero-mavic-4-pro.webp" alt={l10n.t("ხელთათმანიანი ტექნიკოსი დაშლილი DJI დრონის დიაგნოსტიკასა და შეკეთებაზე მუშაობს")} width="1280" height="720" fetchPriority="high" decoding="async" /><figcaption><span />{l10n.t("DJI დრონის შეკეთება")}</figcaption></figure>
             <div className="lp-hero__details">
-              <figure className="lp-hero__detail lp-hero__detail--drone-gimbal"><img src="/assets/drone-repair/hero-gimbal-disassembled.webp" alt="DJI დრონის დაშლილი გიმბალისა და კამერის მოდულის შეკეთება" width="1672" height="941" loading="lazy" decoding="async" /><figcaption><LaptopIcon name="activity" />გიმბალის შეკეთება</figcaption></figure>
-              <figure className="lp-hero__detail lp-hero__detail--drone-fpv"><img src="/assets/drone-repair/hero-controller-disassembled.webp" alt="დაშლილი DJI პულტის ჯოისტიკისა და მართვის პლატის შეკეთება" width="1672" height="941" loading="lazy" decoding="async" /><figcaption><LaptopIcon name="gamepad" />DJI პულტის შეკეთება</figcaption></figure>
+              <figure className="lp-hero__detail lp-hero__detail--drone-gimbal"><img src="/assets/drone-repair/hero-gimbal-disassembled.webp" alt={l10n.t("DJI დრონის დაშლილი გიმბალისა და კამერის მოდულის შეკეთება")} width="1280" height="720" loading="lazy" decoding="async" /><figcaption><LaptopIcon name="activity" />{l10n.t("გიმბალის შეკეთება")}</figcaption></figure>
+              <figure className="lp-hero__detail lp-hero__detail--drone-fpv"><img src="/assets/drone-repair/hero-controller-disassembled.webp" alt={l10n.t("დაშლილი DJI პულტის ჯოისტიკისა და მართვის პლატის შეკეთება")} width="1280" height="720" loading="lazy" decoding="async" /><figcaption><LaptopIcon name="gamepad" />{l10n.t("DJI პულტის შეკეთება")}</figcaption></figure>
             </div>
           </div>
         </div>
-        <nav className="site-container lp-section-nav drone-section-nav" aria-label="დრონების სერვისის სექციები">
-          {sectionLinks.map(item => <a key={item.id} href={`#${item.id}`}><LaptopIcon name={item.icon} />{display(item.label)}</a>)}
+        <nav className="site-container lp-section-nav drone-section-nav" aria-label={l10n.t("დრონების სერვისის სექციები")}>
+          {l10n.t(sectionLinks.map(item => <a key={item.id} href={l10n.href(`#${item.id}`)}><LaptopIcon name={item.icon} />{l10n.t(display(item.label))}</a>))}
         </nav>
       </section>
 
       <section className="lp-section lp-problems" id="drone-problems" aria-labelledby="drone-problems-title">
         <div className="site-container">
-          <div className="lp-section-heading"><h2 id="drone-problems-title">{display('რა პრობლემა აქვს თქვენს დრონს?')}</h2><p>აირჩიეთ სიმპტომი. დაცემის შემდეგ ფარული გეომეტრიული ან ელექტრონული დაზიანება მხოლოდ ვიზუალურად ყოველთვის არ ჩანს.</p></div>
+          <div className="lp-section-heading"><h2 id="drone-problems-title">{l10n.t(display('რა პრობლემა აქვს თქვენს დრონს?'))}</h2><p>{l10n.t("აირჩიეთ სიმპტომი. დაცემის შემდეგ ფარული გეომეტრიული ან ელექტრონული დაზიანება მხოლოდ ვიზუალურად ყოველთვის არ ჩანს.")}</p></div>
           <div className="lp-problems__grid">
             <div className="lp-problems__sidebar">
-              <div className="lp-problem-tabs" role="tablist" aria-label="დრონის პრობლემები" aria-orientation="vertical">
-                {droneProblems.map((item, index) => <button key={item.id} ref={node => { problemTabs.current[index] = node }} id={`drone-problem-tab-${item.id}`} role="tab" type="button" aria-selected={selectedProblem === item.id} aria-controls={item.id === 'crash-gimbal' ? 'drone-problem-panel' : `drone-problem-panel-${item.id}`} tabIndex={selectedProblem === item.id ? 0 : -1} onClick={() => setSelectedProblem(item.id)} onKeyDown={event => moveProblem(event, index)}><LaptopIcon name={item.icon} /><span>{item.label}</span><span className="lp-selection-dot" aria-hidden="true" /></button>)}
-              </div>
-              <p className="lp-safety-note"><LaptopIcon name="info" /><span>დაცემის ან წყლით დაზიანების შემდეგ დრონი აღარ ჩართოთ; თუ უსაფრთხოა, მოხსენით ბატარეა.</span></p>
+              <ProblemSelector problems={droneProblems} selectedProblem={selectedProblem} onSelect={setSelectedProblem} compact={compactProblems} label="დრონის პრობლემები" tabIdPrefix="drone-problem-tab" panelIdPrefix="drone-problem-panel" defaultProblemId="crash-gimbal" />
+              <p className="lp-safety-note"><LaptopIcon name="info" /><span>{l10n.t("დაცემის ან წყლით დაზიანების შემდეგ დრონი აღარ ჩართოთ; თუ უსაფრთხოა, მოხსენით ბატარეა.")}</span></p>
             </div>
-            {droneProblems.map(problem => {
+            {l10n.t(droneProblems.map(problem => {
               const isSelected = selectedProblem === problem.id
               const panelId = problem.id === 'crash-gimbal' ? 'drone-problem-panel' : `drone-problem-panel-${problem.id}`
               return (
-                <div key={problem.id} className="lp-problem-panel" id={panelId} role="tabpanel" aria-labelledby={`drone-problem-tab-${problem.id}`} aria-hidden={!isSelected} hidden={!isSelected} tabIndex={isSelected ? 0 : -1}>
+                <div key={problem.id} className="lp-problem-panel" id={panelId} role={compactProblems ? 'region' : 'tabpanel'} aria-labelledby={compactProblems ? `${panelId}-title` : `drone-problem-tab-${problem.id}`} aria-hidden={!isSelected} hidden={!isSelected} tabIndex={isSelected ? 0 : -1}>
                   <div className="lp-problem-panel__main">
                     <div className="lp-problem-panel__copy">
-                  <span className="lp-eyebrow">სიმპტომი და პროფესიონალური დიაგნოსტიკა</span>
-                      <h3>{display(problem.title)}</h3>
-                      <p>{problem.description}</p>
-                      <ul className="lp-check-list">{problem.checks.map(check => <li key={check}><span><LaptopIcon name="check" /></span>{check}</li>)}</ul>
-                      <div className="lp-problem-service"><h4>შესაძლო მომსახურება</h4><p>{problem.service}</p></div>
-                      <RequestLink className="lp-text-link lp-whatsapp-link" href={droneProblemRequestUrl(problem)}><LaptopIcon name="whatsapp" /><span>მოგვწერეთ WhatsApp-ში</span><LaptopIcon name="arrow" /></RequestLink>
+                  <span className="lp-eyebrow">{l10n.t("სიმპტომი და პროფესიონალური დიაგნოსტიკა")}</span>
+                      <h3 id={`${panelId}-title`}>{l10n.t(display(problem.title))}</h3>
+                      <p>{l10n.t(problem.description)}</p>
+                      <ul className="lp-check-list">{l10n.t(problem.checks.map(check => <li key={check}><span><LaptopIcon name="check" /></span>{l10n.t(check)}</li>))}</ul>
+                      <div className="lp-problem-service"><h4>{l10n.t("შესაძლო მომსახურება")}</h4><p>{l10n.t(problem.service)}</p></div>
+                      <RequestLink className="lp-text-link lp-whatsapp-link" href={l10n.href(droneProblemRequestUrl(problem))}><LaptopIcon name="whatsapp" /><span>{l10n.t("მოგვწერეთ WhatsApp-ში")}</span><LaptopIcon name="arrow" /></RequestLink>
                     </div>
-                    <div className={`lp-problem-panel__photo drone-problem-photo--${problem.id}`}><img src={problem.photo.src} alt={problem.photo.alt} width={problem.photo.width} height={problem.photo.height} loading="lazy" decoding="async" /></div>
+                    <div className={`lp-problem-panel__photo drone-problem-photo--${problem.id}`}><img src={problem.photo.src} alt={l10n.t(problem.photo.alt)} width={problem.photo.width} height={problem.photo.height} loading="lazy" decoding="async" /></div>
                   </div>
-                  <p className="lp-info-note"><LaptopIcon name="info" />არ ხართ დარწმუნებული? სერვისში შემოწმება პრობლემის მიზეზის გარკვევაში დაგეხმარებათ.</p>
+                  <p className="lp-info-note"><LaptopIcon name="info" />{l10n.t("არ ხართ დარწმუნებული? სერვისში შემოწმება პრობლემის მიზეზის გარკვევაში დაგეხმარებათ.")}</p>
                 </div>
               )
-            })}
+            }))}
           </div>
         </div>
       </section>
 
       <section className="lp-section lp-process" id="drone-process" aria-labelledby="drone-process-title">
         <div className="site-container">
-          <div className="lp-section-heading"><h2 id="drone-process-title">{display('დრონის დიაგნოსტიკისა და შეკეთების პროცესი')}</h2></div>
-          <ol className="lp-process-steps">{droneRepairSteps.map((step, index) => <li key={step.title}><span className="lp-process-number">{index + 1}</span><h3>{display(step.title)}</h3><p>{step.description}</p></li>)}</ol>
+          <div className="lp-section-heading"><h2 id="drone-process-title">{l10n.t(display('დრონის დიაგნოსტიკისა და შეკეთების პროცესი'))}</h2></div>
+          <ol className="lp-process-steps">{l10n.t(droneRepairSteps.map((step, index) => <li key={step.title}><span className="lp-process-number">{l10n.t(index + 1)}</span><h3>{l10n.t(display(step.title))}</h3><p>{l10n.t(step.description)}</p></li>))}</ol>
           <div className="lp-ticket-lookup" id="drone-status">
-            <div className="lp-status-strip"><div><LaptopIcon name="barcode" /><label htmlFor="drone-service-code">უკვე ჩაბარებული გაქვთ დრონი?</label></div><form onSubmit={submitServiceCode} noValidate aria-busy={ticketState === 'loading'}><input ref={serviceCodeInput} id="drone-service-code" name="service-code" type="text" placeholder="სერვისის კოდი" required maxLength={64} autoComplete="off" aria-label="სერვისის კოდი" aria-invalid={ticketState === 'error'} aria-describedby={ticketState === 'error' || ticketState === 'not-found' ? 'drone-service-code-message' : undefined} value={serviceCode} onChange={event => { cancelTicketLookup(); setServiceCode(event.target.value); setFoundTicket(null); setTicketState('default') }} /><button className="lp-button lp-button--primary lp-button--small" type="submit" disabled={ticketState === 'loading'} aria-controls="drone-ticket-result" aria-expanded={ticketState === 'found'}>{ticketState === 'loading' ? 'იძებნება...' : 'სტატუსის ნახვა'}<LaptopIcon name={ticketState === 'loading' ? 'search' : 'arrow'} /></button></form></div>
-            {ticketState === 'error' && <p className="lp-ticket-message lp-ticket-message--error" id="drone-service-code-message" role="alert">შეიყვანეთ სერვისის კოდი.</p>}
-            {ticketState === 'not-found' && <p className="lp-ticket-message" id="drone-service-code-message" role="status">სერვისი ვერ მოიძებნა. გადაამოწმეთ კოდი და სცადეთ ხელახლა.</p>}
-            {ticketState === 'found' && foundTicket && <div ref={ticketResultRef} className="lp-ticket-result" id="drone-ticket-result" role="region" aria-label="მოძებნილი სერვისის სტატუსი" tabIndex={-1}><TicketResult ticket={foundTicket} /></div>}
+            <div className="lp-status-strip"><div><LaptopIcon name="barcode" /><label htmlFor="drone-service-code">{l10n.t("უკვე ჩაბარებული გაქვთ დრონი?")}</label></div><form onSubmit={submitServiceCode} noValidate aria-busy={ticketState === 'loading'}><input ref={serviceCodeInput} id="drone-service-code" name="service-code" type="text" placeholder={l10n.t("სერვისის კოდი")} required maxLength={64} autoComplete="off" aria-label={l10n.t("სერვისის კოდი")} aria-invalid={ticketState === 'error'} aria-describedby={ticketState === 'error' || ticketState === 'not-found' ? 'drone-service-code-message' : undefined} value={serviceCode} onChange={event => { cancelTicketLookup(); setServiceCode(event.target.value); setFoundTicket(null); setTicketState('default') }} /><button className="lp-button lp-button--primary lp-button--small" type="submit" disabled={ticketState === 'loading'} aria-controls="drone-ticket-result" aria-expanded={ticketState === 'found'}>{l10n.t(ticketState === 'loading' ? 'იძებნება...' : 'სტატუსის ნახვა')}<LaptopIcon name={ticketState === 'loading' ? 'search' : 'arrow'} /></button></form></div>
+            {l10n.t(ticketState === 'error' && <p className="lp-ticket-message lp-ticket-message--error" id="drone-service-code-message" role="alert">{l10n.t("შეიყვანეთ სერვისის კოდი.")}</p>)}
+            {l10n.t(ticketState === 'not-found' && <p className="lp-ticket-message" id="drone-service-code-message" role="status">{l10n.t("სერვისი ვერ მოიძებნა. გადაამოწმეთ კოდი და სცადეთ ხელახლა.")}</p>)}
+            {l10n.t(ticketState === 'found' && foundTicket && <div ref={ticketResultRef} className="lp-ticket-result" id="drone-ticket-result" role="region" aria-label={l10n.t("მოძებნილი სერვისის სტატუსი")} tabIndex={-1}><TicketResult ticket={foundTicket} /></div>)}
           </div>
-          <p className="drone-status-helper">შედეგი გამოჩნდება მხოლოდ სერვისის კოდის მოძებნის შემდეგ.</p>
+          <p className="drone-status-helper">{l10n.t("შედეგი გამოჩნდება მხოლოდ სერვისის კოდის მოძებნის შემდეგ.")}</p>
         </div>
       </section>
 
       <section className="lp-section lp-pricing" id="drone-prices" aria-labelledby="drone-prices-title">
         <div className="site-container">
-          <div className="lp-section-heading lp-section-heading--split"><h2 id="drone-prices-title">{display('დრონის სერვისის ფასები')}</h2><div className="lp-price-filters" role="group" aria-label="მომსახურების ტიპი">{dronePriceFilters.map(filter => <button key={filter.id} type="button" aria-pressed={priceCategory === filter.id} onClick={() => setPriceCategory(filter.id)}>{display(filter.label)}</button>)}</div></div>
-          <p className="lp-info-note lp-price-disclaimer" id="drone-price-disclaimer"><LaptopIcon name="info" /><span>{dronePriceDisclaimer}</span></p>
-          <div className="lp-price-table" role="table" aria-label="დრონის შეკეთების ფასები" aria-describedby="drone-price-disclaimer">
-            <div className="lp-price-table__head" role="row"><span role="columnheader">მომსახურება</span><span role="columnheader">ფასი</span><span role="columnheader">სავარაუდო ვადა</span></div>
-            <div className="lp-price-table__rows" role="rowgroup">{visiblePrices.map(price => <div className="lp-price-entry" key={price.id}><div role="row" className="lp-price-row"><div role="cell" className="lp-price-name">{price.name}</div><span role="cell" data-label="ფასი"><strong className="lp-price-amount">{formatDronePrice(price)}</strong><small className="lp-price-note">{price.priceNote}</small></span><span role="cell" data-label="სავარაუდო ვადა">{price.duration}</span></div></div>)}</div>
+          <div className="lp-section-heading lp-section-heading--split"><h2 id="drone-prices-title">{l10n.t(display('დრონის სერვისის ფასები'))}</h2><div className="lp-price-filters" role="group" aria-label={l10n.t("მომსახურების ტიპი")}>{l10n.t(dronePriceFilters.map(filter => <button key={filter.id} type="button" aria-pressed={priceCategory === filter.id} onClick={() => setPriceCategory(filter.id)}>{l10n.t(display(filter.label))}</button>))}</div></div>
+          <p className="lp-info-note lp-price-disclaimer" id="drone-price-disclaimer"><LaptopIcon name="info" /><span>{l10n.t(dronePriceDisclaimer)}</span></p>
+          <div className="lp-price-table" role="table" aria-label={l10n.t("დრონის შეკეთების ფასები")} aria-describedby="drone-price-disclaimer">
+            <div className="lp-price-table__head" role="row"><span role="columnheader">{l10n.t("მომსახურება")}</span><span role="columnheader">{l10n.t("ფასი")}</span><span role="columnheader">{l10n.t("სავარაუდო ვადა")}</span></div>
+            <div className="lp-price-table__rows" role="rowgroup">{l10n.t(visiblePrices.map(price => <div className="lp-price-entry" key={price.id}><div role="row" className="lp-price-row"><div role="cell" className="lp-price-name">{l10n.t(price.name)}</div><span role="cell" data-label={l10n.t("ფასი")}><strong className="lp-price-amount">{l10n.t(formatDronePrice(price))}</strong><small className="lp-price-note">{l10n.t(price.priceNote)}</small></span><span role="cell" data-label={l10n.t("სავარაუდო ვადა")}>{l10n.t(price.duration)}</span></div></div>))}</div>
           </div>
-          <div className="lp-price-footer"><p className="lp-info-note"><LaptopIcon name="info" />ნაწილების ღირებულება ცალკე ითვლება. ფრენის უსაფრთხოებაზე მოქმედი სამუშაო დასრულებულად ითვლება მხოლოდ კალიბრაციისა და ფუნქციური ტესტის შემდეგ.</p><RequestLink className="lp-button lp-button--outline lp-button--small" subject="დრონის შეკეთების ღირებულების დაზუსტება">ღირებულების დაზუსტება<LaptopIcon name="arrow" /></RequestLink></div>
+          <div className="lp-price-footer"><p className="lp-info-note"><LaptopIcon name="info" />{l10n.t("ნაწილების ღირებულება ცალკე ითვლება. ფრენის უსაფრთხოებაზე მოქმედი სამუშაო დასრულებულად ითვლება მხოლოდ კალიბრაციისა და ფუნქციური ტესტის შემდეგ.")}</p><RequestLink className="lp-button lp-button--outline lp-button--small" subject="დრონის შეკეთების ღირებულების დაზუსტება">{l10n.t("ღირებულების დაზუსტება")}<LaptopIcon name="arrow" /></RequestLink></div>
         </div>
       </section>
 
       <section className="lp-section lp-faq" id="drone-faq" aria-labelledby="drone-faq-title">
         <div className="site-container">
-          <div className="lp-section-heading"><h2 id="drone-faq-title">{display('ხშირად დასმული კითხვები')}</h2><p>პასუხები დაცემის, გიმბალის, firmware-ის, ბატარეისა და საბოლოო ტესტის შესახებ.</p></div>
-          <div className="lp-faq__list">{droneFaqs.map((item, index) => <details key={item.question}><summary><span className="lp-faq__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span><span className="lp-faq__question">{item.question}</span><LaptopIcon name="chevron" /></summary><div className="lp-faq__answer"><p>{item.answer}</p></div></details>)}</div>
+          <div className="lp-section-heading"><h2 id="drone-faq-title">{l10n.t(display('ხშირად დასმული კითხვები'))}</h2><p>{l10n.t("პასუხები დაცემის, გიმბალის, მიკროპროგრამის, ბატარეისა და საბოლოო ტესტის შესახებ.")}</p></div>
+          <div className="lp-faq__list">{l10n.t(droneFaqs.map((item, index) => <details key={item.question}><summary><span className="lp-faq__number" aria-hidden="true">{l10n.t(String(index + 1).padStart(2, '0'))}</span><span className="lp-faq__question">{l10n.t(item.question)}</span><LaptopIcon name="chevron" /></summary><div className="lp-faq__answer"><p>{l10n.t(item.answer)}</p></div></details>))}</div>
         </div>
       </section>
 

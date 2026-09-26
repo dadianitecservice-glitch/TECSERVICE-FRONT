@@ -1,0 +1,20 @@
+.account-page { color: #152e45; background: #f6f9fc; padding-bottom: 65px; }
+.account-page .lp-icon { width: 23px; height: 23px; }
+.account-page__breadcrumb { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; color: #658097; padding-block: 26px; font-size: 12px; }
+.account-page__breadcrumb a { color: #0864b5; }
+.account-page__welcome { max-width: 720px; margin: 20px auto 40px; text-align: center; padding: 22px 20px; }
+.account-page__lock { display: grid; place-items: center; width: 58px; height: 58px; margin: 0 auto 22px; color: #0864b5; background: #e8f2fb; border: 1px solid #d9eaf7; border-radius: 17px; }
+.account-page__eyebrow { color: #0864b5 !important; font-size: 11px !important; margin-bottom: 13px; }
+.account-page__welcome h1 { font-size: clamp(26px, 3vw, 38px); line-height: 1.55; text-wrap: balance; }
+.account-page__welcome > p { font-size: 14px; line-height: 1.9; color: #627c91; margin-top: 14px; }
+.account-page__entry-actions { display: grid; grid-template-columns: 1fr 1fr; max-width: 390px; gap: 12px; margin: 26px auto 0; }
+.account-page__preview { display: inline-block; margin-top: 24px; color: #587b98; font-size: 11px; line-height: 1.8; text-decoration: underline; text-underline-offset: 4px; }
+.account-page__restricted { display: grid; gap: 14px; max-width: 380px; margin: 24px auto 0; font-size: 13px; line-height: 1.8; }
+.account-page__features { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; max-width: 1060px; margin-inline: auto; }
+.account-page__features article { border: 1px solid #dfe9f2; border-radius: 14px; padding: 24px; background: #fff; }
+.account-page__features .lp-icon { color: #0864b5; margin-bottom: 14px; }
+.account-page__features h2 { font-size: 16px; margin-bottom: 8px; }
+.account-page__features p { color: #647d91; font-size: 12px; line-height: 1.85; }
+.account-page__notice { border: 1px solid #edcfd4; background: #fff5f6; color: #933649; padding: 14px; margin-block: 16px; font-size: 13px; line-height: 1.7; }
+.account-page :is(a, button):focus-visible { outline: 3px solid #84bce5; outline-offset: 4px; }
+@media (max-width: 760px) { .account-page__features { grid-template-columns: 1fr; gap: 12px; } .account-page__features article { padding: 20px; } .account-page__welcome { padding: 12px 0; margin-top: 0; } .account-page__welcome h1 { font-size: 26px; } }

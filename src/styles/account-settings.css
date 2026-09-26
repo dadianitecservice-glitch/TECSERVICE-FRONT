@@ -1,0 +1,93 @@
+.account-settings { font-size: 14px; color: #435767; }
+.account-bank-cards { padding: 24px; border: 1px solid #e3eaf0; border-radius: 12px; }
+.account-bank-cards__empty { display: flex; align-items: center; gap: 16px; }
+.account-bank-cards__icon { display: grid; place-items: center; width: 48px; height: 48px; flex: 0 0 48px; background: #edf5fc; border-radius: 10px; color: #0969b5; }
+.account-bank-cards__icon svg { width: 25px; height: 25px; }
+.account-bank-cards h3, .account-payment-history-title { font-size: 15px; line-height: 1.7; font-weight: 600; color: #233e53; text-transform: none; }
+.account-bank-cards__empty p { margin: 5px 0 0; color: #82909b; font-size: 13px; line-height: 1.8; }
+.account-bank-setup { margin-top: 22px; }
+.account-bank-setup > summary { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; padding: 9px 15px; min-height: 44px; border: 1px solid #ccdfef; border-radius: 7px; color: #0969b5; font-size: 13px; list-style: none; }
+.account-bank-setup > summary::-webkit-details-marker { display: none; }
+.account-bank-setup > summary > span { font-size: 21px; line-height: 1; }
+.account-bank-setup > summary:hover { background: #f4f9fd; }
+.account-bank-setup[open] > summary { margin-bottom: 24px; }
+.account-bank-options { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; border: 0; margin: 0; padding: 0; }
+.account-bank-options legend { padding: 0; margin-bottom: 12px; color: #687e8e; font-size: 12px; }
+.account-bank-option { display: flex; align-items: center; gap: 10px; min-height: 70px; padding: 14px; background: #fafbfc; border: 1px solid #e3eaf0; border-radius: 9px; cursor: pointer; font-size: 12px; line-height: 1.7; }
+.account-bank-option:has(input:checked) { border-color: #8fbddf; background: #f3f8fc; }
+.account-bank-option input { width: 15px; height: 15px; margin: 0; accent-color: #0969b5; flex-shrink: 0; }
+.account-bank-option__mark { display: block; width: 40px; height: 40px; flex: 0 0 40px; object-fit: contain; }
+.account-bank-remember { display: flex; align-items: flex-start; gap: 10px; margin-top: 22px; font-size: 12px; line-height: 1.8; cursor: pointer; }
+.account-bank-remember input { margin: 3px 0 0; width: 17px; height: 17px; accent-color: #0969b5; flex-shrink: 0; }
+.account-bank-setup__note { margin-top: 14px; font-size: 11px; line-height: 1.9; color: #84929c; }
+.account-bank-setup .account-settings__primary { display: flex; align-items: center; justify-content: space-between; gap: 25px; min-width: 180px; margin-top: 18px; }
+.account-bank-setup__status { margin-top: 18px; padding: 12px 15px; border-radius: 8px; font-size: 12px; line-height: 1.8; color: #42647b; background: #edf5fc; }
+.account-payment-history-title { margin: 32px 0 18px; }
+.account-settings__form { width: 100%; max-width: 460px; margin-inline: auto; display: grid; gap: 16px; }
+.account-settings__field { display: flex; flex-direction: column; gap: 4px; min-width: 0; min-height: 64px; padding: 10px 17px; background: #f7f9fb; border: 1px solid #e5ebf0; border-radius: 11px; font-size: 12px; line-height: 1.5; color: #788b99; transition: background-color 160ms ease; }
+.account-settings__field:focus-within { background: #edf3f7; }
+.account-settings__field:has(input[aria-invalid="true"]) { border-color: #c96f7b; }
+.account-settings__field input { width: 100%; min-width: 0; min-height: 24px; padding: 0; border: 0; border-radius: 0; background: transparent; font-size: 15px; line-height: 1.6; color: #253d4f; }
+.account-settings__field input::placeholder { color: #93a0aa; opacity: 1; }
+/* A background change marks the active field without adding a focus border. */
+.account-dashboard .account-settings__field input:is(:focus, :focus-visible) { outline: none; box-shadow: none; }
+.account-settings__primary { min-height: 48px; margin-top: 12px; padding: 12px 20px; border-radius: 9px; background: #0969b5; color: #fff; font-size: 14px; font-weight: 600; }
+.account-settings__primary:hover { background: #075b9d; }
+.account-settings__cancel { justify-self: center; padding: 8px 16px; background: transparent; color: #697986; font-size: 13px; }
+.account-settings__note { margin-top: 18px; color: #7b8790; font-size: 12px; line-height: 1.8; }
+.account-settings__note--intro { margin: -10px 0 24px; font-size: 14px; }
+.account-settings__error, .account-settings__success { margin-bottom: 18px; padding: 12px 15px; border-radius: 8px; font-size: 13px; line-height: 1.8; background: #fff4f4; color: #9e3748; }
+.account-settings__success { background: #edf7f1; color: #286d4c; }
+.account-settings__error button { display: block; background: transparent; color: inherit; padding: 5px 0; text-decoration: underline; }
+.account-settings__empty { padding: 24px 0; color: #78848d; line-height: 1.8; }
+.account-settings__add { padding: 12px 18px; min-height: 44px; margin-top: 14px; border: 1px solid #d7e4ef; border-radius: 8px; background: #fff; color: #0969b5; font-size: 13px; }
+.account-addresses { display: grid; gap: 14px; width: 100%; max-width: 460px; margin-inline: auto; }
+.account-address { display: flex; align-items: flex-start; gap: 15px; padding: 22px; background: #f7f9fb; border: 1px solid #e5ebf0; border-radius: 11px; }
+.account-panel[data-section="addresses"] .account-settings__empty { padding: 30px 20px; margin: 0; border: 1px solid #e5ebf0; border-radius: 11px; background: #f7f9fb; text-align: center; }
+.account-panel[data-section="addresses"] .account-settings__add { display: block; margin: 18px auto 0; }
+.account-panel[data-section="addresses"] .account-settings__add:hover { background: #f4f9fd; border-color: #abcce5; }
+.account-address > .lp-icon { margin-top: 3px; color: #698096; }
+.account-address > div { min-width: 0; }
+.account-address h3 { font-size: 15px; font-weight: 600; color: #243d50; overflow-wrap: anywhere; }
+.account-address p { margin: 8px 0; line-height: 1.8; overflow-wrap: anywhere; }
+.account-settings__inline-actions, .account-settings__confirmation { margin-top: 14px; }
+.account-settings__inline-actions button, .account-settings__confirmation button { padding: 5px 0; margin-right: 20px; background: transparent; color: #0969b5; font-size: 12px; }
+.account-settings__inline-actions button:last-child { color: #8f6570; }
+.account-payment-list { display: grid; gap: 12px; }
+.account-payment-row { position: relative; min-width: 0; border-radius: 11px; background: #f4f4f4; }
+.account-payment-disclosure > summary { display: grid; grid-template-columns: minmax(0,1fr) auto auto 18px; align-items: center; gap: 20px; min-height: 82px; padding: 20px 80px 20px 20px; border-radius: 11px; list-style: none; cursor: pointer; }
+.account-payment-disclosure > summary::-webkit-details-marker { display: none; }
+.account-payment-disclosure > summary:hover { background: #eef2f5; }
+.account-payment-row__identity { min-width: 0; }
+.account-payment-row__chevron { color: #698397; transition: transform 160ms ease; }
+.account-payment-disclosure[open] .account-payment-row__chevron { transform: rotate(180deg); }
+.account-payment-row > .account-invoice-trigger { position: absolute; top: 21px; right: 20px; }
+.account-payment-row__products { padding: 0 20px 20px; }
+.account-payment-row__products > :first-child { padding-top: 16px; border-top: 1px solid #e2e7eb; }
+.account-payment-row h3 { font-size: 14px; font-weight: 600; overflow-wrap: anywhere; }
+.account-payment-row time { display: block; margin-top: 5px; color: #7a8790; font-size: 12px; }
+.account-payment-row__status { display: inline-flex; align-items: center; gap: 7px; justify-self: start; padding: 5px 10px; border-radius: 6px; font-size: 12px; line-height: 1.6; font-weight: 500; color: #506a7c; background: #eaf0f4; }
+.account-payment-row__status::before { content: ''; width: 5px; height: 5px; flex: 0 0 5px; border-radius: 50%; background: currentColor; }
+.account-payment-row__status[data-payment-status="paid"] { color: #23744b; background: #e6f3eb; }
+.account-payment-row__status[data-payment-status="unpaid"] { color: #b23b48; background: #fbeaec; }
+.account-payment-row__status[data-payment-status="partial"] { color: #8a611e; background: #fbf1dd; }
+.account-payment-row__amount { display: grid; gap: 3px; text-align: right; }
+.account-payment-row__amount small { font-size: 11px; color: #7a8790; }
+.account-payment-row__amount strong { font-size: 16px; color: #0969b5; }
+@media (max-width: 600px) {
+  .account-bank-cards { padding: 18px; }
+  .account-bank-options { grid-template-columns: minmax(0,1fr); }
+  .account-bank-cards__empty { align-items: flex-start; gap: 12px; }
+  .account-bank-cards__empty h3 { font-size: 14px; }
+  .account-bank-setup .account-settings__primary { width: 100%; }
+  .account-settings__field input { font-size: 16px; }
+  .account-payment-disclosure > summary { grid-template-columns: minmax(0,1fr) auto; padding: 16px 72px 16px 16px; gap: 12px; }
+  .account-payment-row__status { grid-column: 1 / -1; grid-row: 2; }
+  .account-payment-row__chevron { position: absolute; top: 80px; right: 27px; }
+  .account-payment-row > .account-invoice-trigger { top: 16px; right: 16px; }
+  .account-payment-row__products { padding: 0 16px 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .account-settings__field { transition: none; }
+  .account-payment-row__chevron { transition: none; }
+}

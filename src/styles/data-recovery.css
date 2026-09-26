@@ -64,8 +64,8 @@
 .data-recovery-page .lp-problem-panel__photo {
   width: 326px;
   max-width: 100%;
-  aspect-ratio: 4 / 3;
-  align-self: start;
+  aspect-ratio: 3 / 4;
+  align-self: center;
 }
 
 .data-recovery-page .lp-problem-panel__photo img {
@@ -315,10 +315,13 @@
 
   .data-recovery-page .lp-problem-panel__main {
     display: flex;
+    gap: 0;
   }
 
   .data-recovery-page .lp-problem-panel__photo {
-    aspect-ratio: 16 / 7;
+    width: 100%;
+    aspect-ratio: 16 / 8;
+    align-self: stretch;
   }
 
   .data-recovery-page .dr-section-nav {
@@ -347,7 +350,7 @@
 
 @media (max-width: 600px) {
   .data-recovery-page .lp-hero h1 {
-    font-size: 29px;
+    font-size: clamp(25px, 7.4vw, 29px);
   }
 
   .data-recovery-page .lp-problems__grid {
@@ -359,7 +362,15 @@
   }
 
   .data-recovery-page .lp-price-table__head {
-    display: none;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
   }
 
   .data-recovery-page .lp-price-row {
@@ -368,6 +379,7 @@
 
   .data-recovery-page .lp-process-steps > li:not(:last-child)::after {
     width: 1px;
+    height: calc(100% - 36px);
   }
 
   .dr-contact {

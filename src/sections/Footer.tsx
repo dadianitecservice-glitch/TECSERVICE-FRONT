@@ -1,11 +1,13 @@
 import { toGeorgianMtavruli } from '../utils/text'
+import { useTranslation } from '../i18n/LocaleProvider'
 
 const footerNavigation = [
   { label: 'სერვისები', href: '#services' },
-  { label: 'კაბინეტი', href: '#ticket' },
-  { label: 'ბლოგი', href: '#blog' },
+  { label: 'კაბინეტი', href: '/account/' },
+  { label: 'ბლოგი', href: '/blog/' },
+  { label: 'ჩვენს შესახებ', href: '/about/' },
   { label: 'მაღაზია', href: 'https://shop.tecservice.ge', external: true },
-  { label: 'კონტაქტი', href: '#contact' },
+  { label: 'კონტაქტი', href: '/contact/' },
 ] as const
 
 const serviceNavigation = [
@@ -26,20 +28,21 @@ const socialLinks = [
 ] as const
 
 export function Footer({ homePath = '' }: { homePath?: string }) {
+  const l10n = useTranslation()
   const links = footerNavigation
-  const label = toGeorgianMtavruli
-  const resolveHref = (href: string) => href.startsWith('#') ? `${homePath}${href}` : href
+  const label = (value: string) => l10n.t(toGeorgianMtavruli(value))
+  const resolveHref = (href: string) => l10n.href(href.startsWith('#') ? `${homePath}${href}` : href)
   return (
     <footer className="site-footer" data-figma-node="259:242">
       <div className="site-footer__main site-container">
         <div className="site-footer__brand">
-          <a className="site-footer__logo" href="/" aria-label="TECSERVICE — მთავარი გვერდი">
-            <img src="/assets/brand/tecservice-logo-footer.svg" alt="TECSERVICE" />
+          <a className="site-footer__logo" href={l10n.href('/')} aria-label={l10n.t('TECSERVICE — მთავარი გვერდი')}>
+            <img src="/assets/brand/tecservice-logo-footer.svg" alt="TECSERVICE" width="211" height="44" loading="lazy" decoding="async" />
           </a>
-          <p>თქვენი ტექნიკის სერვისი 2002 წლიდან</p>
+          <p>{l10n.t('თქვენი ტექნიკის სერვისი 2002 წლიდან')}</p>
         </div>
 
-        <nav className="site-footer__navigation" aria-label="ქვედა ნავიგაცია">
+        <nav className="site-footer__navigation" aria-label={l10n.t('ქვედა ნავიგაცია')}>
           <div className="site-footer__column">
             <h2>{label('ნავიგაცია')}</h2>
             <ul>
@@ -50,7 +53,7 @@ export function Footer({ homePath = '' }: { homePath?: string }) {
                     target={'external' in link && link.external ? '_blank' : undefined}
                     rel={'external' in link && link.external ? 'noreferrer' : undefined}
                   >
-                    {link.label}
+                    {l10n.t(link.label)}
                   </a>
                 </li>
               ))}
@@ -62,7 +65,7 @@ export function Footer({ homePath = '' }: { homePath?: string }) {
             <ul>
               {serviceNavigation.map((service) => (
                 <li key={service.href}>
-                  <a href={service.href}>{service.label}</a>
+                  <a href={l10n.href(service.href)}>{l10n.t(service.label)}</a>
                 </li>
               ))}
             </ul>
@@ -71,7 +74,6 @@ export function Footer({ homePath = '' }: { homePath?: string }) {
 
         <div className="site-footer__social">
           <h2>{label('გამოგვყევით')}</h2>
-          <p>სიახლეები და პრაქტიკული რჩევები</p>
           <ul className="site-footer__social-list">
             {socialLinks.map((social) => (
               <li key={social.label}>
@@ -87,10 +89,10 @@ export function Footer({ homePath = '' }: { homePath?: string }) {
       <hr className="site-footer__divider site-container" />
 
       <div className="site-footer__bottom site-container">
-        <p>© 2026 TECSERVICE. ყველა უფლება დაცულია.</p>
-        <nav className="site-footer__legal" aria-label="სამართლებრივი ინფორმაცია">
-          <span>მომსახურების პირობები</span>
-          <span>კონფიდენციალურობის პოლიტიკა</span>
+        <p>{l10n.t('© 2026 TECSERVICE. ყველა უფლება დაცულია.')}</p>
+        <nav className="site-footer__legal" aria-label={l10n.t('სამართლებრივი ინფორმაცია')}>
+          <a href={l10n.href('/terms/')}>{l10n.t('მომსახურების პირობები')}</a>
+          <a href={l10n.href('/privacy/')}>{l10n.t('კონფიდენციალურობის პოლიტიკა')}</a>
         </nav>
       </div>
     </footer>

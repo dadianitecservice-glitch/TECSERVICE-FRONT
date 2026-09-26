@@ -1,4 +1,7 @@
 import { computerBuildPrices, computerFaqs, computerPrices } from '../data/computerRepair'
+import { serializeBlogStructuredData } from './blogStructuredData'
+import { localeFromPath, localePath, stripLocale } from '../i18n/locale'
+import { translateText } from '../i18n/translate'
 import { consoleFaqs, consolePrices } from '../data/consoleRepair'
 import { dataRecoveryFaqs, dataRecoveryPrices } from '../data/dataRecovery'
 import { droneFaqs, dronePrices } from '../data/droneRepair'
@@ -7,10 +10,14 @@ import { mobileTabletFaqs, mobileTabletPrices } from '../data/mobileTabletRepair
 import { otherElectronicsFaqs, otherElectronicsPrices } from '../data/otherElectronicsRepair'
 import {
   computerRepairPath,
+  contactPath,
   consoleRepairPath,
   dataRecoveryPath,
   droneRepairPath,
   getRouteMetadata,
+  getLegalPageKind,
+  isAboutPath,
+  isContactPath,
   laptopRepairPath,
   mobileTabletRepairPath,
   otherElectronicsPath,
@@ -129,6 +136,7 @@ const serviceDefinitions: ServiceDefinition[] = [
       'პრინტერებისა და ასლგადამღები მოწყობილობების პლატების შეკეთება',
       'აუდიო აპარატურის ელექტრონული კვანძების შეკეთება',
       'მონიტორების, ტელევიზორებისა და LED ეკრანების პლატების შეკეთება',
+      'ტელევიზორის LED განათების შეცვლა და შეკეთება',
       'ვიდეომეთვალყურეობის, დაშვების კონტროლისა და სიგნალიზაციის მოწყობილობების შეკეთება',
       'არასტანდარტული ელექტრონული მოწყობილობების კომპონენტური შეკეთება',
     ],
@@ -145,7 +153,7 @@ function normalizePath(pathname: string) {
 }
 
 function getDefinition(pathname: string) {
-  const normalizedPath = normalizePath(pathname)
+  const normalizedPath = normalizePath(stripLocale(pathname))
   return serviceDefinitions.find((definition) => definition.path === normalizedPath)
 }
 
@@ -241,10 +249,10 @@ function localBusinessSchema() {
     url: siteUrl,
     logo: {
       '@type': 'ImageObject',
-      url: `${siteUrl}assets/brand/tecservice-favicon.png`,
-      contentUrl: `${siteUrl}assets/brand/tecservice-favicon.png`,
-      width: 512,
-      height: 512,
+      url: `${siteUrl}assets/brand/tecservice-favicon-v2.png`,
+      contentUrl: `${siteUrl}assets/brand/tecservice-favicon-v2.png`,
+      width: 256,
+      height: 256,
     },
     image: `${siteUrl}assets/blog/laptop-repair-figma.png`,
     description: 'ტექნიკის პროფესიონალური შეკეთება, დიაგნოსტიკა და ინფორმაციის აღდგენა თბილისში.',
@@ -281,7 +289,7 @@ function localBusinessSchema() {
         '@type': 'OpeningHoursSpecification',
         dayOfWeek: ['Saturday'],
         opens: '11:00',
-        closes: '17:00',
+        closes: '18:00',
       },
     ],
     sameAs: [
@@ -387,12 +395,183 @@ export function getServiceStructuredData(pathname: string, routeMetadata = getRo
 
 export function serializeServiceStructuredData(pathname: string, routeMetadata = getRouteMetadata(pathname)) {
   const structuredData = getServiceStructuredData(pathname, routeMetadata)
-  return structuredData ? JSON.stringify(structuredData).replace(/</g, '\\u003c') : null
+  return structuredData ? JSON.stringify(localizeStructuredData(structuredData, pathname)).replace(/</g, '\\u003c') : null
+}
+
+export function getContactStructuredData(pathname: string, routeMetadata = getRouteMetadata(pathname)) {
+  if (!isContactPath(pathname) || !routeMetadata) return null
+
+  const metadata = routeMetadata as RouteMetadata
+  const canonical = metadata.canonical
+  const webpageId = `${canonical}#contact-page`
+  const breadcrumbId = `${canonical}#breadcrumb`
+
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      localBusinessSchema(),
+      {
+        '@type': 'WebSite',
+        '@id': websiteId,
+        url: siteUrl,
+        name: 'TECSERVICE',
+        alternateName: ['ტექსერვისი', 'tecservice.ge'],
+        inLanguage: 'ka',
+        publisher: { '@id': businessId },
+      },
+      {
+        '@type': 'ContactPage',
+        '@id': webpageId,
+        url: canonical,
+        name: metadata.title,
+        description: metadata.description,
+        inLanguage: 'ka',
+        isPartOf: { '@id': websiteId },
+        about: { '@id': businessId },
+        mainEntity: { '@id': businessId },
+        breadcrumb: { '@id': breadcrumbId },
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: metadata.image,
+          contentUrl: metadata.image,
+          width: Number(metadata.imageWidth),
+          height: Number(metadata.imageHeight),
+          caption: metadata.imageAlt,
+        },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': breadcrumbId,
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'მთავარი', item: siteUrl },
+          { '@type': 'ListItem', position: 2, name: 'კონტაქტი', item: `${siteUrl}${contactPath.slice(1)}/` },
+        ],
+      },
+    ],
+  }
+}
+
+export function serializeRouteStructuredData(pathname: string, routeMetadata = getRouteMetadata(pathname)) {
+  const blogSchema = serializeBlogStructuredData(pathname, routeMetadata)
+  if (blogSchema) return blogSchema
+  const structuredData = getServiceStructuredData(pathname, routeMetadata)
+    ?? getContactStructuredData(pathname, routeMetadata)
+    ?? getAboutStructuredData(pathname, routeMetadata)
+    ?? getLegalStructuredData(pathname, routeMetadata)
+    ?? (localeFromPath(pathname) === 'en' && stripLocale(pathname) === '/' && routeMetadata ? {
+      '@context': 'https://schema.org',
+      '@graph': [
+        localBusinessSchema(),
+        { '@type': 'WebSite', '@id': websiteId, url: siteUrl, name: 'TECSERVICE', inLanguage: 'en', publisher: { '@id': businessId } },
+        { '@type': 'WebPage', '@id': `${routeMetadata.canonical}#webpage`, url: routeMetadata.canonical, name: routeMetadata.title, description: routeMetadata.description, inLanguage: 'en', isPartOf: { '@id': websiteId }, about: { '@id': businessId }, mainEntity: { '@id': `${routeMetadata.canonical}#services` } },
+        {
+          '@type': 'ItemList', '@id': `${routeMetadata.canonical}#services`,
+          name: 'ჩვენი სერვისები', numberOfItems: serviceDefinitions.length,
+          itemListElement: serviceDefinitions.map((service, index) => ({
+            '@type': 'ListItem', position: index + 1,
+            item: {
+              '@type': 'Service',
+              '@id': `${siteUrl.slice(0, -1)}${service.path}/#service`,
+              name: service.name,
+              url: `${siteUrl.slice(0, -1)}${service.path}/`,
+              provider: { '@id': businessId },
+            },
+          })),
+        },
+      ],
+    } : null)
+  return structuredData ? JSON.stringify(localizeStructuredData(structuredData, pathname)).replace(/</g, '\\u003c') : null
+}
+
+export function getLegalStructuredData(pathname: string, routeMetadata = getRouteMetadata(pathname)) {
+  if (!getLegalPageKind(pathname) || !routeMetadata) return null
+  const locale = localeFromPath(pathname)
+  const canonical = routeMetadata.canonical
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      localBusinessSchema(),
+      { '@type': 'WebSite', '@id': websiteId, url: siteUrl, name: 'TECSERVICE', inLanguage: locale, publisher: { '@id': businessId } },
+      { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: routeMetadata.title, description: routeMetadata.description, inLanguage: locale, isPartOf: { '@id': websiteId }, breadcrumb: { '@id': `${canonical}#breadcrumb` } },
+      { '@type': 'BreadcrumbList', '@id': `${canonical}#breadcrumb`, itemListElement: [
+        { '@type': 'ListItem', position: 1, name: locale === 'en' ? 'Home' : 'მთავარი', item: siteUrl },
+        { '@type': 'ListItem', position: 2, name: routeMetadata.title.replace(' | TECSERVICE', ''), item: canonical },
+      ] },
+    ],
+  }
+}
+
+export function getAboutStructuredData(pathname: string, routeMetadata = getRouteMetadata(pathname)) {
+  if (!isAboutPath(pathname) || !routeMetadata) return null
+
+  const metadata = routeMetadata as RouteMetadata
+  const canonical = metadata.canonical
+  const webpageId = `${canonical}#about-page`
+  const breadcrumbId = `${canonical}#breadcrumb`
+  const locale = localeFromPath(pathname)
+
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      localBusinessSchema(),
+      {
+        '@type': 'WebSite',
+        '@id': websiteId,
+        url: siteUrl,
+        name: 'TECSERVICE',
+        alternateName: ['ტექსერვისი', 'tecservice.ge'],
+        inLanguage: locale,
+        publisher: { '@id': businessId },
+      },
+      {
+        '@type': 'AboutPage',
+        '@id': webpageId,
+        url: canonical,
+        name: metadata.title,
+        description: metadata.description,
+        inLanguage: locale,
+        isPartOf: { '@id': websiteId },
+        about: { '@id': businessId },
+        mainEntity: { '@id': businessId },
+        breadcrumb: { '@id': breadcrumbId },
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: metadata.image,
+          contentUrl: metadata.image,
+          width: Number(metadata.imageWidth),
+          height: Number(metadata.imageHeight),
+          caption: metadata.imageAlt,
+        },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': breadcrumbId,
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: locale === 'en' ? 'Home' : 'მთავარი', item: siteUrl },
+          { '@type': 'ListItem', position: 2, name: locale === 'en' ? 'About us' : 'ჩვენს შესახებ', item: canonical },
+        ],
+      },
+    ],
+  }
+}
+
+function localizeStructuredData(value: unknown, pathname: string, key = ''): unknown {
+  if (localeFromPath(pathname) !== 'en') return value
+  if (typeof value === 'string') {
+    if (key === 'inLanguage') return 'en'
+    if (value.startsWith(siteUrl) && !value.includes('/assets/') && !value.endsWith('#business') && !value.endsWith('#website')) {
+      return `${siteUrl.slice(0, -1)}${localePath(value.slice(siteUrl.length - 1), 'en')}`
+    }
+    return translateText(value, 'en')
+  }
+  if (Array.isArray(value)) return value.map(item => localizeStructuredData(item, pathname, key))
+  if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).map(([name, item]) => [name, localizeStructuredData(item, pathname, name)]))
+  return value
 }
 
 export function applyServiceStructuredData(pathname: string) {
   document.querySelectorAll(`script[${serviceStructuredDataAttribute}]`).forEach((script) => script.remove())
-  const json = serializeServiceStructuredData(pathname)
+  const json = serializeRouteStructuredData(pathname)
   if (!json) return
 
   const script = document.createElement('script')

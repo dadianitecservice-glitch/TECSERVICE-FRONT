@@ -7,8 +7,8 @@ export type ComputerPriceCategory = LaptopPriceCategory
 const photo = (name: string, alt: string) => ({
   src: `/assets/computer-repair/${name}.webp`,
   alt,
-  width: 1280,
-  height: 960,
+  width: 960,
+  height: 720,
 })
 
 export const computerProblems: ComputerProblem[] = [

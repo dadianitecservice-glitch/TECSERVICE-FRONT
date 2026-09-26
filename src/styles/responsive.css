@@ -22,6 +22,7 @@
 .ai-result__warning { margin-top: 12px; padding-top: 11px; border-top: 1px solid #dce8f2; color: #526071; line-height: 1.6; }
 .ai-result__warning > span { margin-right: 2px; }
 .ai-result a { display: inline-block; color: var(--brand-blue); margin-top: 10px; }
+.ai-result__sources { display: flex; flex-direction: column; align-items: flex-start; }
 .ai-error { color: #b4232f; }
 .ai-development-note { padding: 8px 10px; border: 1px solid #e0ebf4; border-radius: 8px; background: #f5f9fd; color: #526071; font-size: 11.5px; line-height: 17px; }
 .ai-development-note strong { display: block; margin-bottom: 2px; color: #315b7c; font-weight: 600; }
@@ -172,7 +173,7 @@
 
 @media (max-width: 900px) {
   :root { --page-gutter: 24px; }
-  .site-header__utility-cell--right > .site-header__utility-icon, .site-header__utility-cell--right > span { display: none; }
+  .site-header__hours-link { display: none; }
   .site-header__brand { width: 180px; flex-basis: 180px; }
   .hero { min-height: 1110px; }
   .hero__content { min-height: 470px; }
@@ -229,7 +230,6 @@
   .device-option, .device-option--wide { width: 100%; height: 64px; }
   .device-fieldset legend { font-size: 13px; }
   .problem-field > label { font-size: 16px; }
-  .attachment-button { top: 4px; right: 4px; width: 40px; height: 40px; display: grid; place-items: center; }
   .ai-disclaimer { font-size: 11px; line-height: 17px; }
   .ai-submit { white-space: nowrap; font-size: 14px; }
   .section-header h2, .shop-section .section-header h2, .reviews-header h2, .contact-copy h2 { font-size: 28px; line-height: 38px; }
@@ -307,6 +307,18 @@
   .ai-submit { font-size: 12px; padding-inline: 8px; }
   .ai-step { font-size: 10px; }
   .shop-header-actions > a { white-space: normal; }
+}
+/* Keep touch forms readable and OTP controls usable between phone/tablet breakpoints. */
+@media (max-width: 1199px) {
+  .problem-field textarea, .ticket-form input { font-size: 16px; }
+  .otp-panel__links button { min-height: 44px; }
+}
+@media (max-width: 760px) {
+  .otp-panel { display: flex; flex-direction: column; align-items: stretch; }
+  .otp-inputs { width: 100%; gap: 6px; }
+  .otp-inputs input { width: calc((100% - 30px) / 6); min-width: 0; min-height: 44px; }
+  .otp-confirm { width: 100%; }
+  .otp-panel__links { flex-wrap: wrap; gap: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .services-grid, .products-grid, .reviews-grid, .blog-grid { scroll-behavior: auto; }

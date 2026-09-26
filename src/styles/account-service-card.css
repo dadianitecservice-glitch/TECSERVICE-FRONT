@@ -1,0 +1,144 @@
+.account-service-card {
+  --account-service-inset: 24px;
+  min-width: 0;
+  color: #18364b;
+  background: #f3f3f3;
+  border: 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.account-service-disclosure { position: relative; }
+.account-service-disclosure > summary {
+  display: grid;
+  gap: 0;
+  padding: var(--account-service-inset);
+  list-style: none;
+  cursor: pointer;
+  transition: background .18s;
+}
+.account-service-disclosure > summary::-webkit-details-marker { display: none; }
+.account-service-disclosure > summary:focus-visible { outline: 3px solid #459ada; outline-offset: -3px; border-radius: 12px; }
+.account-service-summary__header { display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 44px; margin-bottom: 12px; }
+.account-service-summary__device { display: grid; grid-template-columns: 48px minmax(0, 1fr); align-items: center; gap: 16px; min-height: 80px; padding: 16px 18px; border-radius: 9px; background: #fff; }
+.account-service-summary__icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 7px;
+  background: #f1f6fa;
+  color: #0969b5;
+}
+.account-service-summary__icon .lp-icon { width: 23px; height: 23px; }
+.account-service-summary__identity { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; min-width: 0; }
+.account-service-summary__reference { display: block; font-size: 15px; font-weight: 700; line-height: 1.7; color: #37434d; overflow-wrap: anywhere; }
+.account-service-summary__identity :is(h3, h4) { margin: 0; font-size: 15px; line-height: 1.6; font-weight: 600; color: #18364b; overflow-wrap: anywhere; }
+.account-service-summary__identity .account-status { font-size: 12px; line-height: 1.6; padding: 0; border-radius: 0; background: transparent; }
+.account-service-summary__footer { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-top: 19px; }
+.account-service-summary__date { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 9px; min-width: 0; font-size: 13px; line-height: 1.7; color: #6f7982; }
+.account-service-summary__date time { color: #20384b; font-weight: 500; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.account-service-summary__amount { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; min-width: 0; max-width: 42%; flex-shrink: 0; text-align: right; }
+.account-service-summary__amount small { color: #20384b; font-size: 13px; font-weight: 600; line-height: 1.7; }
+.account-service-summary__price { color: #0969b5; font-size: 20px; font-weight: 600; line-height: 1.4; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.account-service-summary__toggle { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-width: 112px; min-height: 30px; padding: 5px 15px; flex-shrink: 0; border-radius: 999px; color: #fff; background: #0969b5; font-size: 12px; font-weight: 600; line-height: 1.6; transition: background .18s; }
+.account-service-summary__toggle .lp-icon { width: 13px; height: 13px; transition: transform .2s; }
+.account-service-disclosure:not([open]) > summary:hover .account-service-summary__toggle { color: #fff; background: #07558f; }
+.account-service-disclosure[open] .account-service-summary__toggle { color: #0969b5; background: #e5edf5; }
+.account-service-disclosure[open] > summary:hover .account-service-summary__toggle { color: #07558f; background: #d9e7f3; }
+.account-service-disclosure[open] .account-service-summary__toggle .lp-icon { transform: rotate(180deg); }
+.account-service-disclosure.has-invoice[open] .account-service-summary__toggle { visibility: hidden; }
+.account-service-invoice { position: absolute; top: calc(var(--account-service-inset) + 2px); right: var(--account-service-inset); z-index: 1; }
+.account-service-disclosure:not([open]) .account-service-invoice { display: none; }
+.account-service-invoice > .account-invoice-trigger { border: 0; background: transparent; }
+.account-service-invoice > .account-invoice-trigger:hover { background: #e3edf6; }
+.account-service-expanded { margin: 0 var(--account-service-inset) var(--account-service-inset); padding: 20px 0 0; border-top: 1px solid #dce2e7; background: transparent; }
+.account-service-expanded__heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 40px; }
+.account-service-expanded :is(h4, h5) { margin: 0; font-size: 15px; font-weight: 700; line-height: 1.7; color: #18364b; }
+.account-service-collapse { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 40px; padding: 6px 0 6px 10px; flex-shrink: 0; border: 0; border-radius: 5px; background: transparent; color: #657e92; font-size: 12px; line-height: 1.6; cursor: pointer; }
+.account-service-collapse .lp-icon { width: 14px; height: 14px; transform: rotate(180deg); }
+.account-service-collapse:hover { color: #0969b5; }
+.account-service-collapse:focus-visible { outline: 3px solid #459ada; outline-offset: 2px; }
+.account-service-expanded__timezone { margin: 2px 0 18px; font-size: 12px; line-height: 1.7; color: #8093a2; }
+.account-service-card .account-service-expanded .account-service-progress { display: flex; flex-direction: column; gap: 16px; padding: 16px 0 20px; border: 0; border-bottom: 1px solid #dce2e7; border-radius: 0; background: transparent; }
+.account-service-card .account-service-progress .milestones { min-height: 88px; width: 100%; }
+.account-service-card .account-service-progress .milestones li { font-size: 12px; line-height: 1.6; }
+.account-service-card .account-service-progress .milestones small { font-size: 12px; }
+.account-service-card .account-service-progress .status-summary { display: flex; flex-direction: column; gap: 4px; min-height: 0; padding: 15px 0 0; border: 0; border-top: 1px solid #dce2e7; border-radius: 0; background: transparent; }
+.account-service-card .account-service-progress .status-summary strong { font-size: 14px; font-weight: 600; color: #315571; }
+.account-service-card .account-service-progress .status-summary :is(span, small) { font-size: 13px; line-height: 1.85; color: #657e92; }
+.account-service-expanded__metadata { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px 24px; margin: 0; padding: 23px 0; }
+.account-service-expanded .account-field { min-width: 0; }
+.account-service-expanded .account-field dt { margin: 0 0 6px; font-size: 12px; color: #718697; line-height: 1.7; }
+.account-service-expanded .account-field dd { margin: 0; font-size: 14px; line-height: 1.85; font-weight: 500; color: #294b64; white-space: pre-line; overflow-wrap: anywhere; }
+.account-service-expanded__notes { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px 24px; margin: 0; padding-top: 20px; border-top: 1px solid #dce2e7; }
+.account-service-expanded__notes.has-resolution { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.account-service-expanded__notes > .account-field { padding: 0; background: transparent; border: 0; border-radius: 0; }
+.account-service-expanded__notes .account-field dt { font-size: 13px; font-weight: 600; color: #385a72; margin-bottom: 8px; }
+.account-service-expanded__notes .account-field dd { font-weight: 400; color: #657d90; }
+.account-service-devices { margin-top: 24px; padding-top: 21px; border-top: 1px solid #dce2e7; }
+.account-service-devices > :is(h4, h5) { display: flex; align-items: center; gap: 9px; margin-bottom: 15px; }
+.account-service-devices > :is(h4, h5) > span { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 6px; background: #edf3f8; font-size: 12px; font-weight: 500; color: #5b7d96; }
+.account-service-device { padding: 0; border: 0; border-radius: 0; margin-top: 18px; background: transparent; }
+.account-service-device + .account-service-device { padding-top: 20px; border-top: 1px solid #dce2e7; }
+.account-service-device__heading { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 15px; }
+.account-service-device__identity { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.account-service-device__number { display: grid; place-items: center; flex: 0 0 28px; height: 28px; border-radius: 7px; background: #f1f6fa; color: #7090a8; font-size: 12px; }
+.account-service-device__identity > strong { font-size: 14px; font-weight: 600; line-height: 1.7; overflow-wrap: anywhere; min-width: 0; }
+.account-service-device__heading .account-status { flex-shrink: 0; max-width: 48%; font-size: 12px; border-radius: 6px; padding: 4px 8px; }
+.account-service-device .account-service-expanded__fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 24px; margin: 0; }
+@media (max-width: 820px) {
+  .account-service-card { --account-service-inset: 18px; }
+  .account-service-expanded__metadata { column-gap: 18px; }
+}
+@media (max-width: 600px) {
+  .account-service-summary__device { gap: 14px; padding: 14px; }
+  .account-service-summary__icon .lp-icon { width: 20px; height: 20px; }
+  .account-service-summary__footer { gap: 16px; }
+  .account-service-summary__date { flex-direction: column; gap: 2px; }
+  .account-service-expanded { padding-top: 18px; }
+  .account-service-expanded__heading { gap: 10px; }
+  .account-service-expanded__heading :is(h4, h5) { font-size: 14px; }
+  .account-service-card .account-service-expanded .account-service-progress { padding: 12px 0 18px; gap: 12px; }
+  .account-service-card .account-service-progress .milestones { min-height: 86px; }
+  .account-service-card .account-service-progress .milestones li { font-size: 11px; }
+  .account-service-card .account-service-progress .milestones li > span:not(.milestone-marker) { padding-inline: 0; }
+  .account-service-card .account-service-progress .milestones small { font-size: 11px; }
+  .account-service-card .account-service-progress .status-summary { padding: 12px 0 0; }
+  .account-service-card .account-service-progress .status-summary strong { font-size: 13px; }
+  .account-service-card .account-service-progress .status-summary :is(span, small) { font-size: 12px; }
+  .account-service-expanded__metadata { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 14px; padding-block: 21px; }
+  .account-service-expanded__metadata > .account-field:first-child { grid-column: 1 / -1; }
+  .account-service-expanded .account-field dt { font-size: 12px; }
+  .account-service-expanded .account-field dd { font-size: 14px; }
+  .account-service-expanded__notes.has-resolution { grid-template-columns: minmax(0, 1fr); }
+  .account-service-expanded__notes { gap: 18px; padding-top: 18px; }
+  .account-service-expanded__notes .account-field dt { font-size: 13px; }
+  .account-service-devices { padding-top: 18px; margin-top: 21px; }
+  .account-service-device__heading { align-items: flex-start; flex-wrap: wrap; gap: 10px; }
+  .account-service-device__heading .account-status { max-width: 100%; }
+  .account-service-device .account-service-expanded__fields { grid-template-columns: minmax(0, 1fr); gap: 15px; }
+}
+@media (max-width: 480px) {
+  .account-service-card { --account-service-inset: 15px; }
+  .account-service-summary__header { gap: 12px; }
+  .account-service-summary__reference { font-size: 14px; }
+  .account-service-summary__toggle { min-width: 92px; padding-inline: 12px; }
+  .account-service-summary__device { grid-template-columns: 44px minmax(0, 1fr); gap: 12px; padding: 12px; min-height: 72px; }
+  .account-service-summary__icon { width: 44px; height: 44px; }
+  .account-service-summary__identity :is(h3, h4) { font-size: 14px; line-height: 1.65; }
+  .account-service-summary__footer { gap: 12px; margin-top: 17px; }
+  .account-service-summary__date > span { font-size: 12px; }
+  .account-service-summary__amount { max-width: 45%; }
+}
+@media (max-width: 380px) {
+  .account-service-card { --account-service-inset: 12px; }
+  .account-service-summary__device { gap: 10px; padding: 11px; }
+  .account-service-summary__footer { flex-wrap: wrap; gap: 13px; }
+  .account-service-summary__amount { max-width: 100%; margin-left: auto; }
+  .account-service-card .account-service-progress .milestones li,
+  .account-service-card .account-service-progress .milestones small { font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .account-service-disclosure > summary, .account-service-summary__toggle .lp-icon { transition: none; }
+}

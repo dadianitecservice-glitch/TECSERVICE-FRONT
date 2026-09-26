@@ -1,0 +1,55 @@
+.account-auth { position: fixed; inset: 0; margin: auto; padding: 0; width: min(460px, calc(100vw - 32px)); max-height: calc(100dvh - 40px); border: 1px solid #e0eaf2; border-radius: 20px; color: #152e45; background: #fff; box-shadow: 0 24px 90px #102d4533; overflow-y: auto; overscroll-behavior: contain; }
+.account-auth::backdrop { background: #10273980; backdrop-filter: blur(5px); }
+.account-auth__panel { position: relative; padding: 25px 32px 18px; }
+.account-auth button { cursor: pointer; text-transform: none; letter-spacing: 0; }
+.account-auth :is(a, button, input[type=checkbox]):focus-visible { outline: 3px solid #84bce5; outline-offset: 3px; }
+.account-auth .lp-icon { width: 20px; height: 20px; flex: 0 0 20px; }
+.account-auth__close { position: absolute; top: 10px; right: 10px; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; background: transparent; color: #6e8393; }
+.account-auth__close:hover { background: #f0f6fa; color: #0864b5; }
+.account-auth__brand { display: flex; align-items: center; justify-content: flex-start; margin: 0 0 15px; padding-right: 30px; }
+.account-auth__brand img { display: block; width: 180px; max-width: 100%; height: auto; }
+.account-auth h2 { font-size: 25px; line-height: 1.4; text-align: center; letter-spacing: -.4px; }
+.account-auth #account-auth-intro { font-size: 12px; line-height: 1.9; color: #6b8091; margin-top: 6px; text-align: center; }
+.account-auth__tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: #f0f6fa; border-radius: 10px; padding: 3px; margin: 15px 0 17px; }
+.account-auth__tabs button { min-height: 44px; padding: 7px; border-radius: 7px; background: transparent; font-size: 12px; font-weight: 600; color: #617c90; }
+.account-auth__tabs button[aria-pressed=true] { color: #0864b5; background: #fff; box-shadow: 0 1px 5px #17374e12; }
+.account-auth__form fieldset { display: grid; gap: 10px; border: 0; min-width: 0; padding: 0; margin: 0; }
+.account-auth__form label { display: block; font-size: 12px; font-weight: 500; color: #27455d; line-height: 1.6; }
+.account-auth__form label small { color: #72899b; font-size: 10px; font-weight: 400; }
+.account-auth__form input:not([type=checkbox]) { display: block; width: 100%; min-width: 0; height: 44px; margin-top: 4px; padding: 8px 13px; border: 1px solid #dce6ee; border-radius: 9px; color: #142e43; background: #fafdff; font-size: 14px; outline: none; box-shadow: none; }
+.account-auth__form input:not([type=checkbox]):is(:focus, :focus-visible) { outline: none; box-shadow: none; background: #edf4f9; }
+.account-auth__form input::placeholder { color: #8b9dad; font-size: 12px; }
+.account-auth__password { position: relative; display: block; }
+.account-auth__password input { padding-right: 80px !important; }
+.account-auth__password button { position: absolute; top: 0; right: 3px; height: 44px; min-width: 70px; padding: 5px; background: transparent; font-size: 10px; color: #51758f; }
+.account-auth__text-button { color: #0864b5; background: transparent; padding: 8px 0; font-size: 12px; min-height: 44px; text-align: left; }
+.account-auth__forgot { justify-self: end; margin-top: -7px; }
+.account-auth__primary, .account-auth__secondary { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; min-height: 44px; padding: 10px 15px; border-radius: 9px; background: #0864b5; color: #fff; font-size: 13px; font-weight: 600; line-height: 1.5; }
+.account-auth__primary:hover { background: #075697; }
+.account-auth__secondary { background: #f1f7fc; color: #0864b5; border: 1px solid #dce8f2; }
+.account-auth button:disabled { opacity: .6; cursor: wait; }
+.account-auth__hint { font-size: 11px; line-height: 1.7; color: #6c8497; }
+.account-auth__consent { display: flex !important; align-items: flex-start; gap: 9px; font-size: 11px !important; line-height: 1.8 !important; font-weight: 400 !important; }
+.account-auth__consent input { width: 18px; height: 18px; flex: 0 0 18px; margin-top: 2px; accent-color: #0864b5; }
+.account-auth__consent a { color: #0864b5; text-decoration: underline; text-underline-offset: 3px; }
+.account-auth__error { border: 1px solid #f3d3d8; border-radius: 8px; padding: 11px 13px; color: #ab3447; background: #fff6f7; font-size: 12px; line-height: 1.7; }
+.account-auth__footer { display: flex; align-items: center; justify-content: center; gap: 7px; border-top: 1px solid #e6edf3; padding-top: 12px; margin-top: 14px; color: #7a8e9e; font-size: 10px; line-height: 1.7; text-align: center; }
+.account-auth__footer .lp-icon { width: 14px; height: 14px; flex-basis: 14px; }
+.account-auth__help { display: grid; gap: 12px; margin-top: 22px; }
+.account-auth__success { display: grid; gap: 18px; margin-top: 24px; font-size: 13px; line-height: 1.8; color: #537187; text-align: center; }
+.account-auth__success > span { width: 48px; height: 48px; display: grid; place-items: center; background: #ecf8f1; color: #20875b; border-radius: 50%; margin: 0 auto; }
+.account-auth__help .account-auth__text-button { text-align: center; }
+@media (max-width: 600px) {
+  .account-auth { width: calc(100vw - 24px); max-height: calc(100dvh - 24px); border-radius: 15px; }
+  .account-auth__panel { padding: 25px 20px 18px; }
+  .account-auth__brand { margin-bottom: 15px; }
+  .account-auth__brand img { width: 180px; }
+  .account-auth h2 { font-size: 23px; }
+  .account-auth__form input:not([type=checkbox]) { font-size: 16px; }
+  .account-auth__close { min-width: 44px; min-height: 44px; }
+}
+@media (max-width: 380px) {
+  .account-auth__panel { padding-right: 17px; padding-left: 17px; }
+  .account-auth__brand img { width: 170px; }
+  .account-auth #account-auth-intro { font-size: 11px; }
+}

@@ -1,12 +1,8 @@
 import { useRef, useState } from 'react'
 import { toGeorgianMtavruli } from '../utils/text'
-import {
-  askTecServiceAssistant,
-  AssistantApiError,
-  type AssistantAssessment,
-  type AssistantHistoryMessage,
-} from '../utils/assistantApi'
+import { getServicePriceAssessment } from '../utils/servicePriceAssistant'
 import { LaptopIcon } from '../components/LaptopIcon'
+import { useTranslation } from '../i18n/LocaleProvider'
 
 const devices = [
   { id: 'computers', label: 'კომპიუტერები', icon: '/assets/icons/device-computer.svg' },
@@ -16,103 +12,25 @@ const devices = [
   { id: 'other', label: 'სხვა', icon: '/assets/icons/device-other.svg' },
 ]
 
-type Assessment = {
-  title: string
-  explanation: string
-  details: AssistantAssessment | null
-}
-
-function createAssistantSessionId() {
-  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
-    return `web_${crypto.randomUUID().replaceAll('-', '')}`
-  }
-  return `web_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 12)}`
-}
-
-function getAssistantSessionId() {
-  const storageKey = 'tecservice-ai-session'
-  if (typeof window === 'undefined') return createAssistantSessionId()
-
-  try {
-    const existing = window.sessionStorage.getItem(storageKey)
-    if (existing && /^[A-Za-z0-9_-]{8,64}$/.test(existing)) return existing
-
-    const created = createAssistantSessionId()
-    window.sessionStorage.setItem(storageKey, created)
-    return created
-  } catch {
-    return createAssistantSessionId()
-  }
-}
-
 export function Hero() {
-  const label = toGeorgianMtavruli
+  const l10n = useTranslation()
+  const label = (value: string) => l10n.t(toGeorgianMtavruli(value))
   const [selectedDevice, setSelectedDevice] = useState('computers')
   const [problem, setProblem] = useState('')
-  const [attachmentName, setAttachmentName] = useState('')
   const [feedback, setFeedback] = useState<'required' | null>(null)
-  const [assessment, setAssessment] = useState<Assessment | null>(null)
-  const [assistantHistory, setAssistantHistory] = useState<AssistantHistoryMessage[]>([])
-  const [assistantError, setAssistantError] = useState('')
-  const [isAssessing, setIsAssessing] = useState(false)
-  const assistantSessionId = useRef(getAssistantSessionId())
-  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [assessment, setAssessment] = useState<ReturnType<typeof getServicePriceAssessment> | null>(null)
   const problemInputRef = useRef<HTMLTextAreaElement>(null)
-  const currentStep = assessment || isAssessing ? 3 : problem.trim() ? 2 : 1
+  const currentStep = assessment ? 3 : problem.trim() ? 2 : 1
 
-  const runAssessment = async () => {
+  const runAssessment = () => {
     if (!problem.trim()) {
       setFeedback('required')
       problemInputRef.current?.focus()
       return
     }
 
-    const trimmedProblem = problem.trim()
-    const deviceLabel = devices.find((device) => device.id === selectedDevice)?.label ?? 'სხვა მოწყობილობა'
-    // “კომპიუტერები” is a broad UI category for both laptops and desktops.
-    // Do not send it as a desktop-only hint; the described fault provides the
-    // more precise catalogue match (for example, an HP laptop screen).
-    const message = selectedDevice === 'computers'
-      ? trimmedProblem
-      : `მოწყობილობა: ${deviceLabel}\nპრობლემა: ${trimmedProblem}`
-
     setFeedback(null)
-    setAssistantError('')
-    setAssessment(null)
-    setIsAssessing(true)
-
-    const controller = new AbortController()
-    const timeout = window.setTimeout(() => controller.abort(), 25_000)
-
-    try {
-      const response = await askTecServiceAssistant({
-        message,
-        sessionId: assistantSessionId.current,
-        history: assistantHistory,
-        signal: controller.signal,
-      })
-      setAssessment({
-        title: 'TECSERVICE AI-ის პირველადი შეფასება',
-        explanation: response.reply,
-        details: response.assessment,
-      })
-      setAssistantHistory((current) => [
-        ...current,
-        { role: 'user', content: message },
-        { role: 'assistant', content: response.reply },
-      ].slice(-6) as AssistantHistoryMessage[])
-    } catch (error) {
-      if (error instanceof AssistantApiError && error.status === 429) {
-        setAssistantError('მოთხოვნების ლიმიტი დროებით ამოიწურა. გთხოვთ, ცოტა ხანში სცადოთ.')
-      } else if (error instanceof DOMException && error.name === 'AbortError') {
-        setAssistantError('პასუხის მიღებას მოსალოდნელზე მეტი დრო დასჭირდა. გთხოვთ, ხელახლა სცადოთ.')
-      } else {
-        setAssistantError('AI ასისტენტთან დაკავშირება ვერ მოხერხდა. გთხოვთ, რამდენიმე წამში ხელახლა სცადოთ.')
-      }
-    } finally {
-      window.clearTimeout(timeout)
-      setIsAssessing(false)
-    }
+    setAssessment(getServicePriceAssessment(selectedDevice, problem.trim(), l10n.locale, l10n.t))
   }
 
   return (
@@ -123,63 +41,67 @@ export function Hero() {
       </div>
       <div className="hero__content">
         <h1 id="hero-title" className="display-title hero__title">
+          {l10n.locale === 'en' ? <>
+            <span className="text-blue">Professional</span>{' '}
+            <span>device</span>{' '}
+            <span>repair and<br className="hero__reference-break" />{' '}diagnostics</span>
+          </> : <>
           <span>{toGeorgianMtavruli('ტექნიკის')}</span>{' '}
           <span className="text-blue">{toGeorgianMtavruli('პროფესიონალური')}</span>{' '}
           <span>{toGeorgianMtavruli('შეკეთება და')}<br className="hero__reference-break" />{' '}{toGeorgianMtavruli('დიაგნოსტიკა')}</span>
+          </>}
         </h1>
         <p className="hero__description">
-          ლეპტოპების, კომპიუტერების, კონსოლების, ინფორმაციის აღდგენის, დრონებისა და სხვა
-          ელექტრონული ტექნიკის პროფესიონალური შეკეთება და დიაგნოსტიკა.
+          {l10n.t('ლეპტოპების, კომპიუტერების, კონსოლების, ინფორმაციის აღდგენის, დრონებისა და სხვა ელექტრონული ტექნიკის პროფესიონალური შეკეთება და დიაგნოსტიკა.')}
         </p>
-        <p className="hero__support">პროგრამული, ჰარდვეარული და ლაბორატორიული სერვისი.</p>
+        <p className="hero__support">{l10n.t('პროგრამული, ჰარდვეარული და ლაბორატორიული სერვისი.')}</p>
         <div className="hero__actions">
           <button
             className="button button--primary"
             type="button"
             onClick={() => document.querySelector('#ticket')?.scrollIntoView({ behavior: 'smooth' })}
           >
-            {toGeorgianMtavruli('სერვისის სტატუსი')}
+            {label('სერვისის სტატუსი')}
             <img src="/assets/icons/arrow-right-white.svg" alt="" />
           </button>
-          <button
+          <a
             className="button button--secondary"
-            type="button"
-            onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
+            href={l10n.href('/contact/')}
           >
             <img src="/assets/icons/contact-red.svg" alt="" />
             {label('დაგვიკავშირდით')}
-          </button>
+          </a>
         </div>
-        <div className="hero__trust" aria-label="სერვისის უპირატესობები">
+        <div className="hero__trust" aria-label={l10n.t('სერვისის უპირატესობები')}>
           <div className="trust-item">
             <LaptopIcon name="tool" />
-            <span>პროფესიონალური<br />დიაგნოსტიკა</span>
+            <span>{l10n.t('პროფესიონალური')}<br />{l10n.t('დიაგნოსტიკა')}</span>
           </div>
           <div className="trust-item">
             <LaptopIcon name="people" />
-            <span>სამუშაოს წინასწარი<br />შეთანხმება</span>
+            <span>{l10n.locale === 'en' ? <>Work agreed<br />in advance</> : <>სამუშაოს წინასწარი<br />შეთანხმება</>}</span>
           </div>
           <div className="trust-item">
             <LaptopIcon name="calendar" />
-            <span>2002 წლიდან</span>
+            <span>{l10n.t('2002 წლიდან')}</span>
           </div>
         </div>
       </div>
 
       <div className="ai-card-wrap">
         <form className="ai-card" onSubmit={(event) => { event.preventDefault(); void runAssessment() }}>
-          <h2 className="display-title">{toGeorgianMtavruli('რა სჭირს თქვენს ტექნიკას?')}</h2>
-          <p className="ai-card__subtitle">აირჩიეთ მოწყობილობა და აღწერეთ პრობლემა.</p>
-          <div className="ai-steps" aria-label={`მიმდინარე ეტაპი ${currentStep}`}>
+          <h2 className="display-title">{label('რა სჭირს თქვენს ტექნიკას?')}</h2>
+          <p className="ai-card__subtitle">{l10n.t('აირჩიეთ მოწყობილობა და აღწერეთ პრობლემა.')}</p>
+          <div className="ai-steps" aria-label={l10n.locale === 'en' ? `Current step ${currentStep}` : `მიმდინარე ეტაპი ${currentStep}`}>
             {['მოწყობილობა', 'პრობლემა', 'შეფასება'].map((label, index) => (
               <div className={`ai-step${currentStep === index + 1 ? ' is-active' : ''}`} key={label}>
-                {index + 1}&nbsp; {label}
+                {index + 1}&nbsp; {l10n.t(label)}
               </div>
             ))}
           </div>
 
-          <fieldset className="device-fieldset" disabled={isAssessing}>
-            <legend>აირჩიეთ მოწყობილობა</legend>
+          <fieldset className="device-fieldset">
+            <legend>{l10n.t('აირჩიეთ მოწყობილობა')}</legend>
             <div className="device-selector">
               {devices.map((device) => (
                 <button
@@ -187,7 +109,7 @@ export function Hero() {
                   type="button"
                   key={device.id}
                   aria-pressed={selectedDevice === device.id}
-                  onClick={() => { setSelectedDevice(device.id); setFeedback(null); setAssistantError(''); setAssessment(null); setAssistantHistory([]) }}
+                  onClick={() => { setSelectedDevice(device.id); setFeedback(null); setAssessment(null) }}
                 >
                   <img src={device.icon} alt="" />
                   <span>{label(device.label)}</span>
@@ -197,34 +119,17 @@ export function Hero() {
           </fieldset>
 
           <div className="problem-field">
-            <label htmlFor="problem-description">აღწერეთ პრობლემა</label>
+            <label htmlFor="problem-description">{l10n.t('აღწერეთ პრობლემა')}</label>
             <span className="textarea-shell">
               <textarea
                 ref={problemInputRef}
                 id="problem-description"
                 value={problem}
-                disabled={isAssessing}
                 aria-invalid={feedback === 'required'}
-                aria-describedby={feedback === 'required' ? 'ai-feedback ai-mode-note' : assistantError ? 'ai-error ai-mode-note' : 'ai-mode-note'}
+                aria-describedby={feedback === 'required' ? 'ai-feedback ai-mode-note' : 'ai-mode-note'}
                 maxLength={700}
-                onChange={(event) => { setProblem(event.target.value); setFeedback(null); setAssistantError(''); setAssessment(null) }}
-                placeholder="მაგ: არ ირთვება, ხურდება, ეკრანი არ მუშაობს, აქვს უცნაური ხმა..."
-              />
-              <button
-                type="button"
-                className="attachment-button"
-                disabled={isAssessing}
-                onClick={() => fileInputRef.current?.click()}
-                aria-label={attachmentName ? `${toGeorgianMtavruli('მიმაგრებულია')}: ${attachmentName}` : toGeorgianMtavruli('ფაილის მიმაგრება')}
-                title={attachmentName || toGeorgianMtavruli('ფაილის მიმაგრება')}
-              >
-                <img src="/assets/icons/attachment.svg" alt="" />
-              </button>
-              <input
-                ref={fileInputRef}
-                type="file"
-                hidden
-                onChange={(event) => setAttachmentName(event.target.files?.[0]?.name ?? '')}
+                onChange={(event) => { setProblem(event.target.value); setFeedback(null); setAssessment(null) }}
+                placeholder={l10n.t('მაგ: არ ირთვება, ხურდება, ეკრანი არ მუშაობს, აქვს უცნაური ხმა...')}
               />
             </span>
           </div>
@@ -232,38 +137,38 @@ export function Hero() {
           <button
             className={`ai-submit${assessment ? ' is-complete' : ''}`}
             type="submit"
-            disabled={isAssessing}
-            aria-busy={isAssessing}
           >
             <img src="/assets/icons/sparkles.svg" alt="" />
-            {isAssessing ? label('AI პასუხს ამზადებს...') : label('AI პირველადი შეფასება')}
+            {label('AI პირველადი შეფასება')}
           </button>
           <p id="ai-mode-note" className="ai-disclaimer ai-development-note">
-            <strong>TECSERVICE AI სატესტო რეჟიმშია</strong>
-            <span>პასუხი ეფუძნება ჩვენს სერვისებს, საორიენტაციო ფასებსა და უსაფრთხოების წესებს.</span>
+            <strong>{l10n.t('TECSERVICE AI სატესტო რეჟიმშია')}</strong>
+            <span>{l10n.locale === 'en'
+              ? 'The trial assistant uses prices published on our service pages. Your question is processed in this page, without an external AI service.'
+              : 'სატესტო ასისტენტი იყენებს სერვისების გვერდებზე მითითებულ ფასებს. კითხვა მუშავდება ამავე გვერდზე, გარე AI-სთან გაგზავნის გარეშე.'}</span>
           </p>
-          {feedback === 'required' && <p id="ai-feedback" className="ai-disclaimer" role="alert">შეფასების დასაწყებად აღწერეთ პრობლემა.</p>}
-          {assistantError && <p id="ai-error" className="ai-disclaimer ai-error" role="alert">{assistantError}</p>}
-          {attachmentName && <p className="ai-disclaimer">არჩეულია: {attachmentName}. ამ რეჟიმში ფაილი არ იგზავნება და არ გაანალიზდება.</p>}
-          {assessment && <section className="ai-result" aria-label="პირველადი შეფასების შედეგი" role="status">
-            <h3><span aria-hidden="true">📌</span> {assessment.title}</h3>
-            {assessment.details ? <>
+          {feedback === 'required' && <p id="ai-feedback" className="ai-disclaimer" role="alert">{l10n.t('შეფასების დასაწყებად აღწერეთ პრობლემა.')}</p>}
+          {assessment && <section className="ai-result" aria-label={l10n.t('პირველადი შეფასების შედეგი')} role="status">
+            <h3><span aria-hidden="true">📌</span> {l10n.locale === 'en' ? 'Service information' : 'ინფორმაცია მომსახურებაზე'}</h3>
+            <p className="ai-result__reply">{assessment.reply}</p>
+            {assessment.assessment && <>
               <ul className="ai-result__assessment">
-                <li><strong>მომსახურება:</strong> {assessment.details.service}</li>
+                <li><strong>{l10n.t('მომსახურება:')}</strong> {assessment.assessment.service}</li>
                 <li>
-                  <strong>სამუშაოს ღირებულება:</strong> {assessment.details.labor_price}
-                  {assessment.details.price_note && <> <em>({assessment.details.price_note})</em></>}
+                  <strong>{l10n.t('სამუშაოს ღირებულება:')}</strong> {assessment.assessment.labor_price}
+                  {assessment.assessment.price_note && <> <em>({assessment.assessment.price_note})</em></>}
                 </li>
-                <li><strong>სავარაუდო ვადა:</strong> {assessment.details.estimated_duration}</li>
+                <li><strong>{l10n.t('სავარაუდო ვადა:')}</strong> {assessment.assessment.estimated_duration}</li>
               </ul>
               <p className="ai-result__warning">
                 <span aria-hidden="true">⚠️</span>{' '}
-                <em>{assessment.details.disclaimer}</em>
+                <em>{assessment.assessment.disclaimer}</em>
               </p>
-            </> : <>
-              <p className="ai-result__reply">{assessment.explanation}</p>
-              <a href="#contact">დაუკავშირდით სერვისს →</a>
             </>}
+            {assessment.sources.length > 0 && <div className="ai-result__sources">
+              {assessment.sources.map((source) => <a key={source.path} href={l10n.href(source.path)}>{source.label} →</a>)}
+            </div>}
+            {!assessment.assessment && <a href={l10n.href('/contact/')}>{l10n.t('დაუკავშირდით სერვისს →')}</a>}
           </section>}
         </form>
       </div>

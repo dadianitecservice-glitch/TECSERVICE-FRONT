@@ -94,7 +94,7 @@ test('all seven completed service routes prerender their page-specific JSON-LD g
     assert.equal(business.openingHoursSpecification[0].closes, '19:00')
     assert.deepEqual(business.openingHoursSpecification[1].dayOfWeek, ['Saturday'])
     assert.equal(business.openingHoursSpecification[1].opens, '11:00')
-    assert.equal(business.openingHoursSpecification[1].closes, '17:00')
+    assert.equal(business.openingHoursSpecification[1].closes, '18:00')
 
     assert.equal(website['@id'], websiteId)
     assert.deepEqual(website.publisher, { '@id': businessId })

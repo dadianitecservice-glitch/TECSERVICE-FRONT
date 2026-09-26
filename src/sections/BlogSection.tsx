@@ -6,8 +6,10 @@ import { blogPosts } from '../data/blogPosts'
 import { toGeorgianMtavruli } from '../utils/text'
 import { useResponsiveHome } from '../hooks/useResponsiveHome'
 import { useSwipeCarousel } from '../hooks/useSwipeCarousel'
+import { useTranslation } from '../i18n/LocaleProvider'
 
 export function BlogSection() {
+  const l10n = useTranslation()
   const responsive = useResponsiveHome()
   const swipe = useSwipeCarousel(responsive, blogPosts.length)
   const [page, setPage] = useState(0)
@@ -50,20 +52,21 @@ export function BlogSection() {
     >
       <SectionHeader
         headingId="blog-title"
-        title={toGeorgianMtavruli('ბლოგი')}
-        description="პრაქტიკული რჩევები ტექნიკის მოვლის, დიაგნოსტიკისა და შეკეთების შესახებ."
+        title={l10n.t(toGeorgianMtavruli('ბლოგი'))}
+        description={l10n.t('პრაქტიკული რჩევები ტექნიკის მოვლის, დიაგნოსტიკისა და შეკეთების შესახებ.')}
         actions={(
           <div className="blog-header-actions">
-            <CarouselControls label="ბლოგის სტატიები" onPrevious={() => responsive ? swipe.move(-1) : move(-1)} onNext={() => responsive ? swipe.move(1) : move(1)} />
+            <a href={l10n.href('/blog/')}>{l10n.locale === 'en' ? 'All articles →' : 'ყველა სტატია →'}</a>
+            <CarouselControls label={l10n.t('ბლოგის სტატიები')} onPrevious={() => responsive ? swipe.move(-1) : move(-1)} onNext={() => responsive ? swipe.move(1) : move(1)} />
           </div>
         )}
       />
       <div className="blog-grid" ref={swipe.ref} onScroll={swipe.onScroll} key={responsive ? 'swipe' : page}>
         {(responsive ? blogPosts : visiblePosts).map((post) => <BlogCard post={post} key={post.id} />)}
       </div>
-      <div className="carousel-pagination" aria-label="ბლოგის გვერდები">
+      <div className="carousel-pagination" aria-label={l10n.t('ბლოგის გვერდები')}>
         {Array.from({ length: indicatorCount }, (_, index) => (
-          <button key={index} className={index === (responsive ? swipe.page : page) ? 'is-active' : ''} type="button" onClick={() => responsive ? swipe.goTo(index) : setPage(index)} aria-label={`${index + 1} გვერდი`} aria-current={index === (responsive ? swipe.page : page) ? 'page' : undefined} />
+          <button key={index} className={index === (responsive ? swipe.page : page) ? 'is-active' : ''} type="button" onClick={() => responsive ? swipe.goTo(index) : setPage(index)} aria-label={l10n.locale === 'en' ? `Page ${index + 1}` : `${index + 1} გვერდი`} aria-current={index === (responsive ? swipe.page : page) ? 'page' : undefined} />
         ))}
       </div>
     </section>
