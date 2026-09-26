@@ -107,7 +107,7 @@ export default function AccountPage() {
           <button type="button" className="account-auth__secondary" onClick={() => auth.openAuth('register')}>{text('რეგისტრაცია', 'Register')}</button>
         </div>}
         {error && <p className="account-auth__error" role="alert">{error}</p>}
-        {canPreview && <a className="account-page__preview" href={`${href('/account/')}?preview=1`}>{text('კაბინეტის დიზაინის ნახვა · საცდელი მონაცემები', 'Preview the account design · sample data')}</a>}
+        {canPreview && <a className="account-page__preview" href={`${href('/account/')}?preview=1`}>{text('კაბინეტის დიზაინის ნახვა', 'View account layout')}</a>}
       </section>
       <div className="account-page__features">
         <article><LaptopIcon name="tool" /><h2>{text('ჩემი სერვისები', 'My services')}</h2><p>{text('ტიკეტები, მოწყობილობები და შეკეთების მიმდინარე მდგომარეობა.', 'Tickets, devices and the current progress of your repairs.')}</p></article>

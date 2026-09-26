@@ -79,21 +79,3 @@
   .comments-notice { padding: 12px; }
   .comment-own__heading h3 { font-size: 15px; }
 }
-.product-card__comments {
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 7px;
-  width: fit-content;
-  min-height: 36px;
-  margin-top: 7px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: #60768b;
-  font: inherit;
-  font-size: 12px;
-  cursor: pointer;
-}
-.product-card__comments:hover { color: #0867ba; }
-.product-card__comments:focus-visible { outline: 2px solid #0867ba; outline-offset: 4px; border-radius: 4px; }

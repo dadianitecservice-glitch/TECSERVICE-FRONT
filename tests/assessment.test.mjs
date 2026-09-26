@@ -1,6 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { assessDevice } from '../src/utils/assessment.ts'
+import { translateText } from '../src/i18n/translate.ts'
 
 test('safety signals take priority over routine overheating', () => {
   assert.equal(assessDevice('computers', 'ხურდება და კვამლი გამოდის').title, 'უსაფრთხოება პირველ ადგილზე')
@@ -69,4 +70,16 @@ test('unrelated text and normal file mentions ask for clarification', () => {
   }
   assert.equal(assessDevice('recovery', 'გამარჯობა').title, 'დამატებითი ინფორმაციაა საჭირო')
   assert.match(assessDevice('computers', 'რა ღირს').steps.join(' '), /თანხას ვერ დაგისახელებთ/)
+})
+
+test('fallback and price guidance remove trial wording in both languages without inventing capabilities', () => {
+  for (const locale of ['ka', 'en']) {
+    const result = assessDevice('computers', 'რა ღირს')
+    const explanation = translateText(result.explanation, locale)
+    const steps = result.steps.map(value => translateText(value, locale)).join(' ')
+    assert.doesNotMatch(`${explanation} ${steps}`, /დემო|სატესტო|საცდელი|\b(?:demo|trial|preview)\b|test mode/iu)
+    if (locale === 'en') assert.doesNotMatch(`${explanation} ${steps}`, /[\u10A0-\u10FF\u1C90-\u1CBF]/u)
+    assert.match(explanation, locale === 'ka' ? /კონკრეტული დაზიანების ნიშანი ვერ გამოვყავი/u : /(?:could not|couldn't|cannot|can't|unable).*?(?:fault|symptom|issue|damage)/i)
+    assert.match(steps, locale === 'ka' ? /მიმდინარე ფასებს ვერ ამოწმებს/u : /cannot check current parts prices/i)
+  }
 })

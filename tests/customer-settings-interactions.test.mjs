@@ -380,7 +380,7 @@ for (const locale of ['en', 'ka']) {
       assert.equal(driver.all(node => node.type === 'input').length, 3)
       assert.ok(driver.all(node => node.type === 'input').every(node => ['radio', 'checkbox'].includes(node.props.type)), 'No card number, expiry or security code may be collected locally')
       assert.equal(driver.all(node => node.props.role === 'status').length, 0)
-      assert.match(textContent(driver.tree), locale === 'en' ? /bank integration is not connected yet\. No card details are collected here/ : /ბანკთან კავშირი ჯერ არ არის ჩართული\. ბარათის მონაცემებს აქ არ ვაგროვებთ/)
+      assert.match(textContent(driver.tree), locale === 'en' ? /Bank integration is not connected yet\. No card details are collected here/ : /ბანკთან კავშირი ჯერ არ არის ჩართული\. ბარათის მონაცემებს აქ არ ვაგროვებთ/)
 
       radios()[1].props.onChange()
       driver.render()

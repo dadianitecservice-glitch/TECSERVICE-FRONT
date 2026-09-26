@@ -42,7 +42,7 @@ export const legalDocuments: Record<'ka' | 'en', Record<LegalPageKind, LegalDocu
         ] },
         { id: 'online-tools', title: 'საიტის ონლაინ ფუნქციები', paragraphs: [
           'სერვისის კოდი განკუთვნილია თქვენი მოწყობილობის მომსახურების შესახებ ინფორმაციის მისაღებად. შეინახეთ იგი უსაფრთხოდ და ნუ გაუზიარებთ სხვა პირებს. შეკვეთის მდგომარეობის ან ჩაბარების დროის დასაზუსტებლად შეგიძლიათ დაგვიკავშირდეთ.',
-          'ასისტენტი ამ ეტაპზე სატესტო რეჟიმში მუშაობს: პასუხს ბრაუზერში ამზადებს სერვისების შვიდ გვერდზე მითითებული ფასებისა და ინფორმაციის მიხედვით. ეს არის საორიენტაციო დახმარება და არა მოწყობილობის დიაგნოსტიკა, საბოლოო შეთავაზება ან შეკვეთის გაფორმება. ფოტოს ატვირთვა ამ ვერსიაში ხელმისაწვდომი არ არის.',
+          'ასისტენტი პასუხს ბრაუზერში ამზადებს სერვისების შვიდ გვერდზე მითითებული ფასებისა და ინფორმაციის მიხედვით. ეს არის საორიენტაციო დახმარება და არა მოწყობილობის დიაგნოსტიკა, საბოლოო შეთავაზება ან შეკვეთის გაფორმება. ფოტოს ატვირთვა ამ ვერსიაში ხელმისაწვდომი არ არის.',
           'მაღაზიაში შეკვეთის გაფორმებამდე გაეცანით პროდუქტის აღწერას, ფასს, გადახდისა და მიწოდების პირობებს. მაღაზიის ან სხვა გარე საიტის გამოყენებისას მოქმედებს შესაბამის გვერდზე მითითებული წესები.',
         ] },
         { id: 'customer-account', title: 'რეგისტრაცია და ანგარიშის უსაფრთხოება', paragraphs: [
@@ -53,7 +53,7 @@ export const legalDocuments: Record<'ka' | 'en', Record<LegalPageKind, LegalDocu
         { id: 'account-records', title: 'პირადი კაბინეტი და დოკუმენტები', paragraphs: [
           'პირად კაბინეტში შეგიძლიათ განაახლოთ პროფილის მონაცემები, სურვილის შემთხვევაში მიუთითოთ პირადი ნომერი, დაამატოთ ან წაშალოთ მისამართები და შეცვალოთ პაროლი. გარკვეული ცვლილებების დადასტურებისთვის მიმდინარე პაროლის შეყვანაა საჭირო.',
           'კაბინეტში ხელმისაწვდომია თქვენს ანგარიშთან დაკავშირებული სერვისები, შესყიდვები და გაცემული ინვოისები. დოკუმენტის გახსნა ან ჩამოტვირთვა თავისთავად გადახდას არ ნიშნავს. სტატუსის, თანხის ან ჩანაწერის შეუსაბამობის შემთხვევაში მოგვწერეთ ან დაგვირეკეთ და მიუთითეთ შესაბამისი ნომერი.',
-          'გამოიყენეთ მხოლოდ თქვენი ჩანაწერები და დოკუმენტები. პირადი კაბინეტის მონაცემები და ჩამოტვირთული ინვოისები საჯაროდ არ გააზიაროთ. ბარათის დამატებისა და დამახსოვრების ნაწილი ამ ეტაპზე მხოლოდ ვიზუალურია — იგი ბარათს არ ინახავს და გადახდას არ ასრულებს.',
+          'გამოიყენეთ მხოლოდ თქვენი ჩანაწერები და დოკუმენტები. პირადი კაბინეტის მონაცემები და ჩამოტვირთული ინვოისები საჯაროდ არ გააზიაროთ. ბარათის დამატება და დამახსოვრება საბანკო სერვისთან დაკავშირების შემდეგ იქნება შესაძლებელი; ამჟამად ბარათის შენახვა და გადახდა ხელმისაწვდომი არ არის.',
         ] },
         { id: 'product-comments', title: 'პროდუქტის საჯარო კომენტარები', paragraphs: [
           'დამტკიცებული ანგარიშით შეგიძლიათ პროდუქტზე საჯარო კომენტარის დაწერა. კომენტარი ჩანს პროდუქტის გვერდზე ავტორის სახელითა და თარიღით; ეს არ არის პირადი მიმოწერა ჩვენს გუნდთან. საკუთარი კომენტარის შეცვლა ან წაშლა შეგიძლიათ კაბინეტის „ჩემი კომენტარების“ განყოფილებიდან.',
@@ -64,7 +64,7 @@ export const legalDocuments: Record<'ka' | 'en', Record<LegalPageKind, LegalDocu
     },
     privacy: {
       title: 'კონფიდენციალურობის პოლიტიკა',
-      description: 'როგორ გამოიყენება TECSERVICE-ში ანგარიშის მონაცემები, მისამართები, შეკვეთები და საჯარო კომენტარები; შენახვის ვადები და სატესტო ასისტენტი.',
+      description: 'როგორ გამოიყენება TECSERVICE-ში ანგარიშის მონაცემები, მისამართები, შეკვეთები და საჯარო კომენტარები; შენახვის ვადები და ასისტენტი.',
       intro: 'აქ აღწერილია საიტის მიმდინარე ფუნქციები და ის, რას უნდა მიაქციოთ ყურადღება ინფორმაციის გაზიარებისას.',
       sections: [
         { id: 'contact-data', title: 'როცა გვიკავშირდებით', paragraphs: [
@@ -81,10 +81,10 @@ export const legalDocuments: Record<'ka' | 'en', Record<LegalPageKind, LegalDocu
         { id: 'account-records', title: 'სერვისები, შესყიდვები და ინვოისები', paragraphs: [
           'კაბინეტი აჩვენებს თქვენს ანგარიშთან დაკავშირებულ სერვისის კოდს, მოწყობილობის ან პროდუქტის მონაცემებს, სტატუსს, თარიღებს, ფასსა და ხელმისაწვდომ ინვოისებს. ეს ინფორმაცია გამოიყენება მომსახურებისა და შესყიდვების ისტორიის სანახავად და შესაბამის დოკუმენტებზე წვდომისთვის.',
           'კაბინეტისა და ინვოისების სანახავად საჭიროა ავტორიზაცია. პროფილის მონაცემები, მისამართები და პირადი დოკუმენტები პროდუქტის საჯარო კომენტართან ერთად არ ქვეყნდება. ჩამოტვირთული დოკუმენტის ასლი თქვენს მოწყობილობაზეც რჩება და მის გაზიარებას თავად აკონტროლებთ.',
-          'ბარათის დამატებისა და დამახსოვრების მიმდინარე ვიზუალური ფორმა არ აგროვებს ბარათის ნომერს, მოქმედების ვადას ან CVV-ს, არ ინახავს საბანკო ბარათს და არ ასრულებს გადახდას. რეალური საბანკო ფუნქციის ჩართვამდე ინფორმაცია შესაბამის პროვაიდერსა და მონაცემთა დამუშავებაზე განახლდება.',
+          'ბარათის დამატებისა და დამახსოვრების ფორმა არ აგროვებს ბარათის ნომერს, მოქმედების ვადას ან CVV-ს, არ ინახავს საბანკო ბარათს და არ ასრულებს გადახდას. საბანკო ფუნქციის ჩართვამდე ინფორმაცია შესაბამის პროვაიდერსა და მონაცემთა დამუშავებაზე განახლდება.',
         ] },
-        { id: 'assistant', title: 'სატესტო ასისტენტი', paragraphs: [
-          'სატესტო ასისტენტი თქვენს მიერ შეყვანილ პრობლემასა და არჩეულ კატეგორიას ამუშავებს ბრაუზერში, მიმდინარე გვერდის დროებით მეხსიერებაში. პასუხისთვის იყენებს სერვისების შვიდი გვერდის ფასებსა და ინფორმაციას; ამ ფუნქციით შეკითხვის ტექსტი და საუბარი არც ჩვენს სერვერს და არც გარე AI მომწოდებელს არ ეგზავნება.',
+        { id: 'assistant', title: 'ასისტენტი', paragraphs: [
+          'ასისტენტი თქვენს მიერ შეყვანილ პრობლემასა და არჩეულ კატეგორიას ამუშავებს ბრაუზერში, მიმდინარე გვერდის დროებით მეხსიერებაში. პასუხისთვის იყენებს სერვისების შვიდი გვერდის ფასებსა და ინფორმაციას; ამ ფუნქციით შეკითხვის ტექსტი და საუბარი არც ჩვენს სერვერს და არც გარე AI მომწოდებელს არ ეგზავნება.',
           'ასისტენტი საუბარს არ წერს ბრაუზერის მუდმივ ან სესიის საცავში და არ ქმნის საუბრის სესიის იდენტიფიკატორს. ფოტოს ან სხვა ფაილის ატვირთვა ამ ვერსიაში არ არის. გარე AI სერვისის ჩართვის შემთხვევაში მონაცემების გადაცემის პირობები წინასწარ განახლდება.',
           'ასისტენტს არ გაუზიაროთ პაროლები, საბანკო მონაცემები, საიდენტიფიკაციო დოკუმენტები ან სხვა პირის კონფიდენციალური ინფორმაცია.',
         ] },
@@ -95,7 +95,7 @@ export const legalDocuments: Record<'ka' | 'en', Record<LegalPageKind, LegalDocu
         { id: 'browser-storage', title: 'ბრაუზერის მეხსიერება და ტექნიკური მონაცემები', paragraphs: [
           'შესვლის შემდეგ კაბინეტი ავტორიზაციის შესანარჩუნებლად იყენებს „tecservice_session“ cookie-ს. იგი შეიცავს სესიის ტექნიკურ გასაღებს და არა თქვენს პაროლს; HttpOnly პარამეტრი გვერდის JavaScript-ს მის წაკითხვას უზღუდავს.',
           'სერვერზე სესიის ჩანაწერი მოიცავს ტექნიკური გასაღების ჰეშს, ანგარიშის იდენტიფიკატორს, შექმნისა და მოქმედების დასრულების დროს და ბრაუზერის ტექნიკურ აღწერას. ეს მონაცემები გამოიყენება ავტორიზაციის შემოწმებისა და სესიების მართვისთვის.',
-          'ანგარიშიდან გამოსვლა აუქმებს მიმდინარე შესვლას. Cookie-ების დაბლოკვის ან წაშლის შემთხვევაში შესაძლოა ხელახლა შესვლა დაგჭირდეთ. სატესტო ასისტენტის საუბარი ამ cookie-ში არ ინახება.',
+          'ანგარიშიდან გამოსვლა აუქმებს მიმდინარე შესვლას. Cookie-ების დაბლოკვის ან წაშლის შემთხვევაში შესაძლოა ხელახლა შესვლა დაგჭირდეთ. ასისტენტის საუბარი ამ cookie-ში არ ინახება.',
           'სერვერს შეიძლება ჰქონდეს ტექნიკური ჟურნალები, მათ შორის IP მისამართისა და მოთხოვნის დროის შესახებ. ჰოსტინგის რეალური პარამეტრები და შენახვის ვადა ამ ვერსიაში ჯერ დადასტურებული არ არის.',
         ] },
         { id: 'external-services', title: 'რუკა და გარე სერვისები', paragraphs: [
@@ -155,7 +155,7 @@ export const legalDocuments: Record<'ka' | 'en', Record<LegalPageKind, LegalDocu
         ] },
         { id: 'online-tools', title: 'Online features', paragraphs: [
           'Your service code is intended to help you obtain information about your device’s service. Keep it safe and do not share it with others. Contact us to clarify the status of your order or the handover time.',
-          'The assistant currently runs in trial mode: it prepares responses in your browser using prices and information published on the seven service pages. It provides indicative guidance, not a device diagnosis, a final quote or an order booking. Photo upload is not available in this version.',
+          'The assistant prepares responses in your browser using prices and information published on the seven service pages. It provides indicative guidance, not a device diagnosis, a final quote or an order booking. Photo upload is not available in this version.',
           'Before placing an order in the shop, review the product description, price, payment and delivery terms. When using the shop or another external website, the rules stated on that website apply.',
         ] },
         { id: 'customer-account', title: 'Registration and account security', paragraphs: [
@@ -166,7 +166,7 @@ export const legalDocuments: Record<'ka' | 'en', Record<LegalPageKind, LegalDocu
         { id: 'account-records', title: 'Your account and documents', paragraphs: [
           'In your account you can update profile details, optionally add a personal identification number, add or remove addresses and change your password. Certain changes require confirmation with your current password.',
           'Your account provides access to associated services, purchases and issued invoices. Opening or downloading a document does not itself mean that payment has been made. If a status, amount or record appears incorrect, contact us with the relevant reference number.',
-          'Use only your own records and documents. Do not publicly share private account information or downloaded invoices. The add-card and remember-card section is currently visual only: it does not store a card or process a payment.',
+          'Use only your own records and documents. Do not publicly share private account information or downloaded invoices. Adding and remembering a card will be available after the banking service is connected; storing cards and processing payments are currently unavailable.',
         ] },
         { id: 'product-comments', title: 'Public product comments', paragraphs: [
           'With an approved account you can post a public product comment. It appears on the product page with an author name and date; this is not a private conversation with our team. You can edit or delete your own comment in the “My comments” section of your account.',
@@ -177,7 +177,7 @@ export const legalDocuments: Record<'ka' | 'en', Record<LegalPageKind, LegalDocu
     },
     privacy: {
       title: 'Privacy policy',
-      description: 'How TECSERVICE uses account details, addresses, order records and public comments; retention and the trial assistant.',
+      description: 'How TECSERVICE uses account details, addresses, order records and public comments; retention and the assistant.',
       intro: 'How the current website features work and what to consider before sharing information.',
       sections: [
         { id: 'contact-data', title: 'When you contact us', paragraphs: [
@@ -194,10 +194,10 @@ export const legalDocuments: Record<'ka' | 'en', Record<LegalPageKind, LegalDocu
         { id: 'account-records', title: 'Services, purchases and invoices', paragraphs: [
           'Your account displays the associated service code, device or product information, status, dates, price and available invoices. This information is used to show your service and purchase history and provide access to the relevant documents.',
           'Sign-in is required to access your account and invoices. Profile information, addresses and private documents are not published with public product comments. A downloaded document also leaves a copy on your device, and you control how that copy is shared.',
-          'The current visual add-card and remember-card form does not collect card numbers, expiry dates or CVVs, store bank cards or process payments. Information about the provider and data processing will be updated before a real banking feature is enabled.',
+          'The add-card and remember-card form does not collect card numbers, expiry dates or CVVs, store bank cards or process payments. Information about the provider and data processing will be updated before a banking feature is enabled.',
         ] },
-        { id: 'assistant', title: 'Trial assistant', paragraphs: [
-          'The trial assistant processes your problem description and selected category in your browser, in the current page’s temporary memory. It uses prices and information from the seven service pages to respond; this feature does not send your question or conversation to our server or an external AI provider.',
+        { id: 'assistant', title: 'Assistant', paragraphs: [
+          'The assistant processes your problem description and selected category in your browser, in the current page’s temporary memory. It uses prices and information from the seven service pages to respond; this feature does not send your question or conversation to our server or an external AI provider.',
           'The assistant does not write conversations to persistent browser storage or session storage and does not create a conversation session identifier. Photo and other file uploads are unavailable in this version. Data-transfer information will be updated in advance if an external AI service is enabled.',
           'Do not share passwords, bank details, identity documents or another person’s confidential information with the assistant.',
         ] },
@@ -208,8 +208,8 @@ export const legalDocuments: Record<'ka' | 'en', Record<LegalPageKind, LegalDocu
         { id: 'browser-storage', title: 'Browser storage and technical data', paragraphs: [
           'After sign-in, your account uses a “tecservice_session” cookie to maintain authentication. It contains a technical session token, not your password; the HttpOnly setting prevents page JavaScript from reading it.',
           'The server-side session record includes a hash of the token, an account identifier, creation and expiry times and a technical browser description. These details are used to check authentication and manage sessions.',
-          'Signing out ends the current sign-in. Blocking or deleting cookies may require you to sign in again. Trial-assistant conversations are not stored in this cookie.',
-          'The server may keep technical logs, including IP addresses and request times. The actual hosting configuration and retention period have not yet been confirmed for this draft.',
+          'Signing out ends the current sign-in. Blocking or deleting cookies may require you to sign in again. Assistant conversations are not stored in this cookie.',
+          'The server may keep technical logs, including IP addresses and request times. The actual hosting configuration and retention period have not yet been confirmed.',
         ] },
         { id: 'external-services', title: 'Maps and external services', paragraphs: [
           'When an embedded Google Map loads on some pages, your browser connects directly to Google and sends technical connection information. The external service may use its own storage or cookies.',

@@ -21,7 +21,7 @@ const validPurchase = {
   total: 149.5, currency: 'GEL', items: [{ name: 'Synthetic product', quantity: 2, unit_price: 74.75 }],
 }
 const jsonResponse = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } })
-const demoRecordMarkers = /demo-customer-preview|demo@example\.invalid|DEMO-100[12]|demo-purchase-(?:one|two)/
+const demoRecordMarkers = /demo-customer-preview|(?:demo|customer)@example\.invalid|DEMO-100[12]|demo-purchase-(?:one|two)/
 
 test('Account routing accepts only the exact Georgian and English account paths', () => {
   assert.equal(accountPath, '/account')
@@ -247,7 +247,7 @@ test('Account errors are localized without displaying arbitrary backend details'
 test('Account authentication has a labelled modal, safe password fields and announced errors', async () => {
   const source = await read('src/account/AuthDialog.tsx')
   assert.match(source, /<dialog\b[^>]*aria-labelledby="account-auth-title"/)
-  assert.match(source, /aria-describedby=\{mode === 'help' \|\| registered \? 'account-auth-intro' : undefined\}/)
+  assert.match(source, /aria-describedby=\{mode === 'help' \? 'account-auth-intro' : registered \? 'account-auth-success-description' : undefined\}/)
   assert.match(source, /\.showModal\(/)
   assert.match(source, /onCancel=/)
   assert.match(source, /\.focus\(/)

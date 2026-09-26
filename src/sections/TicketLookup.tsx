@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { SectionHeader } from '../components/SectionHeader'
 import { TicketResult } from '../components/TicketResult'
 import { OtpVerification } from '../components/OtpVerification'
-import { DEMO_OTP, DEMO_PHONE, DEMO_TICKET_CODE, findTicketByCode, findTicketsByPhone, type Ticket } from '../data/tickets'
+import { DEMO_OTP, findTicketByCode, findTicketsByPhone, type Ticket } from '../data/tickets'
 import { toGeorgianMtavruli } from '../utils/text'
 import { normalizeGeorgianMobile } from '../utils/validation'
 import { useResponsiveHome } from '../hooks/useResponsiveHome'
@@ -160,7 +160,7 @@ export function TicketLookup({ variant = 'default', id = 'ticket', focusOnMount 
                       setFoundTickets([])
                       setState('default')
                     }}
-                    placeholder={mode === 'code' ? DEMO_TICKET_CODE : '+995 5XX XX XX XX'}
+                    placeholder={mode === 'code' ? l10n.t('სერვისის კოდი') : '+995 5XX XX XX XX'}
                     inputMode={mode === 'phone' ? 'tel' : 'text'}
                   />
                   <button className="ticket-search-button" type="submit" disabled={state === 'loading'}>
@@ -169,8 +169,8 @@ export function TicketLookup({ variant = 'default', id = 'ticket', focusOnMount 
                   </button>
                 </div>
                 <p id={`${queryId}-help`}>{mode === 'code'
-                  ? l10n.locale === 'en' ? `The code is on your service intake document. Demo code: ${DEMO_TICKET_CODE}.` : `კოდი მითითებულია სერვისის მიღების დოკუმენტზე. დემო კოდი: ${DEMO_TICKET_CODE}.`
-                  : l10n.locale === 'en' ? `Demo number: ${DEMO_PHONE}. No real SMS is sent.` : `დემო ნომერი: ${DEMO_PHONE}. რეალური SMS არ იგზავნება.`}</p>
+                  ? l10n.t('კოდი მითითებულია სერვისის მიღების დოკუმენტზე.')
+                  : l10n.t('მიუთითეთ სერვისის გაფორმებისას გამოყენებული ნომერი.')}</p>
               </form>
               <div className="ticket-verification-note">
                 <img src="/assets/icons/shield.svg" alt="" />

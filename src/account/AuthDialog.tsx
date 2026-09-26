@@ -73,19 +73,19 @@ export default function AuthDialog() {
   }
 
   if (!mode) return null
-  return <dialog ref={dialogRef} className="account-auth" aria-labelledby="account-auth-title" aria-describedby={mode === 'help' || registered ? 'account-auth-intro' : undefined} onCancel={event => { event.preventDefault(); if (!busy) auth.closeAuth() }} onClick={event => { if (event.target === event.currentTarget && !busy) auth.closeAuth() }}>
+  return <dialog ref={dialogRef} className="account-auth" aria-labelledby="account-auth-title" aria-describedby={mode === 'help' ? 'account-auth-intro' : registered ? 'account-auth-success-description' : undefined} onCancel={event => { event.preventDefault(); if (!busy) auth.closeAuth() }} onClick={event => { if (event.target === event.currentTarget && !busy) auth.closeAuth() }}>
     <div className="account-auth__panel">
       <button type="button" className="account-auth__close" disabled={busy} onClick={auth.closeAuth} aria-label={text('ფანჯრის დახურვა', 'Close dialog')}><LaptopIcon name="close" /></button>
       <div className="account-auth__brand"><img src="/assets/brand/tecservice-logo.svg" alt="TECSERVICE" width="190" height="40" /></div>
       <h2 id="account-auth-title">{mode === 'help' ? text('შესვლაში დაგეხმარებით', 'Let us help you sign in') : registered ? text('მოთხოვნა მიღებულია', 'Request received') : mode === 'register' ? text('რეგისტრაცია', 'Registration') : text('პროფილი', 'Profile')}</h2>
-      {(mode === 'help' || registered) && <p id="account-auth-intro">{mode === 'help' ? text('ანგარიშის აღდგენისთვის დაუკავშირდით ჩვენს გუნდს. პაროლი არავის გაუზიაროთ.', 'Contact our team to recover access to your account. Never share your password.') : text('მონაცემების გადამოწმებისა და ანგარიშის დადასტურების შემდეგ შეძლებთ შესვლას.', 'You can sign in once our team has verified your details and approved your account.')}</p>}
+      {mode === 'help' && <p id="account-auth-intro">{text('ანგარიშის აღდგენისთვის დაუკავშირდით ჩვენს გუნდს. პაროლი არავის გაუზიაროთ.', 'Contact our team to recover access to your account. Never share your password.')}</p>}
       {mode === 'help' ? <div className="account-auth__help">
         <a className="account-auth__primary" href="tel:+995591474040"><LaptopIcon name="phone" />+995 591 47 40 40</a>
         <a className="account-auth__secondary" href={href('/contact/')}>{text('საკონტაქტო გვერდი', 'Contact page')}<LaptopIcon name="arrow" /></a>
         <button className="account-auth__text-button" onClick={() => auth.openAuth('login')}>{text('შესვლაზე დაბრუნება', 'Back to sign in')}</button>
       </div> : registered ? <div className="account-auth__success">
         <span><LaptopIcon name="check" /></span>
-        <p>{text('თქვენი სერვისები და შესყიდვები მხოლოდ ანგარიშის დადასტურების შემდეგ გახდება ხელმისაწვდომი.', 'Your services and purchases become available only after your account is approved.')}</p>
+        <p id="account-auth-success-description">{text('სერვისები და შესყიდვები ანგარიშის დადასტურების შემდეგ გამოჩნდება.', 'Your services and purchases will appear after account approval.')}</p>
         <button className="account-auth__primary" type="button" onClick={() => auth.openAuth('login')}>{text('შესვლის ფანჯარაზე დაბრუნება', 'Back to sign in')}</button>
       </div> : <>
         <div className="account-auth__tabs" role="group" aria-label={text('ავტორიზაციის მეთოდი', 'Account access')}>

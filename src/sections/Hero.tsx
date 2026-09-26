@@ -126,7 +126,7 @@ export function Hero() {
                 id="problem-description"
                 value={problem}
                 aria-invalid={feedback === 'required'}
-                aria-describedby={feedback === 'required' ? 'ai-feedback ai-mode-note' : 'ai-mode-note'}
+                aria-describedby={feedback === 'required' ? 'ai-feedback' : undefined}
                 maxLength={700}
                 onChange={(event) => { setProblem(event.target.value); setFeedback(null); setAssessment(null) }}
                 placeholder={l10n.t('მაგ: არ ირთვება, ხურდება, ეკრანი არ მუშაობს, აქვს უცნაური ხმა...')}
@@ -141,12 +141,6 @@ export function Hero() {
             <img src="/assets/icons/sparkles.svg" alt="" />
             {label('AI პირველადი შეფასება')}
           </button>
-          <p id="ai-mode-note" className="ai-disclaimer ai-development-note">
-            <strong>{l10n.t('TECSERVICE AI სატესტო რეჟიმშია')}</strong>
-            <span>{l10n.locale === 'en'
-              ? 'The trial assistant uses prices published on our service pages. Your question is processed in this page, without an external AI service.'
-              : 'სატესტო ასისტენტი იყენებს სერვისების გვერდებზე მითითებულ ფასებს. კითხვა მუშავდება ამავე გვერდზე, გარე AI-სთან გაგზავნის გარეშე.'}</span>
-          </p>
           {feedback === 'required' && <p id="ai-feedback" className="ai-disclaimer" role="alert">{l10n.t('შეფასების დასაწყებად აღწერეთ პრობლემა.')}</p>}
           {assessment && <section className="ai-result" aria-label={l10n.t('პირველადი შეფასების შედეგი')} role="status">
             <h3><span aria-hidden="true">📌</span> {l10n.locale === 'en' ? 'Service information' : 'ინფორმაცია მომსახურებაზე'}</h3>

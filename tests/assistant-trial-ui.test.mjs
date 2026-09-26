@@ -15,8 +15,13 @@ test('trial assistant has no attachment picker, filename state or unused attachm
 test('trial assistant uses the local service-price helper with the current language and no API or session storage', () => {
   assert.match(hero, /getServicePriceAssessment\(selectedDevice, problem\.trim\(\), l10n\.locale, l10n\.t\)/)
   assert.doesNotMatch(hero, /askTecServiceAssistant|assistantApi|sessionStorage|localStorage|fetch\(|AbortController|assistantHistory/)
-  assert.match(hero, /TECSERVICE AI სატესტო რეჟიმშია/)
-  assert.match(hero, /without an external AI service/)
+})
+
+test('assistant omits the testing-mode notice in both languages and links only the active validation error', () => {
+  assert.doesNotMatch(hero, /ai-mode-note|TECSERVICE AI სატესტო რეჟიმშია|without an external AI service/)
+  assert.match(hero, /aria-invalid=\{feedback === 'required'\}/)
+  assert.match(hero, /aria-describedby=\{feedback === 'required' \? 'ai-feedback' : undefined\}/)
+  assert.match(hero, /\{feedback === 'required' && <p id="ai-feedback" className="ai-disclaimer" role="alert">/)
 })
 
 test('clarifications and safety replies remain visible even when a price is available', () => {

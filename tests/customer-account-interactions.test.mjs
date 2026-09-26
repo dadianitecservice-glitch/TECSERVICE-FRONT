@@ -448,16 +448,21 @@ for (const locale of ['ka', 'en']) {
     assertAuthDescriptionsResolve(html)
   })
 
-  test(`${locale} account recovery and registration success retain meaningful linked descriptions`, async () => {
+  test(`${locale} account recovery retains its guidance and registration success has one concise linked description`, async () => {
     const help = await authMarkup(locale, 'help')
     assert.ok(help.includes(locale === 'ka' ? 'ანგარიშის აღდგენისთვის დაუკავშირდით ჩვენს გუნდს. პაროლი არავის გაუზიაროთ.' : 'Contact our team to recover access to your account. Never share your password.'))
     assert.match(help, /aria-describedby="account-auth-intro"/)
     assert.match(help, /href="tel:\+995591474040"/)
     assertAuthDescriptionsResolve(help)
     const success = await authMarkup(locale, 'register', true)
-    assert.ok(success.includes(locale === 'ka' ? 'მონაცემების გადამოწმებისა და ანგარიშის დადასტურების შემდეგ შეძლებთ შესვლას.' : 'You can sign in once our team has verified your details and approved your account.'))
-    assert.ok(success.includes(locale === 'ka' ? 'თქვენი სერვისები და შესყიდვები მხოლოდ ანგარიშის დადასტურების შემდეგ გახდება ხელმისაწვდომი.' : 'Your services and purchases become available only after your account is approved.'))
-    assert.match(success, /aria-describedby="account-auth-intro"/)
+    assert.ok(success.includes(`<h2 id="account-auth-title">${locale === 'ka' ? 'მოთხოვნა მიღებულია' : 'Request received'}</h2>`))
+    const description = locale === 'ka' ? 'სერვისები და შესყიდვები ანგარიშის დადასტურების შემდეგ გამოჩნდება.' : 'Your services and purchases will appear after account approval.'
+    assert.ok(success.includes(`<p id="account-auth-success-description">${description}</p>`))
+    assert.equal(success.split(description).length - 1, 1)
+    assert.ok(!success.includes(locale === 'ka' ? 'მონაცემების გადამოწმებისა და ანგარიშის დადასტურების შემდეგ შეძლებთ შესვლას.' : 'You can sign in once our team has verified your details and approved your account.'))
+    assert.ok(!success.includes(locale === 'ka' ? 'თქვენი სერვისები და შესყიდვები მხოლოდ ანგარიშის დადასტურების შემდეგ გახდება ხელმისაწვდომი.' : 'Your services and purchases become available only after your account is approved.'))
+    assert.doesNotMatch(success, /account-auth-intro/)
+    assert.match(success, /aria-describedby="account-auth-success-description"/)
     assert.doesNotMatch(success, /<form\b|name="password"/)
     assertAuthDescriptionsResolve(success)
   })
@@ -627,7 +632,7 @@ test('Preview profile editing skips real password confirmation and does not over
   assert.equal(Object.hasOwn(driver.saves[0], 'contact_phone'), false)
   assert.equal(findAll(driver.tree, node => node.type === 'dialog').length, 0)
   await driver.complete()
-  assert.match(textContent(findAll(driver.tree, node => node.props.role === 'status')[0]), /Nothing was saved to a real account/)
+  assert.equal(textContent(findAll(driver.tree, node => node.props.role === 'status')[0]), 'The change applies only to this page.')
 })
 
 test('Cancelling profile confirmation does not save and reopening never restores the entered password', async () => {

@@ -220,3 +220,16 @@ test('local assistant has no network, model, credential or storage dependency', 
   assert.doesNotMatch(source, /\bfetch\s*\(|XMLHttpRequest|assistantApi|process\.env|import\.meta\.env|localStorage|sessionStorage/)
   assert.doesNotMatch(source, /(?:fromPrice|price)\s*:\s*\d/)
 })
+
+test('both languages omit trial labels while retaining indicative-price and inspection limitations', () => {
+  for (const locale of ['ka', 'en']) for (const [device, description] of examples) {
+    const result = ask(device, description, locale)
+    assert.doesNotMatch(JSON.stringify(result), /დემო|სატესტო|საცდელი|\b(?:demo|trial|preview)\b|test mode/iu)
+    assert.match(result.assessment.disclaimer, locale === 'ka'
+      ? /საორიენტაციო პასუხია, არა დიაგნოზი ან სრული შეთავაზება/u
+      : /guidance from the assistant, not a diagnosis or a full quotation/)
+    assert.match(result.assessment.disclaimer, locale === 'ka'
+      ? /საბოლოო ფასი და ვადა შემოწმების შემდეგ თანხმდება/u
+      : /final cost and timing must be agreed after inspection/)
+  }
+})

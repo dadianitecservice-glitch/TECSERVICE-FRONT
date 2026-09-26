@@ -95,7 +95,7 @@ function InvoiceDialog({ target, locale, isPreview, onClose }: { target: Invoice
 
   return <dialog ref={dialog} className="account-invoice-dialog" aria-labelledby={titleId} onCancel={event => { event.preventDefault(); onClose() }} onClick={event => { if (event.target === event.currentTarget) onClose() }}>
     <div className="account-invoice-dialog__content">
-      <header className="account-invoice-dialog__heading"><div><span>{target.reference}</span><h2 id={titleId}>{text('ინვოისი', 'Invoice')}{isPreview ? ` · ${text('ნიმუში', 'Preview')}` : ''}</h2></div><button type="button" onClick={onClose} aria-label={text('დახურვა', 'Close')}><LaptopIcon name="close" /></button></header>
+      <header className="account-invoice-dialog__heading"><div><span>{target.reference}</span><h2 id={titleId}>{text('ინვოისი', 'Invoice')}</h2></div><button type="button" onClick={onClose} aria-label={text('დახურვა', 'Close')}><LaptopIcon name="close" /></button></header>
       {loading && <p role="status">{text('იტვირთება…', 'Loading…')}</p>}
       {error && <p className="account-invoice-error" role="alert">{error}</p>}
       {!loading && !error && !invoices.length && <div className="account-invoice-empty"><InvoiceIcon /><h3>{text('ინვოისი ჯერ არ არის გაცემული', 'No invoice has been issued yet')}</h3><p>{text('გაცემის შემდეგ დოკუმენტი აქ გამოჩნდება.', 'The document will appear here once it is issued.')}</p></div>}
@@ -112,7 +112,7 @@ function InvoicePaper({ invoice, locale, isPreview }: { invoice: ServiceInvoice;
   const text = (ka: string, en: string) => locale === 'ka' ? ka : en
   const money = (value: number) => accountMoney(value, locale)
   return <article className="account-invoice-paper">
-    {isPreview && <p className="account-invoice-paper__sample">{text('დემო ფორმა — არ არის გადახდის დოკუმენტი', 'Sample only — not a payment document')}</p>}
+    {isPreview && <p className="account-invoice-paper__sample">{text('არ არის გადახდის დოკუმენტი', 'Not a payment document')}</p>}
     <header><h3>{text('ინვოისი', 'Invoice')} № {invoice.number}</h3><span>{invoice.document_date}</span></header>
     <div className="account-invoice-parties">
       <section><h4>{text('გამყიდველი', 'Seller')}</h4><strong>{invoice.seller.name}</strong>{invoice.seller.tax_id && <p>{text('ს/კ', 'Tax ID')}: {invoice.seller.tax_id}</p>}{invoice.seller.address && <p>{invoice.seller.address}</p>}{invoice.seller.phone && <p>{invoice.seller.phone}</p>}</section>

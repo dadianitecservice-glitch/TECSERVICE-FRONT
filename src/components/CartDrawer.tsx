@@ -102,7 +102,7 @@ export function CartDrawer({ open, lines, onClose, onQuantityChange, onRemove }:
           <footer className="cart-drawer__footer">
             <div><span>{l10n.t("ჯამი")}</span><strong>{l10n.t(subtotal.toLocaleString('ka-GE'))} ₾</strong></div>
             <button type="button">{l10n.t(toGeorgianMtavruli('შეკვეთის გაგრძელება'))}</button>
-            <small>{l10n.t("დემო რეჟიმი — ონლაინ გადახდა ჯერ არ არის ჩართული.")}</small>
+            <small>{l10n.t('ონლაინ გადახდა ჯერ არ არის ჩართული.')}</small>
           </footer>
         ) : null)}
       </aside>

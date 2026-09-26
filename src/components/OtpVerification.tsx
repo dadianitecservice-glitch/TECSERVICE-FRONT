@@ -1,6 +1,5 @@
 import { useTranslation } from '../i18n/LocaleProvider'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { DEMO_OTP } from '../data/tickets'
 import { toGeorgianMtavruli } from '../utils/text'
 import { updateOtpDigits } from '../utils/validation'
 
@@ -74,7 +73,7 @@ export function OtpVerification({ phone, errorMessage, onCodeChange, onConfirm, 
       <div className="otp-panel__icon"><img src="/assets/icons/shield.svg" alt="" /></div>
       <div className="otp-panel__copy">
         <h3 className="display-title">{l10n.t(toGeorgianMtavruli('SMS დადასტურება'))}</h3>
-        <p>{l10n.t("დემო დადასტურება ნომრისთვის")}{' '}{phone}.</p>
+        <p>{l10n.t('ნომრის დადასტურება:')}{' '}{phone}.</p>
         {l10n.t(errorMessage && <p id="otp-error" role="alert">{l10n.t(errorMessage)}</p>)}
       </div>
       <div className="otp-inputs" aria-label={l10n.t("ერთჯერადი კოდი")}>
@@ -112,10 +111,10 @@ export function OtpVerification({ phone, errorMessage, onCodeChange, onConfirm, 
           pendingFocusRef.current = 0
           setDigits(['', '', '', '', '', ''])
           onCodeChange()
-        }}>{l10n.t(toGeorgianMtavruli('კოდის ხელახლა გაგზავნა'))}</button>
+        }}>{l10n.t(toGeorgianMtavruli('კოდის თავიდან შეყვანა'))}</button>
         <button type="button" onClick={onBack}>{l10n.t(toGeorgianMtavruli('უკან დაბრუნება'))}</button>
       </div>
-      <small id="otp-help">{l10n.t("რეალური SMS არ იგზავნება. დემო კოდი:")}{' '}{DEMO_OTP}</small>
+      <small id="otp-help">{l10n.t('შეიყვანეთ დადასტურების 6-ნიშნა კოდი.')}</small>
     </form>
   )
 }

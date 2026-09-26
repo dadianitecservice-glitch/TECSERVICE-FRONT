@@ -28,6 +28,17 @@ test('legal account additions keep translated section parity without changing pu
 for (const locale of ['ka', 'en']) {
   const ka = locale === 'ka'
 
+  test(`${locale} legal titles, metadata and content omit demo/trial labels while retaining assistant limitations`, () => {
+    for (const kind of ['terms', 'privacy']) {
+      assert.doesNotMatch(JSON.stringify(legalDocuments[locale][kind]), /დემო|სატესტო|საცდელი|\b(?:demo|trial|preview)\b|test mode/iu)
+    }
+    const online = sectionText(locale, 'terms', 'online-tools')
+    assert.match(online, ka ? /პასუხს ბრაუზერში ამზადებს/u : /prepares responses in your browser/)
+    assert.match(online, ka ? /არა მოწყობილობის დიაგნოსტიკა, საბოლოო შეთავაზება ან შეკვეთის გაფორმება/u : /not a device diagnosis, a final quote or an order booking/)
+    assert.match(online, ka ? /ფოტოს ატვირთვა.*ხელმისაწვდომი არ არის/u : /Photo upload is not available/)
+    assert.match(sectionText(locale, 'privacy', 'browser-storage'), ka ? /ჯერ დადასტურებული არ არის/u : /not yet been confirmed/)
+  })
+
   test(`${locale} account terms explain required phone, optional email, approval and primary-phone changes`, () => {
     const text = sectionText(locale, 'terms', 'customer-account')
     for (const pattern of ka
@@ -40,6 +51,8 @@ for (const locale of ['ka', 'en']) {
     const comments = sectionText(locale, 'terms', 'product-comments')
     assert.match(records, ka ? /გაცემული ინვოისები/u : /issued invoices/)
     assert.match(records, ka ? /თავისთავად გადახდას არ ნიშნავს/u : /does not itself mean that payment has been made/)
+    assert.match(records, ka ? /ამჟამად ბარათის შენახვა და გადახდა ხელმისაწვდომი არ არის/u : /storing cards and processing payments are currently unavailable/)
+    assert.doesNotMatch(records, /მხოლოდ ვიზუალურია|visual only/iu)
     assert.match(comments, ka ? /შეცვლა ან წაშლა/u : /edit or delete/)
     assert.match(comments, ka ? /სპამი.*სხვისი პირადი ინფორმაცია/u : /spam.*another person’s private information/)
     assert.doesNotMatch(comments, ka ? /ავტომატურად (?:მოწმდება|იფილტრება)/u : /automatically (?:screened|moderated|filtered)/i)
@@ -60,6 +73,7 @@ for (const locale of ['ka', 'en']) {
     assert.match(text, ka ? /თავად ტექსტში ჩაწერილი ინფორმაცია საჯაროდ გამოჩნდება/u : /information you enter in the comment text will be public/)
     assert.match(text, ka ? /ეკრანის სურათს/u : /screenshots/)
     assert.match(sectionText(locale, 'privacy', 'account-records'), ka ? /არ ინახავს საბანკო ბარათს/u : /does not collect card numbers.*store bank cards/)
+    assert.match(sectionText(locale, 'privacy', 'account-records'), ka ? /არ აგროვებს ბარათის ნომერს, მოქმედების ვადას ან CVV-ს/u : /does not collect card numbers, expiry dates or CVVs/)
   })
 
   test(`${locale} local-assistant privacy is distinct from the sign-in cookie and does not invent retention periods`, () => {

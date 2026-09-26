@@ -183,7 +183,7 @@ export function CustomerPayments({ purchases, isPreview }: { purchases: Customer
             </label>)}
           </fieldset>
           <label className="account-bank-remember"><input type="checkbox" checked={remember} onChange={event => setRemember(event.target.checked)} /><span>{text('დავიმახსოვრო ბარათი შემდეგი გადახდებისთვის', 'Remember my card for future payments')}</span></label>
-          <p className="account-bank-setup__note">{text('ვიზუალური ვერსია — ბანკთან კავშირი ჯერ არ არის ჩართული. ბარათის მონაცემებს აქ არ ვაგროვებთ.', 'Visual preview — bank integration is not connected yet. No card details are collected here.')}</p>
+          <p className="account-bank-setup__note">{text('ბანკთან კავშირი ჯერ არ არის ჩართული. ბარათის მონაცემებს აქ არ ვაგროვებთ.', 'Bank integration is not connected yet. No card details are collected here.')}</p>
           <button type="submit" className="account-settings__primary">{text('გაგრძელება', 'Continue')}<span aria-hidden="true">→</span></button>
           {showNotice && <p className="account-bank-setup__status" role="status">{text('ბარათის დამატება ხელმისაწვდომი გახდება ბანკის ინტეგრაციის შემდეგ. ამ ეტაპზე ბარათი არ დამატებულა და თანხა არ ჩამოჭრილა.', 'Card linking will be available after bank integration. No card was added and no payment was made.')}</p>}
         </form>

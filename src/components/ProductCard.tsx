@@ -3,7 +3,6 @@ import { useState } from 'react'
 import type { Product } from '../data/products'
 import { toGeorgianMtavruli } from '../utils/text'
 import { formatPrice } from '../utils/formatPrice'
-import { ProductCommentsDialog } from './ProductCommentsDialog'
 
 type ProductCardProps = {
   product: Product
@@ -12,7 +11,6 @@ type ProductCardProps = {
 export function ProductCard({ product }: ProductCardProps) {
   const l10n = useTranslation()
   const [compared, setCompared] = useState(false)
-  const [commentsOpen, setCommentsOpen] = useState(false)
   const discount = product.oldPrice
     ? Math.round((1 - product.price / product.oldPrice) * 100)
     : undefined
@@ -30,7 +28,6 @@ export function ProductCard({ product }: ProductCardProps) {
           {l10n.t(product.oldPrice ? <del>{l10n.t(formatPrice(product.oldPrice))} ₾</del> : null)}
         </div>
         <div className="product-card__name">{l10n.t(product.name)}</div>
-        <button type="button" className="product-card__comments" onClick={() => setCommentsOpen(true)} aria-label={`${l10n.locale === 'ka' ? 'კომენტარები' : 'Comments'} · ${product.name}`}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="M20 3H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h3v4l5-4h8a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1Z"/><path d="M7 8h10M7 12h7"/></svg>{l10n.locale === 'ka' ? 'კომენტარები' : 'Comments'}</button>
         <div className="product-card__actions">
           <button
             className={`compare-button${compared ? ' is-active' : ''}`}
@@ -57,7 +54,6 @@ export function ProductCard({ product }: ProductCardProps) {
           </a>
         </div>
       </div>
-      {commentsOpen && <ProductCommentsDialog productSlug={product.slug} productName={product.name} onClose={() => setCommentsOpen(false)} />}
     </article>
   )
 }

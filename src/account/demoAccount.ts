@@ -11,8 +11,8 @@ export function getDemoAccount(locale: 'ka' | 'en'): {
   return {
     user: {
       id: 'demo-customer-preview',
-      full_name: en ? 'Demo customer' : 'დემო მომხმარებელი',
-      email: 'demo@example.invalid',
+      full_name: en ? 'Customer' : 'მომხმარებელი',
+      email: 'customer@example.invalid',
       phone: '+995555123123',
       contact_phone: null,
       role: 'customer',
@@ -22,8 +22,8 @@ export function getDemoAccount(locale: 'ka' | 'en'): {
     tickets: [
       {
         ticket_code: 990001,
-        device: en ? 'Lenovo ThinkPad T14 · demo' : 'Lenovo ThinkPad T14 · დემო',
-        issue_description: en ? 'Fictional example: the laptop overheats during use.' : 'გამოგონილი მაგალითი: ლეპტოპი მუშაობისას ხურდება.',
+        device: 'Lenovo ThinkPad T14',
+        issue_description: en ? 'The laptop overheats during use.' : 'ლეპტოპი მუშაობისას ხურდება.',
         status: 'in_progress',
         cost_estimate: 90,
         resolution: null,
@@ -32,7 +32,7 @@ export function getDemoAccount(locale: 'ka' | 'en'): {
         items: [{
           position: 1,
           device: 'laptop',
-          issue_description: en ? 'Fictional cooling-system inspection.' : 'გაგრილების სისტემის შემოწმების გამოგონილი ჩანაწერი.',
+          issue_description: en ? 'Cooling-system inspection.' : 'გაგრილების სისტემის შემოწმება.',
           status: 'in_progress',
           cost_estimate: 90,
           resolution: null,
@@ -41,11 +41,11 @@ export function getDemoAccount(locale: 'ka' | 'en'): {
       },
       {
         ticket_code: 990002,
-        device: en ? 'Sony PlayStation 5 · demo' : 'Sony PlayStation 5 · დემო',
-        issue_description: en ? 'Fictional example: no image on the screen.' : 'გამოგონილი მაგალითი: ეკრანზე გამოსახულება არ ჩანს.',
+        device: 'Sony PlayStation 5',
+        issue_description: en ? 'No image on the screen.' : 'ეკრანზე გამოსახულება არ ჩანს.',
         status: 'picked_up',
         cost_estimate: 120,
-        resolution: en ? 'Fictional example: HDMI port replaced and image output tested.' : 'გამოგონილი მაგალითი: HDMI პორტი შეიცვალა და გამოსახულება შემოწმდა.',
+        resolution: en ? 'HDMI port replaced and image output checked.' : 'HDMI პორტი შეიცვალა და გამოსახულება შემოწმდა.',
         created_at: '2026-09-08T07:00:00Z',
         updated_at: '2026-09-11T11:00:00Z',
         items: [],
@@ -54,23 +54,23 @@ export function getDemoAccount(locale: 'ka' | 'en'): {
     purchases: [
       {
         id: 'demo-purchase-one',
-        order_number: 'DEMO-1001',
+        order_number: '1001',
         status: 'processing',
         payment_status: 'unpaid',
         created_at: '2026-09-21T08:00:00Z',
         total: 149,
         currency: 'GEL',
-        items: [{ name: en ? 'Kingston NV3 · 1 TB · demo' : 'Kingston NV3 · 1 TB · დემო', quantity: 1, unit_price: 149, image_url: '/assets/products/kingston-nv3-figma.png' }],
+        items: [{ name: 'Kingston NV3 · 1 TB', quantity: 1, unit_price: 149, image_url: '/assets/products/kingston-nv3-figma.png' }],
       },
       {
         id: 'demo-purchase-two',
-        order_number: 'DEMO-1002',
+        order_number: '1002',
         status: 'completed',
         payment_status: 'paid',
         created_at: '2026-09-07T09:00:00Z',
         total: 65,
         currency: 'GEL',
-        items: [{ name: en ? 'Kingston A400 · 480 GB · demo' : 'Kingston A400 · 480 GB · დემო', quantity: 1, unit_price: 65, image_url: '/assets/products/kingston-a400-480-figma.png' }],
+        items: [{ name: 'Kingston A400 · 480 GB', quantity: 1, unit_price: 65, image_url: '/assets/products/kingston-a400-480-figma.png' }],
       },
     ],
   }
