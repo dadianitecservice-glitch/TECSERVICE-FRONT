@@ -62,7 +62,7 @@ const blogTeasers: BlogTeaser[] = [
     title: "დაკარგული ფაილები — რა უნდა გააკეთოთ პირველ წუთებში?",
     excerpt:
       "როგორ შეაჩეროთ ახალი ჩაწერა, შეამოწმოთ სარეზერვო ასლები და ამოიცნოთ დაზიანების საყურადღებო ნიშნები.",
-    image: "/assets/blog/data-recovery-figma.png",
+    image: "/assets/blog/data-recovery.webp",
     imageWidth: 849,
     imageHeight: 565,
     imageAlt: "მონაცემების აღდგენის ლაბორატორიული სამუშაო",
@@ -76,7 +76,7 @@ const blogTeasers: BlogTeaser[] = [
     title: "ლეპტოპი ნელდება? 5 მიზეზი და გამოსავალი",
     excerpt:
       "ფონური პროგრამები, დისკი, ოპერატიული მეხსიერება და გაგრილება — რა უნდა შეამოწმოთ პირველ რიგში.",
-    image: "/assets/blog/laptop-repair-figma.png",
+    image: "/assets/blog/laptop-repair.webp",
     imageWidth: 2000,
     imageHeight: 1334,
     imageAlt: "ლეპტოპის ტექნიკური დიაგნოსტიკა",
@@ -90,7 +90,7 @@ const blogTeasers: BlogTeaser[] = [
     title: "თამაშის კონსოლის გადახურება: ნიშნები და პრევენცია",
     excerpt:
       "ხმაურიანი ქულერი და მოულოდნელი გამორთვა შესაძლოა გაგრილების პრობლემაზე მიუთითებდეს.",
-    image: "/assets/blog/console-repair-figma.png",
+    image: "/assets/blog/console-repair.webp",
     imageWidth: 800,
     imageHeight: 533,
     imageAlt: "სათამაშო კონსოლის ტექნიკური მომსახურება",
@@ -104,7 +104,7 @@ const blogTeasers: BlogTeaser[] = [
     title: "როგორ ავარჩიოთ სწორი SSD ლეპტოპისთვის?",
     excerpt:
       "SATA და NVMe დისკების განსხვავება, თავსებადობა და სწორი მოცულობის არჩევა.",
-    image: "/assets/blog/ssd-figma.png",
+    image: "/assets/blog/ssd.webp",
     imageWidth: 1000,
     imageHeight: 1000,
     imageAlt: "ლეპტოპისთვის SSD დისკის შერჩევა",
@@ -118,7 +118,7 @@ const blogTeasers: BlogTeaser[] = [
     title: "დრონის მოვლა ფრენის წინ და შემდეგ",
     excerpt:
       "ბატარეის, პროპელერების, კამერისა და მართვის სისტემის აუცილებელი შემოწმება.",
-    image: "/assets/blog/drone-repair-figma.png",
+    image: "/assets/blog/drone-repair.webp",
     imageWidth: 800,
     imageHeight: 533,
     imageAlt: "დრონის შემოწმება და ტექნიკური მომსახურება",
@@ -132,7 +132,7 @@ const blogTeasers: BlogTeaser[] = [
     title: "რატომ ითიშება კომპიუტერი დატვირთვისას?",
     excerpt:
       "კვების ბლოკი, ტემპერატურა და კომპონენტები — დიაგნოსტიკის მთავარი მიმართულებები.",
-    image: "/assets/blog/ssd-figma.png",
+    image: "/assets/blog/ssd.webp",
     imageWidth: 1000,
     imageHeight: 1000,
     imageAlt: "კომპიუტერის კომპონენტების დიაგნოსტიკა",
@@ -146,7 +146,7 @@ const blogTeasers: BlogTeaser[] = [
     title: "მონაცემთა აღდგენა ფორმატირების შემდეგ",
     excerpt:
       "რატომ არ უნდა ჩაიწეროს ახალი ფაილები დისკზე და როდის უნდა მივმართოთ სპეციალისტს.",
-    image: "/assets/blog/data-recovery-figma.png",
+    image: "/assets/blog/data-recovery.webp",
     imageWidth: 849,
     imageHeight: 565,
     imageAlt: "დისკიდან მონაცემების უსაფრთხო აღდგენა",
@@ -160,7 +160,7 @@ const blogTeasers: BlogTeaser[] = [
     title: "Xbox-ის კონტროლერის გავრცელებული პრობლემები",
     excerpt:
       "Stick drift, კავშირის წყვეტა და ღილაკების გაუმართაობა — ძირითადი ნიშნები.",
-    image: "/assets/blog/console-repair-figma.png",
+    image: "/assets/blog/console-repair.webp",
     imageWidth: 800,
     imageHeight: 533,
     imageAlt: "Xbox კონტროლერის შეკეთება",
@@ -174,7 +174,7 @@ const blogTeasers: BlogTeaser[] = [
     title: "როდის სჭირდება ლეპტოპის ბატარეას შემოწმება?",
     excerpt:
       "სწრაფი დაცლა, გადახურება და გაბერვა — ნიშნები, რომლებიც უყურადღებოდ არ უნდა დარჩეს.",
-    image: "/assets/blog/laptop-repair-figma.png",
+    image: "/assets/blog/laptop-repair.webp",
     imageWidth: 2000,
     imageHeight: 1334,
     imageAlt: "ლეპტოპის ბატარეის დიაგნოსტიკა",
@@ -188,7 +188,7 @@ const blogTeasers: BlogTeaser[] = [
     title: "პირველი ნაბიჯები RAID მასივის დაზიანებისას",
     excerpt:
       "უსაფრთხო რეაგირება, რომელიც რთული ავარიისას მონაცემთა აღდგენის შანსს ინარჩუნებს.",
-    image: "/assets/blog/data-recovery-figma.png",
+    image: "/assets/blog/data-recovery.webp",
     imageWidth: 849,
     imageHeight: 565,
     imageAlt: "RAID მასივიდან ინფორმაციის აღდგენა",

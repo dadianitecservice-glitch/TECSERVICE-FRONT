@@ -79,6 +79,27 @@ test('computer category asks laptop or desktop instead of assuming', () => {
   assert.equal(result.sources.length, 2)
 })
 
+test('HP ZBook screen requests use laptop pricing without requiring the word laptop', () => {
+  const row = laptopPrices.find(item => item.id === 'screen')
+  for (const [text, locale] of [
+    ['HP ZBOOK 15 ეკრანი გამიტყდა, ეკრანის შეცვლა მინდა, რა ღირს?', 'ka'],
+    ['HP ZBook 15 screen replacement', 'en'],
+    ['HP Z Book 15 broken screen', 'en'],
+  ]) {
+    const result = ask('computers', text, locale)
+    assert.equal(result.assessment.service, translateText(row.name, locale))
+    assert.equal(result.assessment.labor_price, translateText(formatLaptopPrice(row), locale))
+    assert.deepEqual(result.sources.map(source => source.path), ['/services/laptop-repair/#laptop-prices'])
+    assert.equal(result.assessment.price_note, translateText(row.priceNote, locale))
+  }
+})
+
+test('HP alone, an unknown model or conflicting device types still require clarification', () => {
+  for (const text of ['HP screen replacement', 'unknownzbook screen replacement', 'HP ZBook and desktop screen repair']) {
+    assert.equal(ask('computers', text, 'en').assessment, null, text)
+  }
+})
+
 test('other category asks mobile or other electronics instead of assuming', () => {
   const result = ask('other', 'არ ირთვება რა ღირს')
   assert.equal(result.assessment, null)

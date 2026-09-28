@@ -1,6 +1,7 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { toGeorgianMtavruli } from '../utils/text'
-import { getServicePriceAssessment } from '../utils/servicePriceAssistant'
+import type { ServicePriceAssessment } from '../utils/servicePriceAssistant'
+import { loadServicePriceAssistant } from '../utils/loadServicePriceAssistant'
 import { LaptopIcon } from '../components/LaptopIcon'
 import { useTranslation } from '../i18n/LocaleProvider'
 
@@ -17,12 +18,27 @@ export function Hero() {
   const label = (value: string) => l10n.t(toGeorgianMtavruli(value))
   const [selectedDevice, setSelectedDevice] = useState('computers')
   const [problem, setProblem] = useState('')
-  const [feedback, setFeedback] = useState<'required' | null>(null)
-  const [assessment, setAssessment] = useState<ReturnType<typeof getServicePriceAssessment> | null>(null)
+  const [feedback, setFeedback] = useState<'required' | 'unavailable' | null>(null)
+  const [assessment, setAssessment] = useState<ServicePriceAssessment | null>(null)
+  const [assessmentPending, setAssessmentPending] = useState(false)
+  const requestVersion = useRef(0)
+  const pendingRequest = useRef(false)
   const problemInputRef = useRef<HTMLTextAreaElement>(null)
   const currentStep = assessment ? 3 : problem.trim() ? 2 : 1
 
-  const runAssessment = () => {
+  useEffect(() => () => { requestVersion.current += 1 }, [])
+
+  const clearAssessment = () => {
+    // Editing while a chunk downloads invalidates that request's captured input.
+    requestVersion.current += 1
+    pendingRequest.current = false
+    setAssessmentPending(false)
+    setFeedback(null)
+    setAssessment(null)
+  }
+
+  const runAssessment = async () => {
+    if (pendingRequest.current) return
     if (!problem.trim()) {
       setFeedback('required')
       problemInputRef.current?.focus()
@@ -30,7 +46,21 @@ export function Hero() {
     }
 
     setFeedback(null)
-    setAssessment(getServicePriceAssessment(selectedDevice, problem.trim(), l10n.locale, l10n.t))
+    const version = ++requestVersion.current
+    pendingRequest.current = true
+    setAssessmentPending(true)
+    try {
+      const { getServicePriceAssessment } = await loadServicePriceAssistant()
+      if (version !== requestVersion.current) return
+      setAssessment(getServicePriceAssessment(selectedDevice, problem.trim(), l10n.locale, l10n.t))
+    } catch {
+      if (version === requestVersion.current) setFeedback('unavailable')
+    } finally {
+      if (version === requestVersion.current) {
+        pendingRequest.current = false
+        setAssessmentPending(false)
+      }
+    }
   }
 
   return (
@@ -89,7 +119,7 @@ export function Hero() {
       </div>
 
       <div className="ai-card-wrap">
-        <form className="ai-card" onSubmit={(event) => { event.preventDefault(); void runAssessment() }}>
+        <form className="ai-card" aria-busy={assessmentPending} onSubmit={(event) => { event.preventDefault(); void runAssessment() }}>
           <h2 className="display-title">{label('რა სჭირს თქვენს ტექნიკას?')}</h2>
           <p className="ai-card__subtitle">{l10n.t('აირჩიეთ მოწყობილობა და აღწერეთ პრობლემა.')}</p>
           <div className="ai-steps" aria-label={l10n.locale === 'en' ? `Current step ${currentStep}` : `მიმდინარე ეტაპი ${currentStep}`}>
@@ -109,7 +139,7 @@ export function Hero() {
                   type="button"
                   key={device.id}
                   aria-pressed={selectedDevice === device.id}
-                  onClick={() => { setSelectedDevice(device.id); setFeedback(null); setAssessment(null) }}
+                  onClick={() => { setSelectedDevice(device.id); clearAssessment() }}
                 >
                   <img src={device.icon} alt="" />
                   <span>{label(device.label)}</span>
@@ -128,7 +158,7 @@ export function Hero() {
                 aria-invalid={feedback === 'required'}
                 aria-describedby={feedback === 'required' ? 'ai-feedback' : undefined}
                 maxLength={700}
-                onChange={(event) => { setProblem(event.target.value); setFeedback(null); setAssessment(null) }}
+                onChange={(event) => { setProblem(event.target.value); clearAssessment() }}
                 placeholder={l10n.t('მაგ: არ ირთვება, ხურდება, ეკრანი არ მუშაობს, აქვს უცნაური ხმა...')}
               />
             </span>
@@ -137,11 +167,13 @@ export function Hero() {
           <button
             className={`ai-submit${assessment ? ' is-complete' : ''}`}
             type="submit"
+            disabled={assessmentPending}
           >
             <img src="/assets/icons/sparkles.svg" alt="" />
-            {label('AI პირველადი შეფასება')}
+            {assessmentPending ? (l10n.locale === 'en' ? 'Loading…' : 'იტვირთება…') : label('AI პირველადი შეფასება')}
           </button>
           {feedback === 'required' && <p id="ai-feedback" className="ai-disclaimer" role="alert">{l10n.t('შეფასების დასაწყებად აღწერეთ პრობლემა.')}</p>}
+          {feedback === 'unavailable' && <p className="ai-disclaimer" role="alert">{l10n.locale === 'en' ? 'Could not load the assessment. Please try again, or contact us.' : 'შეფასება ვერ ჩაიტვირთა. სცადეთ ხელახლა ან დაგვიკავშირდით.'}{' '}<a href={l10n.href('/contact/')}>{l10n.t('დაგვიკავშირდით')}</a></p>}
           {assessment && <section className="ai-result" aria-label={l10n.t('პირველადი შეფასების შედეგი')} role="status">
             <h3><span aria-hidden="true">📌</span> {l10n.locale === 'en' ? 'Service information' : 'ინფორმაცია მომსახურებაზე'}</h3>
             <p className="ai-result__reply">{assessment.reply}</p>

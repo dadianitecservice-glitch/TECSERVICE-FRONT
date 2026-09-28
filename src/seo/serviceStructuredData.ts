@@ -254,7 +254,7 @@ function localBusinessSchema() {
       width: 256,
       height: 256,
     },
-    image: `${siteUrl}assets/blog/laptop-repair-figma.png`,
+    image: `${siteUrl}assets/blog/laptop-repair.jpg`,
     description: 'ტექნიკის პროფესიონალური შეკეთება, დიაგნოსტიკა და ინფორმაციის აღდგენა თბილისში.',
     telephone: '+995591474040',
     areaServed: { '@type': 'City', name: 'თბილისი' },

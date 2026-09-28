@@ -20,7 +20,7 @@
 .account-profile-editor__success { margin: 0 0 20px; color: #247250; background: #eef8f2; border-color: #deeee4; }
 .account-profile-editor__error { margin: 16px 0 0; color: #a13946; background: #fff3f5; border-color: #f0dce0; }
 .account-profile-editor__error + .account-profile-editor__save { margin-top: 18px; }
-.account-profile-confirm { width: min(400px, calc(100% - 32px)); max-height: calc(100dvh - 40px); margin: auto; padding: 0; overflow: auto; border: 0; border-radius: 15px; background: #fff; color: #18364b; box-shadow: 0 18px 70px #18364b25; }
+.account-profile-confirm { width: min(400px, calc(100% - 32px)); max-height: calc(100vh - 40px); max-height: calc(100dvh - 40px); margin: auto; padding: 0; overflow: auto; border: 0; border-radius: 15px; background: #fff; color: #18364b; box-shadow: 0 18px 70px #18364b25; }
 .account-profile-confirm::backdrop { background: #18364b66; }
 .account-profile-confirm__panel { position: relative; padding: 30px 26px 22px; }
 .account-profile-confirm__panel > h3 { margin: 0 30px 12px 0; font-size: 19px; line-height: 1.6; font-weight: 600; }

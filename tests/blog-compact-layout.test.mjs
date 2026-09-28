@@ -123,7 +123,7 @@ for (const locale of ['ka', 'en']) {
     assert.doesNotMatch(main, /<select\b/)
   })
 
-  test(`${path} News metadata and navigation stay unchanged while compact article headers keep date and sharing above the image`, async () => {
+  test(`${path} News metadata and navigation stay unchanged while compact article headers keep only the date above the image`, async () => {
     const html = await readFile(new URL(`dist${path}index.html`, root), 'utf8')
     const metadata = getRouteMetadata(path)
     assert.equal(metadata.canonical, `https://tecservice.ge${path}`)
@@ -153,7 +153,16 @@ for (const locale of ['ka', 'en']) {
     assert.ok(articleHeading)
     assert.equal(visibleText(articleHeading.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)[1]), article.title)
     assert.match(articleHeading, /class="journal-article-meta"/)
-    assert.match(articleHeading, /class="journal-share-link"/)
+    assert.doesNotMatch(articleHeading, /journal-share|data-share=/)
+    const articleSidebar = articleMain.match(/<aside\b[^>]*class="journal-sidebar"[^>]*>([\s\S]*?)<\/aside>/)?.[1]
+    assert.ok(articleSidebar)
+    assert.match(articleSidebar, /class="[^"]*\bjournal-share-link\b[^"]*"/)
+    assert.doesNotMatch(articleSidebar, /class="[^\"]*\bjournal-service\b[^\"]*"/, 'The help card has moved out of the sidebar')
+    assert.ok(articleSidebar.indexOf('class="journal-toc"') < articleSidebar.indexOf('class="journal-share"'), 'Sharing stays below the article contents')
+    const helpCard = articleMain.match(/<section\b[^>]*class="journal-service"[^>]*>[\s\S]*?<\/section>/)?.[0]
+    assert.ok(helpCard)
+    assert.ok(articleMain.indexOf(helpCard) > articleMain.indexOf('class="journal-article-note"'), 'Help appears at the end of the article text')
+    assert.ok(articleMain.indexOf(helpCard) < articleMain.indexOf('class="journal-article-actions"'), 'The return-to-blog link follows the footer help card')
     assert.match(articleHeading, new RegExp(`<time\\b[^>]*datetime="${article.dateTime}"`, 'i'))
     assert.ok(articleMain.indexOf('class="journal-article-meta"') < articleMain.indexOf('class="journal-article-image"'))
     assert.doesNotMatch(articleHeading, /<p\b|journal-card__meta|journal-byline|journal-author-mark/)

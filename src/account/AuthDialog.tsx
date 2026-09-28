@@ -15,10 +15,12 @@ export default function AuthDialog() {
   const [error, setError] = useState('')
   const [registered, setRegistered] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const attemptRef = useRef(0)
   const busyRef = useRef(false)
   const text = (ka: string, en: string) => english ? en : ka
   const mode = auth.authMode
+  const canDismiss = !busy && mode !== 'register'
   useEffect(() => {
     const dialog = dialogRef.current
     if (!dialog || !mode) return
@@ -33,7 +35,7 @@ export default function AuthDialog() {
       if (opener?.isConnected) opener.focus({ preventScroll: true })
     }
   }, [!!mode])
-  useEffect(() => { setError(''); setRegistered(false); setShowPassword(false); setBusy(false); busyRef.current = false; attemptRef.current++ }, [mode])
+  useEffect(() => { setError(''); setRegistered(false); setShowPassword(false); setShowConfirmPassword(false); setBusy(false); busyRef.current = false; attemptRef.current++ }, [mode])
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -73,7 +75,7 @@ export default function AuthDialog() {
   }
 
   if (!mode) return null
-  return <dialog ref={dialogRef} className="account-auth" aria-labelledby="account-auth-title" aria-describedby={mode === 'help' ? 'account-auth-intro' : registered ? 'account-auth-success-description' : undefined} onCancel={event => { event.preventDefault(); if (!busy) auth.closeAuth() }} onClick={event => { if (event.target === event.currentTarget && !busy) auth.closeAuth() }}>
+  return <dialog ref={dialogRef} className="account-auth" aria-labelledby="account-auth-title" aria-describedby={mode === 'help' ? 'account-auth-intro' : registered ? 'account-auth-success-description' : undefined} onCancel={event => { event.preventDefault(); if (canDismiss) auth.closeAuth() }} onClick={event => { if (event.target === event.currentTarget && canDismiss) auth.closeAuth() }}>
     <div className="account-auth__panel">
       <button type="button" className="account-auth__close" disabled={busy} onClick={auth.closeAuth} aria-label={text('ფანჯრის დახურვა', 'Close dialog')}><LaptopIcon name="close" /></button>
       <div className="account-auth__brand"><img src="/assets/brand/tecservice-logo.svg" alt="TECSERVICE" width="190" height="40" /></div>
@@ -101,7 +103,7 @@ export default function AuthDialog() {
             </> : <label htmlFor="account-identifier">{text('მობილურის ნომერი ან ელფოსტა', 'Mobile number or email')}<input id="account-identifier" name="identifier" autoComplete="username" required maxLength={254} placeholder={text('ნომერი ან ელფოსტა', 'Phone number or email')} /></label>}
             <div><label htmlFor="account-password">{text('პაროლი', 'Password')}</label><span className="account-auth__password"><input id="account-password" name="password" type={showPassword ? 'text' : 'password'} autoComplete={mode === 'login' ? 'current-password' : 'new-password'} required minLength={mode === 'register' ? 8 : 1} maxLength={128} /><button type="button" aria-pressed={showPassword} aria-label={showPassword ? text('პაროლის დამალვა', 'Hide password') : text('პაროლის ჩვენება', 'Show password')} onClick={() => setShowPassword(value => !value)}>{showPassword ? text('დამალვა', 'Hide') : text('ჩვენება', 'Show')}</button></span></div>
             {mode === 'register' ? <>
-              <label htmlFor="account-confirm">{text('გაიმეორეთ პაროლი', 'Confirm password')}<input id="account-confirm" name="confirm" type="password" autoComplete="new-password" required minLength={8} maxLength={128} /></label>
+              <div><label htmlFor="account-confirm">{text('გაიმეორეთ პაროლი', 'Confirm password')}</label><span className="account-auth__password"><input id="account-confirm" name="confirm" type={showConfirmPassword ? 'text' : 'password'} autoComplete="new-password" required minLength={8} maxLength={128} /><button type="button" aria-controls="account-confirm" aria-pressed={showConfirmPassword} aria-label={showConfirmPassword ? text('გამეორებული პაროლის დამალვა', 'Hide confirmation password') : text('გამეორებული პაროლის ჩვენება', 'Show confirmation password')} onClick={() => setShowConfirmPassword(value => !value)}>{showConfirmPassword ? text('დამალვა', 'Hide') : text('ჩვენება', 'Show')}</button></span></div>
               <label className="account-auth__consent"><input type="checkbox" required name="terms" /><span>{text('გავეცანი', 'I have read the')} <a href={href('/terms/')} target="_blank" rel="noopener noreferrer">{text('მომსახურების პირობებს', 'terms of service')}</a> {text('და', 'and')} <a href={href('/privacy/')} target="_blank" rel="noopener noreferrer">{text('კონფიდენციალურობის პოლიტიკას', 'privacy policy')}</a>.</span></label>
               <p className="account-auth__hint">{text('უსაფრთხოებისთვის ანგარიშს ჩვენი გუნდი გადაამოწმებს და დაადასტურებს.', 'For security, our team will verify and approve your account.')}</p>
             </> : <button className="account-auth__text-button account-auth__forgot" type="button" onClick={() => auth.openAuth('help')}>{text('ვერ შედიხართ ანგარიშში?', 'Having trouble signing in?')}</button>}

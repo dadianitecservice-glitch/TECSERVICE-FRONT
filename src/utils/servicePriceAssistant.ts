@@ -65,7 +65,7 @@ function positiveSymptoms(text: string) {
 
 function detectKinds(text: string): ServiceKind[] {
   const patterns: [ServiceKind, RegExp][] = [
-    ['laptop', /ლეპტოპ|ნოუთბუ|მაკბუ|\b(?:laptop|notebook|macbook|thinkpad)\b/],
+    ['laptop', /ლეპტოპ|ნოუთბუ|მაკბუ|\b(?:laptop|notebook|macbook|thinkpad|z[ -]?book)\b/],
     ['computer', /დესკტოპ|სტაციონარ|სისტემური ბლოკ|\b(?:desktop|pc|imac|tower)\b/],
     ['console', /კონსოლ|პლეისტეიშენ|იქსბოქს|ნინტენდო|ჯოისტიკ|გეიმპად|\b(?:console|playstation|ps[345]|xbox|nintendo|dualshock|dualsense)\b/],
     ['drone', /დრონ|გიმბალ|\b(?:drone|dji|fpv|gimbal|mavic)\b/],

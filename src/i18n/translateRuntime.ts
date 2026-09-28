@@ -7,7 +7,8 @@ const normalize = (value: string) => value.replace(/\s+/g, ' ').trim().toLocaleL
 const english = new Map<string, string>()
 const georgian = /[\u10a0-\u10ff\u1c90-\u1cbf]/
 const escaped = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-let fragments: ReadonlyArray<readonly [RegExp, string]> = []
+type Fragment = { source: string; target: string; anchor?: string; pattern?: RegExp }
+let fragments: Fragment[] = []
 const fallbackCache = new Map<string, string>()
 const fallbackCacheLimit = 500
 let installed = false
@@ -26,7 +27,13 @@ export function installEnglishCatalogs(catalogs: readonly CatalogPair[]): void {
   english.set('მოწყობილობის მოდელსა და ფოტოებს გამოგიგზავნით.', 'I will send you the device model and photos.')
   fragments = [...english]
     .sort(([a], [b]) => b.length - a.length)
-    .map(([source, target]) => [new RegExp(`(?<![\\p{L}])${escaped(source)}(?![\\p{L}])`, 'giu'), target] as const)
+    .map(([source, target]) => ({
+      source, target,
+      // A literal Georgian substring must occur before the full pattern can
+      // match. Do not prefilter Latin/Greek text: Unicode /iu case folding has
+      // extra equivalences (such as long s) that lowercased.includes misses.
+      anchor: source.match(/[\u10d0-\u10fa]+/g)?.sort((a, b) => b.length - a.length)[0],
+    }))
   fallbackCache.clear()
   installed = true
 }
@@ -64,10 +71,18 @@ export function translateText(value: string, locale: Locale): string {
     .replace(/გაიხსნება დღეს (\d{1,2}:\d{2})-ზე/gi, 'Opens today at $1')
     .replace(/გაიხსნება ხვალ (\d{1,2}:\d{2})-ზე/gi, 'Opens tomorrow at $1')
     .replace(/გაიხსნება ორშაბათს (\d{1,2}:\d{2})-ზე/gi, 'Opens Monday at $1')
-  for (const [pattern, target] of fragments) {
-    if (!georgian.test(text)) break
+  if (!georgian.test(text)) return rememberFallback(value, text)
+  let lowerText = text.toLocaleLowerCase('ka-GE')
+  for (const fragment of fragments) {
+    if (fragment.anchor && !lowerText.includes(fragment.anchor)) continue
+    fragment.pattern ??= new RegExp(`(?<![\\p{L}])${escaped(fragment.source)}(?![\\p{L}])`, 'giu')
     // String.replace resets lastIndex for these shared global expressions.
-    text = text.replace(pattern, () => target)
+    const translated = text.replace(fragment.pattern, () => fragment.target)
+    if (translated !== text) {
+      text = translated
+      if (!georgian.test(text)) break
+      lowerText = text.toLocaleLowerCase('ka-GE')
+    }
   }
   return rememberFallback(value, text)
 }

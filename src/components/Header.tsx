@@ -79,6 +79,19 @@ export function Header({ isAuthenticated = false, userFirstName, homePath = '', 
     setMenuOpen(false)
     setServicesOpen(false)
   }
+  const openAccount = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!account.user && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.button === 0) {
+      event.preventDefault()
+      // The mobile sign-in link disappears when its menu closes. Give the
+      // dialog a visible return target, including on browsers that do not
+      // focus clicked links automatically.
+      const menuToggle = menuToggleRef.current
+      const returnTarget = menuToggle?.getClientRects().length ? menuToggle : event.currentTarget
+      returnTarget.focus({ preventScroll: true })
+      closeMenu()
+      account.openAuth('login')
+    } else closeMenu()
+  }
   const normalizedActiveServicePath = activeServicePath?.replace(/\/+$/, '')
   const resolveHref = (href: string) => href.startsWith('#') ? `${homePath}${href}` : href
   const shopLink = <a className="site-header__nav-link site-header__shop-link" href={l10n.href("https://shop.tecservice.ge")} target="_blank" rel="noreferrer" onClick={closeMenu}>
@@ -199,7 +212,7 @@ export function Header({ isAuthenticated = false, userFirstName, homePath = '', 
               )))}
             </nav>
 
-            <a className="site-header__cabinet-action" href={l10n.href('/account/')} onClick={event => { closeMenu(); if (!account.user && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.button === 0) { event.preventDefault(); account.openAuth('login') } }}>
+            <a className="site-header__cabinet-action" href={l10n.href('/account/')} onClick={openAccount}>
               <img src="/assets/icons/user-blue.svg" alt="" />
               <span>{l10n.t(toGeorgianMtavruli(accountLabel))}</span>
             </a>

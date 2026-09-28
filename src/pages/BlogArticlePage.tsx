@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type MouseEvent } from 'react'
 import { BlogArticleCard } from '../components/BlogArticleCard'
+import { BlogArticleShare } from '../components/BlogArticleShare'
 import { LaptopIcon } from '../components/LaptopIcon'
 import { getBlogPost, getBlogPosts } from '../data/blogPosts'
 import { blogPageCopy } from '../data/blogPageCopy'
@@ -13,7 +14,6 @@ export default function BlogArticlePage({ slug }: { slug: string }) {
   const copy = blogPageCopy[l10n.locale]
   const post = useMemo(() => getBlogPost(slug, l10n.locale), [slug, l10n.locale])
   const [activeId, setActiveId] = useState(post?.sections[0]?.id ?? '')
-  const [copyStatus, setCopyStatus] = useState('')
   const [tocOpen, setTocOpen] = useState(false)
   const tocToggleRef = useRef<HTMLButtonElement>(null)
   const closeContents = () => {
@@ -74,11 +74,6 @@ export default function BlogArticlePage({ slug }: { slug: string }) {
   const remaining = getBlogPosts(l10n.locale).filter(item => item.id !== post.id)
   const related = [...remaining.filter(item => item.categoryId === post.categoryId), ...remaining.filter(item => item.categoryId !== post.categoryId)].slice(0, 3)
   const publicUrl = `https://tecservice.ge${l10n.href(`/blog/${post.slug}/`)}`
-  const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(publicUrl)}`
-  const copyLink = async () => {
-    try { await navigator.clipboard.writeText(publicUrl); setCopyStatus(copy.copied) }
-    catch { setCopyStatus(copy.copyFailed) }
-  }
 
   return <main className="journal-page journal-article-page">
     <div className="site-container">
@@ -88,9 +83,6 @@ export default function BlogArticlePage({ slug }: { slug: string }) {
           <h1>{post.title}</h1>
           <div className="journal-article-meta">
             <time className="journal-article-date" dateTime={post.dateTime}>{post.date}</time>
-            <a className="journal-share-link" href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label={copy.facebookShareLabel}>
-              <span className="journal-share-link__icon" aria-hidden="true"><img src="/assets/icons/facebook.svg" alt="" width="20" height="20" /></span>{copy.facebookShare}
-            </a>
           </div>
         </header>
         <div className="journal-article-image"><img src={post.image} alt={post.imageAlt} width={post.imageWidth} height={post.imageHeight} fetchPriority="high" decoding="async" /></div>
@@ -103,15 +95,22 @@ export default function BlogArticlePage({ slug }: { slug: string }) {
               </div>
               <nav id="article-contents" aria-label={copy.inArticle}>{post.sections.map((section, index) => <a key={section.id} href={`#${section.id}`} onClick={event => jumpToSection(event, section.id)} aria-current={activeId === section.id ? 'location' : undefined}><span className="journal-toc__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span><span className="journal-toc__text">{section.title}</span></a>)}</nav>
             </div>
-            <div className="journal-service"><span className="journal-service__icon"><LaptopIcon name="tool" /></span><h2>{copy.service}</h2><p>{copy.serviceText}</p><a className="journal-link" href={l10n.href(post.serviceHref)}>{copy.serviceLink}<LaptopIcon name="arrow" /></a></div>
+            <BlogArticleShare key={publicUrl} url={publicUrl} title={post.title} locale={l10n.locale} />
         </aside>
         <div className="journal-prose">
             <div className="journal-takeaway"><span><LaptopIcon name="info" />{copy.takeaway}</span><p>{post.takeaway}</p></div>
             {post.sections.map(section => <section id={section.id} key={section.id} tabIndex={-1}><h2>{section.title}</h2>{section.paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}{section.bullets && <ul>{section.bullets.map(item => <li key={item}>{item}</li>)}</ul>}</section>)}
             {post.sources?.length ? <section className="journal-sources"><h2>{copy.sources}</h2><ul>{post.sources.map(source => <li key={source.url}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.label}<span aria-hidden="true"> ↗</span></a></li>)}</ul></section> : null}
             <p className="journal-article-note">{copy.note}</p>
-            <div className="journal-article-actions"><a className="journal-link" href={l10n.href('/blog/')}><span aria-hidden="true">←</span>{copy.back}</a><button type="button" onClick={copyLink}>{copy.copy}</button></div>
-            <p className="journal-copy-status" role="status">{copyStatus}</p>
+            <section className="journal-service" aria-labelledby="article-service-title">
+              <span className="journal-service__icon" aria-hidden="true"><LaptopIcon name="tool" /></span>
+              <div className="journal-service__copy">
+                <h2 id="article-service-title">{copy.service}</h2>
+                <p>{copy.serviceText}</p>
+              </div>
+              <a className="journal-link" href={l10n.href(post.serviceHref)}>{copy.serviceLink}<LaptopIcon name="arrow" /></a>
+            </section>
+            <div className="journal-article-actions"><a className="journal-link" href={l10n.href('/blog/')}><span aria-hidden="true">←</span>{copy.back}</a></div>
         </div>
       </article>
       <section className="journal-related" aria-labelledby="journal-related-title"><div className="journal-library__heading"><h2 id="journal-related-title">{copy.related}</h2><a className="journal-link" href={l10n.href('/blog/')}>{copy.more}<LaptopIcon name="arrow" /></a></div><div className="journal-grid">{related.map(item => <BlogArticleCard key={item.id} post={item} />)}</div></section>

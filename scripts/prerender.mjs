@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url'
 import { createServer } from 'vite'
 import react from '@vitejs/plugin-react'
 import { applyRouteAssets } from './prerender-assets.mjs'
+import { getImageMimeType } from '../src/utils/imageMimeType.ts'
 
 const root = fileURLToPath(new URL('../', import.meta.url))
 const output = new URL('../dist/index.html', import.meta.url)
@@ -41,6 +42,7 @@ function applyMetadata(html, metadata, structuredData = null) {
     ['property', 'og:description', metadata.description],
     ['property', 'og:url', metadata.canonical],
     ['property', 'og:image', metadata.image],
+    ['property', 'og:image:type', getImageMimeType(metadata.image)],
     ['property', 'og:image:width', metadata.imageWidth],
     ['property', 'og:image:height', metadata.imageHeight],
     ['property', 'og:image:alt', metadata.imageAlt],
@@ -70,7 +72,7 @@ function applyNotFoundMetadata(html, metadata) {
     .replace(/\s*<link rel="canonical" href="[^"]*"\s*\/>/, '')
     .replace(/(<meta name="twitter:card" content=")[^"]+/, '$1summary')
     .replace(/\s*<script type="application\/ld\+json">[\s\S]*?<\/script>/g, '')
-    .replace(/\s*<meta property="og:(?:url|image|image:width|image:height|image:alt)" content="[^"]*"\s*\/>/g, '')
+    .replace(/\s*<meta property="og:(?:url|image|image:type|image:width|image:height|image:alt)" content="[^"]*"\s*\/>/g, '')
     .replace(/\s*<meta name="twitter:(?:image|image:alt)" content="[^"]*"\s*\/>/g, '')
 
   for (const [attribute, name, value] of [

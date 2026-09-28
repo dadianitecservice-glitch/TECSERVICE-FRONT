@@ -37,8 +37,8 @@ export const legalDocuments: Record<'ka' | 'en', Record<LegalPageKind, LegalDocu
         ] },
         { id: 'handover', title: 'შედეგი და მოწყობილობის დაბრუნება', paragraphs: [
           'დამატებითი გარანტიის არსებობა, ვადა და პირობები განისაზღვრება ინდივიდუალურად, კონკრეტული სამუშაოსა და გამოყენებული ნაწილის მიხედვით. მომხმარებელს პირობები ეცნობება შეკეთების დაწყებამდე. მოთხოვნის შემთხვევაში საგარანტიო პირობებს წერილობით ან თქვენთვის მისაღები სხვა ფორმით მიიღებთ.',
-          'ჩაბარებისას გაეცანით შესრულებულ სამუშაოს და შემოწმების შედეგს. დამატებითი გარანტიის არარსებობა არ ზღუდავს მომხმარებლის კანონით გათვალისწინებულ უფლებებს.',
-          'მომსახურებასთან დაკავშირებული კითხვის ან პრეტენზიის შემთხვევაში დაგვიკავშირდით ქვემოთ მითითებული გზით. საკითხის განხილვისთვის მიუთითეთ სერვისის კოდი და აღწერეთ პრობლემა; ამ მიზნით პაროლებისა და პირადი ფაილების გამოგზავნა საჭირო არ არის.',
+          'მოწყობილობის დაბრუნებისას გაეცანით შესრულებულ სამუშაოს და შემოწმების შედეგს. დამატებითი გარანტიის არარსებობა არ ზღუდავს მომხმარებლის კანონით გათვალისწინებულ უფლებებს.',
+          'მომსახურებასთან დაკავშირებული კითხვის ან პრეტენზიის შემთხვევაში დაგვიკავშირდით ნომერზე +995 591 47 40 40, ტელეფონით ან WhatsApp-ით. საკითხის განხილვისთვის მიუთითეთ სერვისის კოდი და აღწერეთ პრობლემა; ამ მიზნით პაროლებისა და პირადი ფაილების გამოგზავნა საჭირო არ არის.',
         ] },
         { id: 'online-tools', title: 'საიტის ონლაინ ფუნქციები', paragraphs: [
           'სერვისის კოდი განკუთვნილია თქვენი მოწყობილობის მომსახურების შესახებ ინფორმაციის მისაღებად. შეინახეთ იგი უსაფრთხოდ და ნუ გაუზიარებთ სხვა პირებს. შეკვეთის მდგომარეობის ან ჩაბარების დროის დასაზუსტებლად შეგიძლიათ დაგვიკავშირდეთ.',
@@ -51,7 +51,7 @@ export const legalDocuments: Record<'ka' | 'en', Record<LegalPageKind, LegalDocu
           'რეგისტრაციისას მითითებული მობილურის ნომერი კაბინეტიდან არ იცვლება. ნომრის შეცვლისთვის მიმართეთ ჩვენს გუნდს; ანგარიშისა და შეკვეთების დასაცავად შესაძლოა საჭირო გახდეს თქვენი ვინაობის გადამოწმება.',
         ] },
         { id: 'account-records', title: 'პირადი კაბინეტი და დოკუმენტები', paragraphs: [
-          'პირად კაბინეტში შეგიძლიათ განაახლოთ პროფილის მონაცემები, სურვილის შემთხვევაში მიუთითოთ პირადი ნომერი, დაამატოთ ან წაშალოთ მისამართები და შეცვალოთ პაროლი. გარკვეული ცვლილებების დადასტურებისთვის მიმდინარე პაროლის შეყვანაა საჭირო.',
+          'პირად კაბინეტში შეგიძლიათ განაახლოთ პროფილის მონაცემები, ინვოისებისა და შესაბამისი დოკუმენტების მოსამზადებლად სურვილის შემთხვევაში მიუთითოთ პირადი ნომერი, დაამატოთ ან წაშალოთ მისამართები და შეცვალოთ პაროლი. გარკვეული ცვლილებების დადასტურებისთვის მიმდინარე პაროლის შეყვანაა საჭირო.',
           'კაბინეტში ხელმისაწვდომია თქვენს ანგარიშთან დაკავშირებული სერვისები, შესყიდვები და გაცემული ინვოისები. დოკუმენტის გახსნა ან ჩამოტვირთვა თავისთავად გადახდას არ ნიშნავს. სტატუსის, თანხის ან ჩანაწერის შეუსაბამობის შემთხვევაში მოგვწერეთ ან დაგვირეკეთ და მიუთითეთ შესაბამისი ნომერი.',
           'გამოიყენეთ მხოლოდ თქვენი ჩანაწერები და დოკუმენტები. პირადი კაბინეტის მონაცემები და ჩამოტვირთული ინვოისები საჯაროდ არ გააზიაროთ. ბარათის დამატება და დამახსოვრება საბანკო სერვისთან დაკავშირების შემდეგ იქნება შესაძლებელი; ამჟამად ბარათის შენახვა და გადახდა ხელმისაწვდომი არ არის.',
         ] },
@@ -75,7 +75,7 @@ export const legalDocuments: Record<'ka' | 'en', Record<LegalPageKind, LegalDocu
         { id: 'customer-account', title: 'ანგარიშის შექმნა და პროფილის მონაცემები', paragraphs: [
           'რეგისტრაციისას მუშავდება თქვენი სახელი და გვარი, აუცილებელი მობილურის ნომერი და, თუ მიუთითებთ, ელფოსტა. ეს მონაცემები გამოიყენება ანგარიშის შექმნისთვის, გუნდის მიერ მისი შემოწმებისთვის, ავტორიზაციისა და თქვენს მომსახურებასთან დაკავშირებისთვის.',
           'პაროლი სერვერზე მოწმდება ავტორიზაციისა და დაცული ცვლილებების დასადასტურებლად; ანგარიშის ჩანაწერში ინახება მისი ჰეში და არა ღია ტექსტი. პაროლი არ შეიტანოთ კომენტარში, ასისტენტთან ან მხარდაჭერისთვის გაგზავნილ შეტყობინებაში.',
-          'პროფილში პირადი ნომრის დამატება არასავალდებულოა და რეგისტრაციისთვის საჭირო არ არის. თუ მიუთითებთ, იგი ინახება თქვენს პროფილთან ერთად. ნომრის საჭიროება კონკრეტული მომსახურების ან დოკუმენტისათვის წინასწარ დააზუსტეთ; სხვა პირის საიდენტიფიკაციო მონაცემები არ შეიყვანოთ.',
+          'პროფილში პირადი ნომრის დამატება არასავალდებულოა და რეგისტრაციისთვის საჭირო არ არის. თუ მიუთითებთ, იგი ინახება თქვენს პროფილთან ერთად ინვოისებისა და შესაბამისი დოკუმენტების მოსამზადებლად. კონკრეტული დოკუმენტისთვის მისი საჭიროება წინასწარ დააზუსტეთ; სხვა პირის საიდენტიფიკაციო მონაცემები არ შეიყვანოთ.',
           'თქვენ მიერ დამატებული მისამართის დასახელება, ქალაქი და მისამართი ინახება თქვენს ანგარიშთან ერთად, რათა კაბინეტში მათი მართვა შეძლოთ. მისამართის შენახვა თავისთავად არ ნიშნავს მიწოდების შეკვეთას ან მის ავტომატურ გადაცემას კურიერისთვის.',
         ] },
         { id: 'account-records', title: 'სერვისები, შესყიდვები და ინვოისები', paragraphs: [
@@ -118,8 +118,10 @@ export const legalDocuments: Record<'ka' | 'en', Record<LegalPageKind, LegalDocu
           'შეკვეთების ისტორიის 5-წლიანი ვადა ავტომატურად არ ვრცელდება ანგარიშზე, შენახულ მისამართებზე, საჯარო კომენტარებზე ან ტექნიკურ ჟურნალებზე. ამ კატეგორიების შენახვის კონკრეტული ვადები და შესაბამისი დამუშავების საფუძვლები კომპანიის მიერ დასაზუსტებელია. შენახვასა და წაშლაზე კითხვით შეგიძლიათ დაგვიკავშირდეთ.',
         ] },
         { id: 'rights', title: 'თქვენი უფლებები და კითხვები', paragraphs: [
-          'მოქმედი კანონით გათვალისწინებულ ფარგლებში შეგიძლიათ მოითხოვოთ ინფორმაცია თქვენი მონაცემების დამუშავებაზე, მათზე წვდომა, გასწორება ან წაშლა. თანხმობაზე დაფუძნებული დამუშავებისას შეგიძლიათ თანხმობის გამოთხოვაც. კონკრეტულ მოთხოვნას შესაძლოა კანონით განსაზღვრული პირობები ან გამონაკლისები ახლდეს.',
-          'მოთხოვნისთვის დაგვიკავშირდით ტელეფონით ან კონტაქტის გვერდზე მითითებული გზით. სხვისი მონაცემების გაცემის თავიდან ასაცილებლად შეიძლება საჭირო გახდეს თქვენი ვინაობის სათანადო გადამოწმება. ასევე შეგიძლიათ გამოიყენოთ კანონით გათვალისწინებული გასაჩივრების გზები.',
+          'კანონით დადგენილი პირობების დაცვით შეგიძლიათ მოითხოვოთ ინფორმაცია თქვენი მონაცემების დამუშავებაზე, მათზე წვდომა და ასლის მიღება, გასწორება, დამუშავების შეწყვეტა, წაშლა ან დაბლოკვა. შესაბამის შემთხვევებში შეგიძლიათ მონაცემების სხვა დამუშავებისთვის პასუხისმგებელი პირისთვის გადატანაც მოითხოვოთ.',
+          'თანხმობაზე დაფუძნებული დამუშავებისას შეგიძლიათ თანხმობა გამოიხმოთ. კანონით გათვალისწინებულ შემთხვევებში შეგიძლიათ გააპროტესტოთ მხოლოდ ავტომატიზებულ დამუშავებაზე დაფუძნებული გადაწყვეტილება და მოითხოვოთ ადამიანის მონაწილეობა. ამ უფლებების განხორციელებას შესაძლოა კანონით განსაზღვრული პირობები ან გამონაკლისები ახლდეს.',
+          'მოთხოვნისთვის დაგვიკავშირდით ნომერზე +995 591 47 40 40, ტელეფონით ან WhatsApp-ით. სხვისი მონაცემების გაცემის თავიდან ასაცილებლად შეიძლება საჭირო გახდეს თქვენი ვინაობის სათანადო გადამოწმება; პაროლი ან პირადი ფაილები არ გამოგზავნოთ.',
+          'თუ ფიქრობთ, რომ მონაცემთა დაცვის თქვენი უფლებები დაირღვა, კანონით დადგენილი წესით შეგიძლიათ მიმართოთ სახელმწიფო აუდიტის სამსახურს ან სასამართლოს.',
         ] },
       ],
     },
@@ -151,7 +153,7 @@ export const legalDocuments: Record<'ka' | 'en', Record<LegalPageKind, LegalDocu
         { id: 'handover', title: 'Results and handover', paragraphs: [
           'The availability, duration and terms of any additional warranty are determined individually, depending on the particular work and parts used. Customers are informed of these terms before the repair begins. On request, warranty terms are provided in writing or another form acceptable to you.',
           'At handover, review the work performed and the test results. The absence of an additional warranty does not limit the customer’s statutory rights.',
-          'Contact us using the details below with any service question or complaint. Provide your service code and describe the issue so that it can be reviewed; you do not need to send passwords or private files for this purpose.',
+          'Contact us by phone or WhatsApp on +995 591 47 40 40 with any service question or complaint. Provide your service code and describe the issue so that it can be reviewed; you do not need to send passwords or private files for this purpose.',
         ] },
         { id: 'online-tools', title: 'Online features', paragraphs: [
           'Your service code is intended to help you obtain information about your device’s service. Keep it safe and do not share it with others. Contact us to clarify the status of your order or the handover time.',
@@ -164,7 +166,7 @@ export const legalDocuments: Record<'ka' | 'en', Record<LegalPageKind, LegalDocu
           'The mobile number provided at registration cannot be changed from your account. Contact our team to change it; identity verification may be needed to protect your account and orders.',
         ] },
         { id: 'account-records', title: 'Your account and documents', paragraphs: [
-          'In your account you can update profile details, optionally add a personal identification number, add or remove addresses and change your password. Certain changes require confirmation with your current password.',
+          'In your account you can update profile details, optionally add a personal identification number for preparing invoices and related documents, add or remove addresses and change your password. Certain changes require confirmation with your current password.',
           'Your account provides access to associated services, purchases and issued invoices. Opening or downloading a document does not itself mean that payment has been made. If a status, amount or record appears incorrect, contact us with the relevant reference number.',
           'Use only your own records and documents. Do not publicly share private account information or downloaded invoices. Adding and remembering a card will be available after the banking service is connected; storing cards and processing payments are currently unavailable.',
         ] },
@@ -188,7 +190,7 @@ export const legalDocuments: Record<'ka' | 'en', Record<LegalPageKind, LegalDocu
         { id: 'customer-account', title: 'Registration and profile information', paragraphs: [
           'Registration processes your full name, required mobile number and email if you choose to provide it. These details are used to create an account, allow our team to review it, authenticate you and connect you with your services.',
           'Your password is checked on the server for sign-in and protected account changes; the account record stores a password hash, not the plain text. Do not include passwords in comments, assistant messages or messages to support.',
-          'Adding a personal identification number to your profile is optional and is not required for registration. If provided, it is stored with your profile. Check in advance whether it is needed for a particular service or document; do not enter another person’s identification details.',
+          'Adding a personal identification number to your profile is optional and is not required for registration. If provided, it is stored with your profile for preparing invoices and related documents. Check in advance whether it is needed for a particular document; do not enter another person’s identification details.',
           'The address label, city and street address you add are stored with your account so that you can manage them there. Saving an address does not itself book a delivery or automatically pass the address to a courier.',
         ] },
         { id: 'account-records', title: 'Services, purchases and invoices', paragraphs: [
@@ -231,8 +233,10 @@ export const legalDocuments: Record<'ka' | 'en', Record<LegalPageKind, LegalDocu
           'The five-year order-history period does not automatically apply to accounts, saved addresses, public comments or technical logs. Specific retention periods and processing grounds for these categories need confirmation by the business. Contact us with questions about retention or deletion.',
         ] },
         { id: 'rights', title: 'Your rights and questions', paragraphs: [
-          'Within the scope of applicable law, you may request information about processing, access to your data, correction or deletion. You may also withdraw consent where processing relies on consent. Particular requests may be subject to legal conditions or exceptions.',
-          'Make a request by phone or through the contact methods on our contact page. Appropriate identity verification may be needed to avoid disclosing another person’s data. You may also use the complaint procedures provided by law.',
+          'Subject to the conditions set by law, you may request information about processing, access to and a copy of your data, correction, cessation of processing, deletion or blocking. Where applicable, you may also request transfer of your data to another controller.',
+          'You may withdraw consent where processing relies on consent. Where provided by law, you may contest a decision based solely on automated processing and request human involvement. These rights may be subject to legal conditions or exceptions.',
+          'Make a request by phone or WhatsApp on +995 591 47 40 40. Appropriate identity verification may be needed to avoid disclosing another person’s data; do not send passwords or private files.',
+          'If you believe your data-protection rights have been infringed, you may contact the State Audit Office of Georgia or a court under the procedures established by law.',
         ] },
       ],
     },

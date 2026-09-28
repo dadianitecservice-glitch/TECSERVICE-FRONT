@@ -2128,6 +2128,18 @@ ol {
   line-height: 20px;
 }
 
+.review-author-link {
+  color: inherit;
+  text-decoration: none;
+  text-underline-offset: 4px;
+}
+
+.review-author-link:hover,
+.review-author-link:focus-visible {
+  color: #006dca;
+  text-decoration: underline;
+}
+
 .review-card__source {
   width: 100%;
   display: flex;

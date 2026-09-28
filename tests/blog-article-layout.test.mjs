@@ -74,8 +74,8 @@ for (const locale of ['ka', 'en']) {
       const metadataRows = nodes.filter(node => hasClass(node, 'journal-article-meta'))
       assert.equal(metadataRows.length, 1)
       const articleDetails = metadataRows[0]
-      assert.deepEqual(heading.children, [h1s[0], articleDetails], 'The article header contains H1 followed by its date and share row')
-      assert.ok(articleDetails.end < hero.start, 'Date and sharing appear before the hero image')
+      assert.deepEqual(heading.children, [h1s[0], articleDetails], 'The article header contains H1 followed by its date')
+      assert.ok(articleDetails.end < hero.start, 'The date appears before the hero image')
       const headingHtml = main.slice(heading.start, heading.end)
       assert.doesNotMatch(headingHtml, /<p\b|journal-card__meta|journal-byline/)
       assert.equal(visibleText(headingHtml).includes(post.excerpt), false)
@@ -91,8 +91,89 @@ for (const locale of ['ka', 'en']) {
       assert.equal(dates.length, 1)
       assert.equal(dates[0].attributes.datetime, post.dateTime)
       assert.equal(visibleText(main.slice(dates[0].start, dates[0].end)), post.date)
-      assert.ok(nodes.some(node => hasClass(node, 'journal-share-link') && inside(node, articleDetails)), 'Share stays beside the date above the image')
-      assert.equal(inside(articleDetails, prose), false, 'Date and sharing no longer sit below the image in prose')
+      assert.equal(nodes.some(node => inside(node, heading) && (node.attributes['data-share'] || hasClass(node, 'journal-share-link'))), false, 'Sharing actions are removed from the heading')
+      assert.equal(inside(articleDetails, prose), false, 'The date remains above the image, not in prose')
+
+      const services = nodes.filter(node => hasClass(node, 'journal-service'))
+      const sharing = nodes.filter(node => hasClass(node, 'journal-share'))
+      assert.equal(services.length, 1)
+      assert.equal(sharing.length, 1, 'One compact sharing card replaces the old header and footer controls')
+      assert.equal(services[0].parent, prose, 'The help card belongs to the article footer, not the sidebar')
+      assert.equal(sharing[0].parent, sidebar)
+      assert.deepEqual(sidebar.children.map(node => node.attributes.class), ['journal-toc', 'journal-share'], 'The sidebar contains only contents and sharing')
+      const service = services[0]
+      assert.equal(service.tag, 'section')
+      assert.equal(service.attributes['aria-labelledby'], 'article-service-title')
+      const serviceTitles = nodes.filter(node => node.attributes.id === 'article-service-title')
+      assert.equal(serviceTitles.length, 1, 'The help region has one unique accessible heading')
+      const serviceTitle = serviceTitles[0]
+      assert.equal(serviceTitle.tag, 'h2')
+      assert.ok(inside(serviceTitle, service))
+      assert.equal(visibleText(main.slice(serviceTitle.start, serviceTitle.end)), copy.service)
+      const serviceCopy = service.children.find(node => hasClass(node, 'journal-service__copy'))
+      assert.ok(serviceCopy)
+      assert.equal(serviceTitle.parent, serviceCopy)
+      const serviceParagraphs = serviceCopy.children.filter(node => node.tag === 'p')
+      assert.equal(serviceParagraphs.length, 1)
+      assert.equal(visibleText(main.slice(serviceParagraphs[0].start, serviceParagraphs[0].end)), copy.serviceText)
+      const serviceIcon = service.children.find(node => hasClass(node, 'journal-service__icon'))
+      assert.ok(serviceIcon && serviceIcon.tag === 'span')
+      const serviceLinks = nodes.filter(node => node.tag === 'a' && inside(node, service))
+      assert.equal(serviceLinks.length, 1)
+      assert.ok(hasClass(serviceLinks[0], 'journal-link'))
+      assert.equal(serviceLinks[0].attributes.href, `${prefix}${post.serviceHref}`, 'The footer retains the article-specific localized service destination')
+      assert.equal(visibleText(main.slice(serviceLinks[0].start, serviceLinks[0].end)), copy.serviceLink)
+      assert.deepEqual(service.children, [serviceIcon, serviceCopy, serviceLinks[0]], 'The help card keeps its icon, concise copy and action in a predictable order')
+      const articleNote = nodes.find(node => hasClass(node, 'journal-article-note'))
+      assert.ok(articleNote && articleNote.parent === prose)
+      assert.equal(prose.children.indexOf(service), prose.children.indexOf(articleNote) + 1, 'Help follows the final article note')
+      for (const contentSection of prose.children.filter(node => node.tag === 'section' && node !== service)) {
+        assert.ok(contentSection.end <= articleNote.start, 'All article sections and sources precede the final note and help card')
+      }
+      const controls = nodes.filter(node => node.attributes['data-share'])
+      assert.deepEqual(controls.map(node => node.attributes['data-share']).sort(), ['copy', 'facebook', 'telegram', 'whatsapp'])
+      for (const control of controls) {
+        assert.ok(inside(control, sharing[0]), 'Every share action belongs to the sidebar card')
+        const label = control.attributes['aria-label'] || visibleText(main.slice(control.start, control.end))
+        assert.ok(label.trim(), 'Share controls have an accessible name')
+        if (locale === 'en') assert.doesNotMatch(label, /[\u10A0-\u10FF\u1C90-\u1CBF]/u)
+        if (control.tag === 'button') assert.equal(control.attributes.type, 'button')
+        else {
+          assert.equal(control.tag, 'a')
+          assert.equal(control.attributes.target, '_blank')
+          const relations = new Set((control.attributes.rel ?? '').split(/\s+/))
+          assert.ok(relations.has('noopener') && relations.has('noreferrer'))
+        }
+        const icons = nodes.filter(node => node.tag === 'svg' && inside(node, control))
+        assert.equal(icons.length, 1, 'Each action has one decorative icon')
+        assert.equal(icons[0].attributes['aria-hidden'], 'true')
+        assert.ok(Number(icons[0].attributes.width) <= 24)
+        assert.ok(Number(icons[0].attributes.height) <= 24)
+      }
+      const copyLink = controls.find(node => node.attributes['data-share'] === 'copy')
+      assert.doesNotMatch(main.slice(sharing[0].start, sharing[0].end), /instagram/i, 'Instagram is removed from article sharing')
+      const footer = html.match(/<footer\b[\s\S]*?<\/footer>/)?.[0]
+      assert.ok(footer)
+      assert.ok(elements(footer).some(node => node.tag === 'a' && node.attributes.href === 'https://www.instagram.com/tecservice__/'), 'The business Instagram profile remains in the site footer')
+      assert.equal(copyLink.tag, 'button')
+      const canonical = `https://tecservice.ge${path}`
+      const whatsapp = new URL(controls.find(node => node.attributes['data-share'] === 'whatsapp').attributes.href)
+      assert.equal(whatsapp.origin, 'https://wa.me')
+      assert.ok(whatsapp.searchParams.get('text').includes(canonical))
+      assert.ok(whatsapp.searchParams.get('text').includes(post.title))
+      const telegram = new URL(controls.find(node => node.attributes['data-share'] === 'telegram').attributes.href)
+      assert.equal(telegram.origin, 'https://t.me')
+      assert.equal(telegram.pathname, '/share/url')
+      assert.equal(telegram.searchParams.get('url'), canonical)
+      assert.equal(telegram.searchParams.get('text'), post.title)
+      const statuses = nodes.filter(node => node.attributes.role === 'status' && inside(node, sharing[0]))
+      assert.equal(statuses.length, 1, 'Feedback stays within the sharing card')
+      const bottomActions = nodes.find(node => hasClass(node, 'journal-article-actions'))
+      assert.ok(bottomActions)
+      assert.equal(bottomActions.parent, prose)
+      assert.equal(prose.children.indexOf(bottomActions), prose.children.indexOf(service) + 1, 'The help card precedes the final back-to-blog action')
+      assert.equal(nodes.some(node => inside(node, bottomActions) && node.tag === 'button'), false, 'The duplicate bottom copy action is removed')
+      assert.ok(nodes.some(node => inside(node, bottomActions) && node.tag === 'a' && node.attributes.href === `${prefix}/blog/`), 'The bottom back-to-blog link remains available')
 
       const toc = nodes.find(node => hasClass(node, 'journal-toc'))
       assert.ok(toc && inside(toc, sidebar))
@@ -162,7 +243,7 @@ for (const locale of ['ka', 'en']) {
       const canonical = `https://tecservice.ge${path}`
       assert.equal(getRouteMetadata(path).canonical, canonical)
       const shares = elements(main).filter(node => hasClass(node, 'journal-share-link'))
-      assert.ok(shares.length > 0)
+      assert.equal(shares.length, 1)
       for (const share of shares) {
         assert.equal(share.tag, 'a')
         const { href, target, rel } = share.attributes
@@ -184,8 +265,18 @@ for (const locale of ['ka', 'en']) {
         assert.match(label, /Facebook/i)
         assert.match(label, locale === 'en' ? /share/i : /გაზიარ/)
         if (locale === 'en') assert.doesNotMatch(label, /[\u10A0-\u10FF\u1C90-\u1CBF]/u)
-        assert.ok(visibleText(main.slice(share.start, share.end)).length > 0, 'The share action is also visibly labelled')
+        assert.equal(share.attributes.title, label, 'The compact icon has a matching tooltip as well as its accessible label')
       }
     })
   }
 }
+
+test('the article-footer help card is not hidden by the former mobile sidebar rule', async () => {
+  const css = await readFile(new URL('src/styles/blog-page.css', root), 'utf8')
+  const rules = [...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)]
+    .filter(([, selector]) => /\.journal-service(?:\s|[.:#>+~,[\]]|$)/.test(selector))
+  assert.ok(rules.length > 0)
+  for (const [, selector, declarations] of rules) {
+    assert.doesNotMatch(declarations, /\bdisplay\s*:\s*none\b|\bvisibility\s*:\s*hidden\b/, `${selector.trim()} must keep the footer help available on mobile`)
+  }
+})

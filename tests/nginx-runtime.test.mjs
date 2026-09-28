@@ -6,6 +6,8 @@ import { createServer } from 'node:net'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { setTimeout as delay } from 'node:timers/promises'
+import { getBlogPosts } from '../src/data/blogPosts.ts'
+import { assertImageFormat } from './helpers/image-format.mjs'
 
 // Optional native integration check. Run after build with NGINX_BINARY pointing
 // to a local nginx executable; it binds only to loopback and never reloads live.
@@ -37,7 +39,7 @@ test('native Nginx serves all canonical pages, private shells, redirects and loc
     'events { worker_connections 128; }',
     'http {',
     '  access_log off;',
-    '  types { text/html html; text/css css; application/javascript js; application/xml xml; text/plain txt; image/svg+xml svg; image/webp webp; }',
+    '  types { text/html html; text/css css; application/javascript js; application/xml xml; text/plain txt; image/svg+xml svg; image/webp webp; image/jpeg jpg jpeg; image/png png; }',
     '  server {',
     '    listen 127.0.0.1:' + port + ';',
     '    server_name localhost;',
@@ -90,6 +92,41 @@ test('native Nginx serves all canonical pages, private shells, redirects and loc
         await redirect.arrayBuffer()
       }
     }
+    // Facebook reads the initial HTML, then fetches the declared image directly.
+    // Validate that delivery path for every article in both locales, not just the
+    // latest post; shared image assets only need downloading once.
+    const facebookHeaders = { 'User-Agent': 'facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)' }
+    const checkedImages = new Map()
+    let checkedArticles = 0
+    for (const locale of ['ka', 'en']) {
+      const prefix = locale === 'en' ? '/en' : ''
+      for (const post of getBlogPosts(locale)) {
+        const path = `${prefix}/blog/${post.slug}/`
+        const response = await request(path, facebookHeaders)
+        assert.equal(response.status, 200, `Facebook must receive the article HTML: ${path}`)
+        assert.match(response.headers.get('content-type'), /^text\/html(?:;|$)/, path)
+        const html = await response.text()
+        const head = html.match(/<head\b[^>]*>[\s\S]*?<\/head>/i)?.[0]
+        assert.ok(head, `Missing initial document head: ${path}`)
+        const meta = property => [...head.matchAll(new RegExp(`<meta\\s+property="${property}"\\s+content="([^"]*)"`, 'g'))].map(match => match[1])
+        assert.deepEqual(meta('og:url'), [`https://tecservice.ge${path}`], `The crawler must not receive the Home page: ${path}`)
+        assert.deepEqual(meta('og:type'), ['article'], path)
+        assert.deepEqual(meta('og:image'), [`https://tecservice.ge${post.image}`], path)
+        if (!checkedImages.has(post.image)) {
+          const imageResponse = await request(post.image, facebookHeaders)
+          assert.equal(imageResponse.status, 200, post.image)
+          const bytes = Buffer.from(await imageResponse.arrayBuffer())
+          const imageType = assertImageFormat(post.image, bytes)
+          assert.equal(imageResponse.headers.get('content-type')?.split(';')[0], imageType, `${post.image}: HTTP MIME must match image bytes`)
+          assert.deepEqual(bytes, await readFile(new URL(`dist${post.image}`, root)), `${post.image}: serve the article photograph, not fallback HTML`)
+          checkedImages.set(post.image, imageType)
+        }
+        assert.deepEqual(meta('og:image:type'), [checkedImages.get(post.image)], `Declared MIME must match the served photograph: ${path}`)
+        checkedArticles += 1
+      }
+    }
+    assert.equal(checkedArticles, getBlogPosts('ka').length + getBlogPosts('en').length)
+    assert.equal(checkedImages.size, new Set(getBlogPosts('ka').map(post => post.image)).size)
     for (const prefix of ['', '/en']) {
       for (const missing of ['/missing-page/', '/services/', '/services/missing/', '/blog/missing-post', '/blog/missing-post/', '/missing/index.html', '/account/extra/', '/.vite/manifest.json', '/.env']) {
         const response = await request(prefix + missing)

@@ -5,6 +5,7 @@ export interface Review {
   text: string;
   date: string;
   sourceLabel: string;
+  featured?: boolean;
 }
 
 export interface ReviewSummary {
@@ -12,12 +13,79 @@ export interface ReviewSummary {
   publicReviewCount: number;
 }
 
+// A single-review Maps destination, verified against recent and archived IDs.
+// Keep the review ID as one encoded field, separate from the business location.
+export function getGoogleReviewUrl(reviewId: string, locale: 'ka' | 'en' = 'ka'): string {
+  const id = encodeURIComponent(reviewId).replace(/!/g, '%21');
+  return `https://www.google.com/maps/reviews/data=!4m6!14m5!1m4!2m3!1s${id}!2m1!1s0x40440d318fe65ddd:0xc417758abd3c535c?hl=${locale}`;
+}
+
 export const reviewSummary: ReviewSummary = {
   rating: 4.8,
-  publicReviewCount: 144,
+  publicReviewCount: 149,
 };
 
+// Google Maps snapshot checked on 2026-09-28. The public total is independent
+// of this historical collection: older reviews may be removed on Google.
 export const reviews: Review[] = [
+  {
+    "customerName": "barbare goradze",
+    "date": "2 დღის წინ",
+    "id": "Ci9DQUlRQUNvZENodHljRjlvT2tSRFpEZENhRkZ4WDFwM01FZGlaamRNU21oUGFIYxAB",
+    "rating": 5,
+    "sourceLabel": "Google Maps · რეალური მომხმარებლის შეფასება",
+    "text": "უსწრაფერი მომსახურება👏🏼 შედეგი იდეალური👌🏼 მადლობა დიდი 🤍🤍✨ …"
+  },
+  {
+    "customerName": "Natalia Strydom",
+    "date": "3 დღის წინ",
+    "id": "Ci9DQUlRQUNvZENodHljRjlvT2tKMGVsazBVMlJxVm14T2IybGZZVFYxYmxOWlRGRRAB",
+    "rating": 5,
+    "sourceLabel": "Google Maps · რეალური მომხმარებლის შეფასება",
+    "featured": true,
+    "text": "Excellent ✨️ easy to find and to discover place ✨️the service- polite, comforting,transparent ✨️ the staff - Gurami and Tato were great help for my search of an adapter 🙏 In the office they have coffee machine and immediate after entering I was offered and served delucious cup of coffee✨️🙏 We've bought an adapter and got 3 month of guarantee on the product✨️they keep good storage of appliances and technical spares ✨️ great service+great products+human prices 🙏✨️ Thank you Techservice, we will sure be your clients again in the future , greetings - Natalia Strydom 🌸🌺🙏"
+  },
+  {
+    "customerName": "La Dio",
+    "date": "4 დღის წინ",
+    "id": "Ci9DQUlRQUNvZENodHljRjlvT2tac2RXTjZkMjB6VGkxV0xVSnhUbTlpVFhORGJHYxAB",
+    "rating": 5,
+    "sourceLabel": "Google Maps · რეალური მომხმარებლის შეფასება",
+    "text": "Great seevice, great prices, lovely staff 🙏. Left two ps5 controllers with stick drift. It was fixed in less than a day. …"
+  },
+  {
+    "customerName": "Tsotne Khutsishvili",
+    "date": "6 დღის წინ",
+    "id": "Ci9DQUlRQUNvZENodHljRjlvT2s5TmFqSlFWemRDVkcxWmIyczFOblJKWkdWdmVGRRAB",
+    "rating": 5,
+    "sourceLabel": "Google Maps · რეალური მომხმარებლის შეფასება",
+    "text": ""
+  },
+  {
+    "customerName": "Nano Tenoshvili",
+    "date": "ერთი კვირის წინ",
+    "id": "Ci9DQUlRQUNvZENodHljRjlvT21sWVNXOVRiMFYwVG1GbU5IQnNlRWt4VTJ4TGRHYxAB",
+    "rating": 5,
+    "sourceLabel": "Google Maps · რეალური მომხმარებლის შეფასება",
+    "featured": true,
+    "text": "უდიდესი მადლობა “ტექსერვის”-ს და განსაკუთრებით გუკას! 🙏\n\nჩემი სიტუაცია, რბილად რომ ვთქვა, თითქმის უიმედო იყო. დისკზე მქონდა დაახლოებით 1 ტბ ძალიან მნიშვნელოვანი სამუშაო ფაილები, მათ შორის რამდენიმე საქორწილო გადაღება, რომელთა დაკარგვაც ჩემთვის, როგორც ფოტოგრაფისთვის, ნამდვილი კატასტროფა იყო. მანამდე ფაქტობრივად არავინ მაძლევდა იმედს, რომ ამ მონაცემების სრულად აღდგენა შესაძლებელი იქნებოდა.\n\nმაგრამ გუკამ გააკეთა ყველაფერი შესაძლებელი და, მგონი, შეუძლებელიც კი. არ დანებდა, ეძებდა გამოსავალს, სხვადასხვა გზას ცდიდა და საბოლოოდ შეძლო ჩემი ყველა ფაილის აღდგენა.\n\nიმის თქმა, რომ მადლიერი ვარ, ძალიან ცოტაა. ერთ მომენტში უკვე ვფიქრობდი, რომ ამ დისკთან ერთად ჩემი კარიერაც დასრულდა 😄 ამიტომ თამამად შემიძლია ვთქვა, რომ აქ უბრალოდ ფაილები კი არ აღმიდგინეს - ფაქტობრივად სიცოცხლე და რამდენიმე ძალიან მნიშვნელოვანი პროექტი გადამირჩინეს.\n\nუდიდესი მადლობა პროფესიონალიზმისთვის, მოთმინებისთვის, პასუხისმგებლობისთვის და ადამიანური დამოკიდებულებისთვის. და განსაკუთრებით უსაზღვრო მადლობა გუკას, რომ არ დანებდა მაშინაც კი, როდესაც სხვები უკვე აღარანაირ იმედს არ მაძლევდნენ.\n\nჩემი დიდი რეკომენდაცია🙏🏽"
+  },
+  {
+    "customerName": "George Ediberidze",
+    "date": "ერთი კვირის წინ",
+    "id": "Ci9DQUlRQUNvZENodHljRjlvT2t4Zk0zQlNiM2cxUkUxUmVXWkdOVFl5TmpSQ1NWRRAB",
+    "rating": 5,
+    "sourceLabel": "Google Maps · რეალური მომხმარებლის შეფასება",
+    "text": "ძალიან კმაყოფილი ვარ TechService-ის მომსახურებით , პროფესიონალური მიდგომა, დროული დახმარება და ხარისხიანი სერვისი. დიდი რეკომენდაცია ჩემგან!\n\nVery satisfied with TechService  professional approach, timely assistance, and excellent service. Highly recommended!"
+  },
+  {
+    "customerName": "Mariam Gogiberidze",
+    "date": "ერთი კვირის წინ",
+    "id": "Ci9DQUlRQUNvZENodHljRjlvT21GdVYwNUxXVmhYZDI1V2EyOVVSM2RrY1VOWldHYxAB",
+    "rating": 5,
+    "sourceLabel": "Google Maps · რეალური მომხმარებლის შეფასება",
+    "text": "Excellent service!  One of the best stuff member, Guga recovered all my lost photos from the SD card. Truly professional and skilled. Highly recommend 💫\nSD ბარათიდან ყველა დაკარგული ფოტო აღმიდგინეს, რომელიც მეგონა რომ\nსამუდამოდ დაკარგული იყო,   ძალიან პროფესიონალი და საქმის მცოდნე კომპანია. დიდი რეკომენდაცია ჩემგან! ⭐️ მადლობა გუგას🫶"
+  },
   {
     "customerName": "beka makadze",
     "date": "5 თვის წინ",

@@ -9,7 +9,7 @@
 .legal-page__intro { max-width: 780px; margin-top: 18px; color: #536d83; font-size: 15px; line-height: 1.9; }
 .legal-page .lp-icon { width: 19px; height: 19px; flex: 0 0 19px; }
 .legal-page__layout { display: grid; grid-template-columns: 330px minmax(0, 1fr); gap: 40px; padding-block: 44px 64px; }
-.legal-page__sidebar { position: sticky; top: 140px; align-self: start; min-width: 0; max-height: calc(100dvh - 160px); overflow-y: auto; scrollbar-width: thin; scrollbar-color: #d4e2ed transparent; border-radius: 15px; }
+.legal-page__sidebar { position: sticky; top: 140px; align-self: start; min-width: 0; max-height: calc(100vh - 160px); max-height: calc(100dvh - 160px); overflow-y: auto; scrollbar-width: thin; scrollbar-color: #d4e2ed transparent; border-radius: 15px; }
 .legal-page__contents { padding: 14px 10px 10px; border: 1px solid #e2eaf2; border-radius: 12px; background: #f8fafc; }
 .legal-page__contents-heading { position: relative; display: flex; align-items: center; gap: 10px; min-height: 32px; padding: 0 5px; }
 .legal-page__contents-icon { display: grid; place-items: center; width: 32px; height: 32px; flex: 0 0 32px; border-radius: 8px; background: #eaf3fc; color: #0864b5; }

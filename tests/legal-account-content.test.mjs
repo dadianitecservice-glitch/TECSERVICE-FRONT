@@ -18,7 +18,7 @@ test('legal account additions keep translated section parity without changing pu
     const enIds = legalDocuments.en[kind].sections.map(section => section.id)
     assert.deepEqual(kaIds, enIds)
     assert.equal(new Set(kaIds).size, kaIds.length)
-    for (const id of ['customer-account', 'account-records', 'product-comments']) {
+    for (const id of kaIds) {
       sectionText('ka', kind, id)
       assert.doesNotMatch(sectionText('en', kind, id), /[\u10A0-\u10FF\u1C90-\u1CBF]/u)
     }
@@ -46,6 +46,26 @@ for (const locale of ['ka', 'en']) {
       : [/mobile number is required/i, /email is optional/i, /checked and approved/i, /cannot be changed from your account/i, /Keep your password private/]) assert.match(text, pattern)
   })
 
+  test(`${locale} service complaints give a usable contact without inventing a response deadline`, () => {
+    const text = sectionText(locale, 'terms', 'handover')
+    assert.match(text, /\+995 591 47 40 40/)
+    assert.match(text, /WhatsApp/)
+    assert.match(text, ka ? /პაროლებისა და პირადი ფაილების გამოგზავნა საჭირო არ არის/u : /do not need to send passwords or private files/)
+    assert.match(text, ka ? /არ ზღუდავს მომხმარებლის კანონით გათვალისწინებულ უფლებებს/u : /does not limit the customer’s statutory rights/)
+    assert.doesNotMatch(text, /24\s*(?:საათ|hours)|48\s*(?:საათ|hours)/iu)
+  })
+
+  test(`${locale} privacy explains conditional rights and the current complaint authority`, () => {
+    const text = sectionText(locale, 'privacy', 'rights')
+    for (const pattern of ka
+      ? [/ასლის მიღება/u, /დამუშავების შეწყვეტა/u, /დაბლოკვა/u, /გადატანაც/u, /თანხმობა გამოიხმოთ/u, /ადამიანის მონაწილეობა/u, /პირობები ან გამონაკლისები/u, /სახელმწიფო აუდიტის სამსახურს ან სასამართლოს/u]
+      : [/copy of your data/, /cessation of processing/, /blocking/, /transfer of your data/, /withdraw consent/, /human involvement/, /conditions or exceptions/, /State Audit Office of Georgia or a court/]) assert.match(text, pattern)
+    assert.match(text, /\+995 591 47 40 40/)
+    assert.match(text, /WhatsApp/)
+    assert.doesNotMatch(text, /პერსონალურ მონაცემთა დაცვის სამსახურს|Personal Data Protection Service/iu)
+    assert.doesNotMatch(text, /@|mailto:|within \d+ hours|\d+ საათში/iu, 'Do not invent an owner email or a complaint-response promise')
+  })
+
   test(`${locale} terms cover account documents and public-comment conduct without promising automatic moderation`, () => {
     const records = sectionText(locale, 'terms', 'account-records')
     const comments = sectionText(locale, 'terms', 'product-comments')
@@ -63,6 +83,17 @@ for (const locale of ['ka', 'en']) {
     for (const pattern of ka
       ? [/სახელი და გვარი/u, /მობილურის ნომერი/u, /ელფოსტა/u, /ჰეში და არა ღია ტექსტი/u, /პირადი ნომრის დამატება არასავალდებულოა/u, /დასახელება, ქალაქი და მისამართი/u]
       : [/full name/, /mobile number/, /email/, /password hash, not the plain text/, /identification number.*optional/, /address label, city and street address/]) assert.match(text, pattern)
+  })
+
+  test(`${locale} personal ID has the owner-confirmed invoice purpose without becoming required for registration`, () => {
+    const privacy = sectionText(locale, 'privacy', 'customer-account')
+    const terms = sectionText(locale, 'terms', 'account-records')
+    for (const text of [privacy, terms]) {
+      assert.match(text, ka ? /ინვოისებისა და შესაბამისი დოკუმენტების მოსამზადებლად/u : /for preparing invoices and related documents/)
+      assert.doesNotMatch(text, ka ? /ყველა ინვოისისთვის.*სავალდებულო|კანონით სავალდებულოა/u : /required by law|mandatory for (?:every|all) invoices/iu)
+    }
+    assert.match(privacy, ka ? /არასავალდებულოა და რეგისტრაციისთვის საჭირო არ არის/u : /optional and is not required for registration/)
+    assert.match(privacy, ka ? /კონკრეტული დოკუმენტისთვის მისი საჭიროება წინასწარ დააზუსტეთ/u : /Check in advance whether it is needed for a particular document/)
   })
 
   test(`${locale} privacy distinguishes public comments from private records and states deletion limits`, () => {

@@ -2,6 +2,7 @@ import { localeFromPath, localePath, stripLocale } from '../i18n/locale.ts'
 import { translateText } from '../i18n/translate.ts'
 import { legalDocuments, legalDocumentsApproved } from '../data/legalPages.ts'
 import { getBlogPost, getBlogPosts } from '../data/blogPosts.ts'
+import { getImageMimeType } from './imageMimeType.ts'
 import {
   aboutPath, blogPath, computerRepairPath, consoleRepairPath, contactPath,
   dataRecoveryPath, droneRepairPath, laptopRepairPath, mobileTabletRepairPath,
@@ -76,7 +77,7 @@ export function getRouteMetadata(pathname: string) {
     title: 'Device Repair & Data Recovery in Tbilisi | TECSERVICE',
     description: 'Professional laptop, computer, console, drone, phone and circuit board repair in Tbilisi. Diagnostics, upgrades and laboratory data recovery at TECSERVICE.',
     canonical: 'https://tecservice.ge/en/',
-    image: 'https://tecservice.ge/assets/blog/laptop-repair-figma.png',
+    image: 'https://tecservice.ge/assets/blog/laptop-repair.jpg',
     imageAlt: 'Laptop diagnostics and repair at TECSERVICE',
     imageWidth: '2000', imageHeight: '1334',
     robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
@@ -265,6 +266,7 @@ export function applyRouteMetadata(pathname: string) {
     ['property', 'og:description', metadata.description],
     ['property', 'og:url', metadata.canonical],
     ['property', 'og:image', metadata.image],
+    ['property', 'og:image:type', getImageMimeType(metadata.image)],
     ['property', 'og:image:width', metadata.imageWidth],
     ['property', 'og:image:height', metadata.imageHeight],
     ['property', 'og:image:alt', metadata.imageAlt],

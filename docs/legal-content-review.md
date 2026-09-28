@@ -6,6 +6,8 @@ The user supplied the operator: შპს „სქაინეთ დისტ�
 
 ## Owner-confirmed policies
 
+- On 2026-09-26 the owner approved use of the existing website contact details: phone and WhatsApp on +995 591 47 40 40, including WhatsApp for written requests. No new email is required to complete this contact wording and no unpublished email was invented. The published service-centre address remains distinct from an independently verified registered office.
+- On 2026-09-26 the owner confirmed the optional personal identification number is used for **preparing invoices and related documents**. Both languages now state that purpose. It remains optional and unnecessary for registration; this does not establish that every invoice legally requires the number or that every use of it is lawful without further assessment.
 - The owner specified **5 years for order history, starting when the order is completed**. The Georgian and English privacy pages state both the period and its start event and explicitly distinguish it from recovered personal files. This is an owner-selected policy, not a finding that five years is legally required or justified for every field.
 - The owner specified **1 week for recovered personal files, starting when the files are handed over to the customer**. The Georgian and English privacy pages state both the duration and the confirmed start event. This is separate from order-history retention.
 - Additional warranties are service-specific. Their existence, scope and duration are communicated before repair; the copy does not apply blanket screen/keyboard exclusions or waive statutory rights.
@@ -18,11 +20,11 @@ The user supplied the operator: შპს „სქაინეთ დისტ�
 ## Confirm before publication
 
 - Apply the owner-approved individual diagnostic agreements in practice: explain the actual fee/payment conditions before work and specify the service-specific warranty scope/duration where applicable. No further universal diagnostic exception rule is needed for the current copy. Confirm the complaint-handling workflow and any applicable purchase terms; do not invent blanket exclusions of consumer rights.
-- Controller contact/registered details and a durable contact method for data requests.
+- Independently verify the registered-office details and establish the request-handling workflow through the already confirmed phone/WhatsApp channels. Do not treat the absence of a newly supplied email as an unresolved contact-channel requirement.
 - Purposes and legal grounds for each actual processing operation; enforcement of the owner-reported access roles and other recipients, including republication of public reviews.
 - Hosting/logging configuration, service providers, any cross-border processing and applicable safeguards. The current trial assistant processes questions locally and does not call an AI provider; recheck these details before enabling a server/external assistant again.
 - Verify order-history retention (five years from order completion) and the manual recovered-file process (one week from customer handover); establish retention periods or concrete criteria for accounts, pending/rejected registrations, optional identification numbers, saved addresses, public comments, correspondence, sessions and logs; include audit records and backups in deletion planning. The five-year order-history term is not a blanket term for these categories.
-- Confirm the purpose, necessity and legal basis of the optional personal-identification field before requesting it for a particular service or document. Its presence in the UI does not establish a legal requirement to collect it.
+- The optional personal-identification field's invoice/document-preparation purpose is owner-confirmed. Assess necessity and the appropriate legal basis for the particular document/use; the field's presence and the confirmed purpose do not establish a universal legal requirement to collect it.
 - Confirm the basis and workflow for public product comments, the author-name display, deletion requests, rule-violation reports and any eventual moderation. The terms add conduct rules, not a promise of automatic screening or an implemented administrator moderation queue.
 - Actual cookies/analytics/third-party loading and any necessary consent controls. The current map embeds load Google resources; no blanket “no cookies” promise is made.
 - Final review by someone qualified to confirm the legal text and actual business practices. These drafts are not a compliance certification.
@@ -51,6 +53,16 @@ The official consolidated personal-data law linked below was checked again for t
 [Georgia's Law on Personal Data Protection, particularly Article 24](https://matsne.gov.ge/ka/document/view/5827307) was consulted for the information categories to confirm. Business facts above come from the user and public frontend code, not from assumptions about production systems.
 
 [Georgia's Law on the Protection of Consumer Rights, particularly Articles 18 and 19](https://matsne.gov.ge/ka/document/view/5420598) was consulted to distinguish additional warranties from statutory rights without asserting a universal repair warranty.
+
+## 2026-09-26 final frontend review
+
+Rechecked the current consolidated Matsne texts. The bilingual privacy rights section now covers copies, cessation/blocking, applicable portability, consent withdrawal and human involvement in applicable solely automated decisions, with legal conditions/exceptions retained. Article 22 currently names the State Audit Office; the text identifies that authority or a court instead of leaving the complaint route unspecified. This does not imply that the website makes automated account-approval decisions.
+
+Both documents now give the existing phone/WhatsApp number directly for service complaints or data requests. No unverified email, new response deadline or blanket deletion promise was invented. Georgian handover wording now unambiguously means returning the device to its owner, not accepting it for service. All owner-confirmed diagnostic, warranty and retention statements remain unchanged.
+
+The source tests now validate every translated section, direct complaint contacts and conditional rights/current authority wording. These checks validate frontend text, not deployed access controls or operational/legal compliance. The unchanged `legalDocumentsApproved = false` continues to keep both documents out of the sitemap.
+
+The owner subsequently approved the existing contact channels and confirmed the personal-ID purpose as preparing invoices and documents. Both languages now explain this purpose without making the field mandatory or asserting a blanket legal basis. No new email is requested as a prerequisite for this wording. See [the Georgian owner checklist](legal-owner-checklist-ka.md) for the remaining registered-office verification, document-specific necessity/basis, other retention, provider/transfer and actual-operation decisions. A qualified review of the verified business practices and final documents is still required before approval.
 
 ## Historical source-only legal and technical review (2026-09-22)
 

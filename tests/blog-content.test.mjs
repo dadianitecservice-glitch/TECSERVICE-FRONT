@@ -5,16 +5,16 @@ import { blogCategories, blogPosts, getBlogPost, getBlogPosts } from '../src/dat
 
 const georgian = /[\u10A0-\u10FF\u1C90-\u1CBF]/u
 const preserved = [
-  ['lost-files-first-minutes', 'lost-files-first-minutes', '2026-09-04', 'data-recovery-figma.png', 849, 565],
-  ['five-reasons-laptop-is-slow', 'five-reasons-laptop-is-slow', '2026-09-01', 'laptop-repair-figma.png', 2000, 1334],
-  ['console-overheating', 'console-overheating-signs-and-prevention', '2026-08-28', 'console-repair-figma.png', 800, 533],
-  ['choose-right-ssd', 'choose-the-right-ssd-for-your-laptop', '2026-08-24', 'ssd-figma.png', 1000, 1000],
-  ['drone-care', 'drone-care-before-and-after-flight', '2026-08-19', 'drone-repair-figma.png', 800, 533],
-  ['computer-shuts-down-under-load', 'why-computer-shuts-down-under-load', '2026-08-14', 'ssd-figma.png', 1000, 1000],
-  ['data-recovery-after-formatting', 'data-recovery-after-formatting', '2026-08-09', 'data-recovery-figma.png', 849, 565],
-  ['xbox-controller-problems', 'common-xbox-controller-problems', '2026-08-03', 'console-repair-figma.png', 800, 533],
-  ['laptop-battery-replacement-signs', 'laptop-battery-replacement-signs', '2026-07-28', 'laptop-repair-figma.png', 2000, 1334],
-  ['raid-first-steps', 'first-steps-after-raid-failure', '2026-07-21', 'data-recovery-figma.png', 849, 565],
+  ['lost-files-first-minutes', 'lost-files-first-minutes', '2026-09-04', 'data-recovery.webp', 849, 565],
+  ['five-reasons-laptop-is-slow', 'five-reasons-laptop-is-slow', '2026-09-01', 'laptop-repair.webp', 2000, 1334],
+  ['console-overheating', 'console-overheating-signs-and-prevention', '2026-08-28', 'console-repair.webp', 800, 533],
+  ['choose-right-ssd', 'choose-the-right-ssd-for-your-laptop', '2026-08-24', 'ssd.webp', 1000, 1000],
+  ['drone-care', 'drone-care-before-and-after-flight', '2026-08-19', 'drone-repair.webp', 800, 533],
+  ['computer-shuts-down-under-load', 'why-computer-shuts-down-under-load', '2026-08-14', 'ssd.webp', 1000, 1000],
+  ['data-recovery-after-formatting', 'data-recovery-after-formatting', '2026-08-09', 'data-recovery.webp', 849, 565],
+  ['xbox-controller-problems', 'common-xbox-controller-problems', '2026-08-03', 'console-repair.webp', 800, 533],
+  ['laptop-battery-replacement-signs', 'laptop-battery-replacement-signs', '2026-07-28', 'laptop-repair.webp', 2000, 1334],
+  ['raid-first-steps', 'first-steps-after-raid-failure', '2026-07-21', 'data-recovery.webp', 849, 565],
 ]
 
 test('The 10 original articles preserve their identities, publication dates and image metadata', async () => {

@@ -45,6 +45,7 @@ test('known routes restore canonical and social metadata after a 404 has removed
     applyRouteMetadata('/missing-page/')
     assert.equal(document.querySelector('link[rel="canonical"]'), null)
     assert.equal(document.querySelector('meta[property="og:image"]'), null)
+    assert.equal(document.querySelector('meta[property="og:image:type"]'), null)
     assert.equal(document.querySelector('meta[name="twitter:card"]').getAttribute('content'), 'summary')
 
     applyRouteMetadata(path)
@@ -78,6 +79,7 @@ test('applying metadata repeatedly removes duplicate tags and never indexes priv
     assert.equal(document.querySelectorAll('meta[name="robots"]').length, 1)
     assert.equal(document.querySelectorAll('link[rel="canonical"]').length, 1)
     assert.equal(document.querySelectorAll('meta[property="og:image"]').length, 1)
+    assert.equal(document.querySelectorAll('meta[property="og:image:type"]').length, 1)
     assert.equal(document.querySelectorAll('link[rel="alternate"][hreflang]').length, 3)
     assert.equal(document.querySelector('meta[name="robots"]').getAttribute('content'), getRouteMetadata(path).robots)
   }
@@ -92,4 +94,19 @@ test('unknown paths remove all canonical and image signals without losing noinde
   assert.equal(document.querySelectorAll('meta[property^="og:image"]').length, 0)
   assert.equal(document.querySelectorAll('meta[name^="twitter:image"]').length, 0)
   assert.equal(document.querySelector('meta[name="robots"]').getAttribute('content'), 'noindex, follow')
+}))
+
+test('article transitions replace the image MIME type and 404 clears it completely', () => withHead(document => {
+  for (const [path, expected] of [
+    ['/blog/sd-card-photo-recovery-for-photographers/', 'image/webp'],
+    ['/blog/lost-files-first-minutes/', 'image/webp'],
+    ['/en/blog/five-reasons-laptop-is-slow/', 'image/webp'],
+    ['/contact/', 'image/jpeg'],
+    ['/en/account/', 'image/png'],
+  ]) {
+    applyRouteMetadata(path)
+    assert.deepEqual(document.querySelectorAll('meta[property="og:image:type"]').map(node => node.getAttribute('content')), [expected], path)
+  }
+  applyRouteMetadata('/en/missing-page/')
+  assert.equal(document.querySelectorAll('meta[property^="og:image"]').length, 0)
 }))

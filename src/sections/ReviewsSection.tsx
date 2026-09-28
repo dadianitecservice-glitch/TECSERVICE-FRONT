@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { CarouselControls } from '../components/CarouselControls'
-import { googleReviewsUrl, reviewSummary, reviews, type Review } from '../data/reviews'
+import { getGoogleReviewUrl, googleReviewsUrl, reviewSummary, reviews, type Review } from '../data/reviews'
 import { toGeorgianMtavruli } from '../utils/text'
 import { useViewportWidth } from '../hooks/useViewportWidth'
 import { useResponsiveHome } from '../hooks/useResponsiveHome'
@@ -8,7 +8,7 @@ import { useSwipeCarousel } from '../hooks/useSwipeCarousel'
 import { useTranslation } from '../i18n/LocaleProvider'
 
 const featuredReviews = reviews
-  .filter((review) => review.rating >= 4 && review.text.trim().length >= 35 && review.text.length <= 420)
+  .filter((review) => review.rating >= 4 && review.text.trim().length >= 35 && (review.featured || review.text.length <= 420))
 
 export function ReviewsSection() {
   const l10n = useTranslation()
@@ -142,7 +142,11 @@ export function ReviewsSection() {
                 </button>
               )}
             </div>
-            <strong>{l10n.t(review.customerName)}</strong>
+            <strong>
+              <a className="review-author-link" href={getGoogleReviewUrl(review.id, l10n.locale)} target="_blank" rel="noopener noreferrer" title={l10n.locale === 'en' ? 'Read this review on Google Maps — opens in a new tab' : 'ამ შეფასების ნახვა Google Maps-ზე — იხსნება ახალ ჩანართში'}>
+                {l10n.t(review.customerName)}
+              </a>
+            </strong>
             <small className="review-card__source">
               <img src="/assets/icons/check-blue.svg" alt="" />
               <span>{l10n.t(review.sourceLabel)}</span>
@@ -181,7 +185,11 @@ export function ReviewsSection() {
               <strong>{selectedReview.rating.toFixed(1)}</strong>
             </div>
             <p>{l10n.t(selectedReview.text)}</p>
-            <strong id="review-modal-author">{l10n.t(selectedReview.customerName)}</strong>
+            <strong id="review-modal-author">
+              <a className="review-author-link" href={getGoogleReviewUrl(selectedReview.id, l10n.locale)} target="_blank" rel="noopener noreferrer" title={l10n.locale === 'en' ? 'Read this review on Google Maps — opens in a new tab' : 'ამ შეფასების ნახვა Google Maps-ზე — იხსნება ახალ ჩანართში'}>
+                {l10n.t(selectedReview.customerName)}
+              </a>
+            </strong>
             <small>
               Google Maps · {l10n.t(selectedReview.date)}
             </small>
